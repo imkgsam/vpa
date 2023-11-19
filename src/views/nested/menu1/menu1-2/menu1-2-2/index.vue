@@ -18,8 +18,7 @@ const { query } = useRoute();
     <p style="text-indent: 2em">{{ t("menus.hsmenu1-2") }}</p>
     <p style="text-indent: 4em">{{ t("menus.hsmenu1-2-2") }}</p>
     <el-input v-model="input" />
-
-    <div class="mt-4" v-if="query.text">
+    <div v-if="query.text" class="mt-4">
       此页面携带的参数值为：{{ query.text }}
     </div>
   </div>

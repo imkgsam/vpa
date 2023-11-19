@@ -145,8 +145,8 @@ watch(loginDay, value => {
               @click="translationCh"
             >
               <IconifyIconOffline
-                class="check-zh"
                 v-show="locale === 'zh'"
+                class="check-zh"
                 :icon="Check"
               />
               简体中文
@@ -156,7 +156,7 @@ watch(loginDay, value => {
               :class="['dark:!text-white', getDropdownItemClass(locale, 'en')]"
               @click="translationEn"
             >
-              <span class="check-en" v-show="locale === 'en'">
+              <span v-show="locale === 'en'" class="check-en">
                 <IconifyIconOffline :icon="Check" />
               </span>
               English
@@ -197,8 +197,8 @@ watch(loginDay, value => {
                 prop="email"
               >
                 <el-input
-                  clearable
                   v-model="ruleForm.email"
+                  clearable
                   :placeholder="t('login.email')"
                   :prefix-icon="useRenderIcon(User)"
                 />
@@ -208,9 +208,9 @@ watch(loginDay, value => {
             <Motion :delay="150">
               <el-form-item prop="password">
                 <el-input
+                  v-model="ruleForm.password"
                   clearable
                   show-password
-                  v-model="ruleForm.password"
                   :placeholder="t('login.password')"
                   :prefix-icon="useRenderIcon(Lock)"
                 />
@@ -220,8 +220,8 @@ watch(loginDay, value => {
             <Motion :delay="200">
               <el-form-item prop="verifyCode">
                 <el-input
-                  clearable
                   v-model="ruleForm.verifyCode"
+                  clearable
                   :placeholder="t('login.verifyCode')"
                   :prefix-icon="useRenderIcon('ri:shield-keyhole-line')"
                 >

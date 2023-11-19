@@ -1,5 +1,6 @@
 import { $t } from "@/plugins/i18n";
 import { routeRank } from "@/router/enums";
+
 export default {
   path: "/about",
   redirect: "/about/index",

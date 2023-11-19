@@ -2,11 +2,10 @@ import type { Plugin } from "vite";
 import { isArray } from "@pureadmin/utils";
 import compressPlugin from "vite-plugin-compression";
 
-/** 压缩插件 */
 export const configCompressPlugin = (
-  compressType: ViteCompressionType
+  compress: ViteCompressionType
 ): Plugin | Plugin[] => {
-  if (compressType === "none") return null;
+  if (compress === "none") return null;
 
   const gz = {
     // 生成的压缩包后缀
@@ -35,8 +34,8 @@ export const configCompressPlugin = (
   const plugins: Plugin[] = [];
 
   codeList.forEach(item => {
-    if (compressType.includes(item.k)) {
-      if (compressType.includes("clear")) {
+    if (compress.includes(item.k)) {
+      if (compress.includes("clear")) {
         if (isArray(item.v)) {
           item.v.forEach(vItem => {
             plugins.push(
@@ -59,5 +58,6 @@ export const configCompressPlugin = (
       }
     }
   });
+
   return plugins;
 };
