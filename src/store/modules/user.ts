@@ -71,7 +71,7 @@ export const useUserStore = defineStore({
     /** 前端登出（不调用接口） */
     logOut() {
       this.accountName = "";
-      this.username = "";
+      this.email = "";
       this.roles = [];
       removeToken();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);

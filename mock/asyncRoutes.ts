@@ -1,6 +1,6 @@
 // 模拟后端动态生成路由
-import { routeRank } from "@/router/enums";
 import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { routeRank } from "@/router/enums";
 
 /**
  * roles：页面级别权限，这里模拟二种 "admin"、"common"
@@ -198,26 +198,6 @@ const tabsRouter = {
   ]
 };
 
-const testRouter = {
-  path: "/test",
-  meta: {
-    title: "menus.test",
-    icon: "lollipop",
-    rank: routeRank.test
-  },
-  children: [
-    {
-      path: "/test/index",
-      name: "TestPage",
-      meta: {
-        title: "menus.test",
-        roles: ["admin", "common"],
-        auths: ["btn_add", "btn_delete"]
-      }
-    }
-  ]
-};
-
 export default defineFakeRoute([
   {
     url: "/get-async-routes",
@@ -225,13 +205,7 @@ export default defineFakeRoute([
     response: () => {
       return {
         success: true,
-        data: [
-          systemRouter,
-          permissionRouter,
-          frameRouter,
-          tabsRouter,
-          testRouter
-        ]
+        data: [systemRouter, permissionRouter, frameRouter, tabsRouter]
       };
     }
   }

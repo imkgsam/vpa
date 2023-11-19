@@ -109,11 +109,7 @@ After operating the above two commands, open `http://localhost:8080` in the brow
 Of course, you can also operate the `docker` project through the [Docker Desktop](https://www.docker.com/products/docker-desktop/) visual interface, as shown below
 
 <p align="center">
-<<<<<<< HEAD
-  <img alt="docker" width="100%" src="https://yiming_chang.gitee.io/pure-admin-doc/img/docker/1.jpg">
-=======
   <img alt="docker" width="100%" src="https://xiaoxian521.github.io/hyperlink/img/docker-desktop.jpg">
->>>>>>> remotes/origin/main
 </p>
 
 ## Change Log
@@ -179,15 +175,10 @@ Many thanks to the kind individuals who leave a star. Your support is much appre
 =======
 [![Stargazers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/stargazersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/stargazers)
 
-> > > > > > > remotes/origin/main
-
 ## `Fork`
 
 It's so cool that you study hard :heart:
 
-<<<<<<< HEAD
-[![Forkers repo roster for vue-pure-admin](https://reporoster.com/forks/pure-admin/vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)
-=======
-[![Forkers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/forkersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)
+# [![Forkers repo roster for vue-pure-admin](https://reporoster.com/forks/pure-admin/vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)
 
-> > > > > > > remotes/origin/main
+[![Forkers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/forkersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)

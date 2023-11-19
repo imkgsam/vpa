@@ -6,7 +6,7 @@ export default defineFakeRoute([
     url: "/login",
     method: "post",
     response: ({ body }) => {
-      if (body.accountName === "admin") {
+      if (body.email?.includes("admin")) {
         return {
           success: true,
           data: {

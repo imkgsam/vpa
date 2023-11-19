@@ -109,11 +109,7 @@ docker run -dp 8080:80  --name pure-admin vue-pure-admin
 当然也可以通过 [Docker Desktop](https://www.docker.com/products/docker-desktop/) 可视化界面去操作 `docker` 项目，如下图
 
 <p align="center">
-<<<<<<< HEAD
-  <img alt="docker" width="100%" src="https://yiming_chang.gitee.io/pure-admin-doc/img/docker/1.jpg">
-=======
   <img alt="docker" width="100%" src="https://xiaoxian521.github.io/hyperlink/img/docker-desktop.jpg">
->>>>>>> remotes/origin/main
 </p>
 
 ## 更新日志
@@ -179,8 +175,6 @@ docker run -dp 8080:80  --name pure-admin vue-pure-admin
 =======
 [![Stargazers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/stargazersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/stargazers)
 
-> > > > > > > remotes/origin/main
-
 ## `Fork`
 
 瞧，那些 `小哥哥` 、`小姐姐` 认真 `学习` 的样子真滴是 `哎呦不错哦` :heart:
@@ -189,5 +183,3 @@ docker run -dp 8080:80  --name pure-admin vue-pure-admin
 [![Forkers repo roster for vue-pure-admin](https://reporoster.com/forks/pure-admin/vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)
 =======
 [![Forkers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/forkersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)
-
-> > > > > > > remotes/origin/main
