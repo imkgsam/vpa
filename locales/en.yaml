@@ -85,6 +85,8 @@ menus:
   hsRouterDocument: Vue Router Doc(Embedded)
   hsTailwindcssDocument: Tailwindcss Doc(Embedded)
   hsAbout: About
+  #ace,11.20
+  showcase: Showcase
   hsResult: Result Page
   hsSuccess: Success Page
   hsFail: Fail Page

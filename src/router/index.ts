@@ -5,9 +5,18 @@ import NProgress from "@/utils/progress";
 import { transformI18n } from "@/plugins/i18n";
 import { buildHierarchyTree } from "@/utils/tree";
 import remainingRouter from "./modules/remaining";
+import homeRouter from "./modules/home";
+import errorRouter from "./modules/error";
+import showcaseRouter, { prependStringToFields } from "./modules/showcase";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { usePermissionStoreHook } from "@/store/modules/permission";
-import { isUrl, openLink, storageLocal, isAllEmpty } from "@pureadmin/utils";
+import {
+  isUrl,
+  openLink,
+  storageLocal,
+  isAllEmpty,
+  cloneDeep
+} from "@pureadmin/utils";
 import {
   ascending,
   getTopMenu,
@@ -37,18 +46,31 @@ import {
  * 如何排除文件请看：https://cn.vitejs.dev/guide/features.html#negative-patterns
  */
 const modules: Record<string, any> = import.meta.glob(
-  ["./modules/**/*.ts", "!./modules/**/remaining.ts"],
+  [
+    "./modules/**/*.ts",
+    "!./modules/**/remaining.ts",
+    "!./modules/**/showcase.ts",
+    "!./modules/**/home.ts",
+    "!./modules/**/error.ts"
+  ],
   {
     eager: true
   }
 );
 
 /** 原始静态路由（未做任何处理） */
-const routes = [];
 
+const t = [];
+/** 删除原各个路由中的rank，并添加至showcase的子路由中 */
 Object.keys(modules).forEach(key => {
-  routes.push(modules[key].default);
+  const r = cloneDeep(modules[key].default);
+  delete r.rank;
+  t.push(r);
 });
+const tt = prependStringToFields("/showcase", ["path", "redirect"], t);
+showcaseRouter.children = tt;
+const routes = [homeRouter, showcaseRouter, errorRouter];
+console.log("routes: ", routes);
 
 /** 导出处理后的静态路由（三级及以上的路由全部拍成二级） */
 export const constantRoutes: Array<RouteRecordRaw> = formatTwoStageRoutes(

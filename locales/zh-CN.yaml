@@ -85,6 +85,8 @@ menus:
   hsRouterDocument: Vue Router 文档（内嵌）
   hsTailwindcssDocument: Tailwindcss 文档（内嵌）
   hsAbout: 关于
+  #ace,11.20
+  showcase: 展示
   hsResult: 结果页面
   hsSuccess: 成功页面
   hsFail: 失败页面

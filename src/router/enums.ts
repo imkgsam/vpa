@@ -24,3 +24,8 @@ export const routeRank = {
   about: 20,
   test: 21
 };
+
+export const newRouteRank = {
+  home: 0,
+  showcase: 1
+};
