@@ -7,7 +7,7 @@ import { buildHierarchyTree } from "@/utils/tree";
 import remainingRouter from "./modules/remaining";
 import homeRouter from "./modules/home";
 import errorRouter from "./modules/error";
-import showcaseRouter, { prependStringToFields } from "./modules/showcase";
+import showcaseRouter from "./modules/showcase";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import {
@@ -67,10 +67,8 @@ Object.keys(modules).forEach(key => {
   delete r.rank;
   t.push(r);
 });
-const tt = prependStringToFields("/showcase", ["path", "redirect"], t);
-showcaseRouter.children = tt;
+showcaseRouter.children = t;
 const routes = [homeRouter, showcaseRouter, errorRouter];
-console.log("routes: ", routes);
 
 /** 导出处理后的静态路由（三级及以上的路由全部拍成二级） */
 export const constantRoutes: Array<RouteRecordRaw> = formatTwoStageRoutes(

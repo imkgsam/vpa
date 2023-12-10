@@ -3,6 +3,7 @@ import Search from "./search/index.vue";
 import Notice from "./notice/index.vue";
 import mixNav from "./sidebar/mixNav.vue";
 import { useNav } from "@/layout/hooks/useNav";
+import { useRouter } from "vue-router";
 import Breadcrumb from "./sidebar/breadCrumb.vue";
 import topCollapse from "./sidebar/topCollapse.vue";
 import { useTranslationLang } from "../hooks/useTranslationLang";
@@ -10,6 +11,7 @@ import globalization from "@/assets/svg/globalization.svg?component";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
+import AccountCircleLine from "@iconify-icons/ri/account-circle-line";
 
 const {
   layout,
@@ -24,7 +26,7 @@ const {
   getDropdownItemStyle,
   getDropdownItemClass
 } = useNav();
-
+const router = useRouter();
 const { t, locale, translationCh, translationEn } = useTranslationLang();
 </script>
 
@@ -89,7 +91,18 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
-            <el-dropdown-item @click="logout">
+            <el-dropdown-item @click="router.push({ name: 'Profile' })">
+              <IconifyIconOffline
+                :icon="AccountCircleLine"
+                style="margin: 5px"
+              />
+              {{ t("buttons.hsProfile") }}
+            </el-dropdown-item>
+            <el-dropdown-item @click="router.push({ name: 'AccountSetting' })">
+              <IconifyIconOffline :icon="Setting" style="margin: 5px" />
+              {{ t("buttons.hsAccountSetting") }}
+            </el-dropdown-item>
+            <el-dropdown-item divided @click="logout">
               <IconifyIconOffline
                 :icon="LogoutCircleRLine"
                 style="margin: 5px"

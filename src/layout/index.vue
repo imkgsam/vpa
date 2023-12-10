@@ -61,6 +61,7 @@ const set: setType = reactive({
   })
 });
 
+/** 设置 Theme与layout */
 function setTheme(layoutModel: string) {
   window.document.body.setAttribute("layout", layoutModel);
   $storage.layout = {

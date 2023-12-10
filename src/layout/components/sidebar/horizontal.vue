@@ -5,15 +5,17 @@ import SidebarItem from "./sidebarItem.vue";
 import { isAllEmpty } from "@pureadmin/utils";
 import { ref, nextTick, computed } from "vue";
 import { useNav } from "@/layout/hooks/useNav";
+import { useRouter } from "vue-router";
 import { useTranslationLang } from "../../hooks/useTranslationLang";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import globalization from "@/assets/svg/globalization.svg?component";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
+import AccountCircleLine from "@iconify-icons/ri/account-circle-line";
 
 const menuRef = ref();
-
+const router = useRouter();
 const { t, route, locale, translationCh, translationEn } =
   useTranslationLang(menuRef);
 const {
@@ -104,6 +106,17 @@ nextTick(() => {
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
+            <el-dropdown-item @click="router.push({ name: 'Profile' })">
+              <IconifyIconOffline
+                :icon="AccountCircleLine"
+                style="margin: 5px"
+              />
+              {{ t("buttons.hsProfile") }}
+            </el-dropdown-item>
+            <el-dropdown-item @click="router.push({ name: 'AccountSetting' })">
+              <IconifyIconOffline :icon="Setting" style="margin: 5px" />
+              {{ t("buttons.hsAccountSetting") }}
+            </el-dropdown-item>
             <el-dropdown-item @click="logout">
               <IconifyIconOffline
                 :icon="LogoutCircleRLine"

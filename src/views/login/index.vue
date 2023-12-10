@@ -30,6 +30,8 @@ import { ReImageVerify } from "@/components/ReImageVerify";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
+//kgvc,12.02
+import { isSuccessRes } from "@/utils/http/helper";
 
 import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
@@ -78,7 +80,8 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           password: ruleForm.password
         })
         .then(res => {
-          if (res.success) {
+          console.log("res is ", res);
+          if (isSuccessRes(res)) {
             // 获取后端路由
             initRouter().then(() => {
               router.push(getTopMenu(true).path);
@@ -86,7 +89,10 @@ const onLogin = async (formEl: FormInstance | undefined) => {
             });
           }
         })
-        .finally(() => (loading.value = false));
+        .finally(() => (loading.value = false))
+        .catch(err => {
+          message(err?.response.data.message, { type: "error" });
+        });
     } else {
       loading.value = false;
       return fields;

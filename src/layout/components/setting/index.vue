@@ -152,7 +152,7 @@ function onChange(label) {
   emitter.emit("tagViewsShowModel", label);
 }
 
-/** 侧边栏Logo */
+/** toggle侧边栏Logo */
 function logoChange() {
   unref(logoVal)
     ? storageConfigureChange("showLogo", true)
@@ -185,7 +185,7 @@ const getThemeColor = computed(() => {
   };
 });
 
-/** 设置导航模式 */
+/** 设置导航模式,设置layout 与 theme */
 function setLayoutModel(layout: string) {
   layoutTheme.value.layout = layout;
   window.document.body.setAttribute("layout", layout);

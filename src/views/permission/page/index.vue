@@ -4,6 +4,7 @@ import { storageLocal } from "@pureadmin/utils";
 import { type CSSProperties, ref, computed } from "vue";
 import { useUserStoreHook } from "@/store/modules/user";
 import { usePermissionStoreHook } from "@/store/modules/permission";
+import { isSuccessRes } from "@/utils/http/helper";
 
 defineOptions({
   name: "PermissionPage"
@@ -33,7 +34,7 @@ function onChange() {
   useUserStoreHook()
     .loginByEmail({ email: accountName.value, password: "admin123" })
     .then(res => {
-      if (res.success) {
+      if (isSuccessRes(res)) {
         storageLocal().removeItem("async-routes");
         usePermissionStoreHook().clearAllCachePage();
         initRouter();

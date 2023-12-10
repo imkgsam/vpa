@@ -236,7 +236,6 @@ function formatFlatteningRoutes(routesList: RouteRecordRaw[]) {
  * @returns 返回将一维数组重新处理成规定路由的格式
  */
 function formatTwoStageRoutes(routesList: RouteRecordRaw[]) {
-  console.log("in formatTwoStageRoutes ", routesList);
   if (routesList.length === 0) return routesList;
   const newRoutesList: RouteRecordRaw[] = [];
   routesList.forEach((v: RouteRecordRaw) => {
@@ -253,7 +252,6 @@ function formatTwoStageRoutes(routesList: RouteRecordRaw[]) {
       newRoutesList[0]?.children.push({ ...v });
     }
   });
-  console.log("in formatTwoStageRoutes, ", newRoutesList);
   return newRoutesList;
 }
 

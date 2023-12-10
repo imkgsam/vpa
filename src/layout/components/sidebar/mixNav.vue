@@ -4,6 +4,7 @@ import Search from "../search/index.vue";
 import Notice from "../notice/index.vue";
 import { isAllEmpty } from "@pureadmin/utils";
 import { useNav } from "@/layout/hooks/useNav";
+import { useRouter } from "vue-router";
 import { transformI18n } from "@/plugins/i18n";
 import { ref, toRaw, watch, onMounted, nextTick } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -12,11 +13,13 @@ import { useTranslationLang } from "../../hooks/useTranslationLang";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import globalization from "@/assets/svg/globalization.svg?component";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
+import AccountCircleLine from "@iconify-icons/ri/account-circle-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
 
 const menuRef = ref();
 const defaultActive = ref(null);
+const router = useRouter();
 
 const { t, route, locale, translationCh, translationEn } =
   useTranslationLang(menuRef);
@@ -137,7 +140,18 @@ watch(
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
-            <el-dropdown-item @click="logout">
+            <el-dropdown-item @click="router.push({ name: 'Profile' })">
+              <IconifyIconOffline
+                :icon="AccountCircleLine"
+                style="margin: 5px"
+              />
+              {{ t("buttons.hsProfile") }}
+            </el-dropdown-item>
+            <el-dropdown-item @click="router.push({ name: 'AccountSetting' })">
+              <IconifyIconOffline :icon="Setting" style="margin: 5px" />
+              {{ t("buttons.hsAccountSetting") }}
+            </el-dropdown-item>
+            <el-dropdown-item divided @click="logout">
               <IconifyIconOffline
                 :icon="LogoutCircleRLine"
                 style="margin: 5px"

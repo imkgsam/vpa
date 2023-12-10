@@ -22,10 +22,12 @@ export const routeRank = {
   guide: 18,
   menuoverflow: 19,
   about: 20,
-  test: 21
+  test: 21,
+  settings: 22
 };
 
 export const newRouteRank = {
   home: 0,
-  showcase: 1
+  showcase: 1,
+  asyncroutes: 2
 };

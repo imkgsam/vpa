@@ -80,7 +80,6 @@ class PureHttp {
           : new Promise(resolve => {
               //ace,11.18, add x-api-key to header for every request
               config.headers["X-API-KEY"] = VITE_X_API_KEY;
-              console.log(VITE_X_API_KEY);
               const data = getToken();
               if (data) {
                 const now = new Date().getTime();

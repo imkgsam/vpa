@@ -68,7 +68,6 @@ export const buildHierarchyTree = (tree: any[], pathList = []): any => {
       buildHierarchyTree(node.children, node.pathList);
     }
   }
-  console.log("in buildHierarchyTree ", tree);
   return tree;
 };
 

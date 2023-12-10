@@ -3,10 +3,10 @@ import { newRouteRank } from "@/router/enums";
 
 export default {
   path: "/showcase",
-  // redirect: "/about/index",
   meta: {
     title: $t("menus.showcase"),
-    rank: newRouteRank.showcase
+    rank: newRouteRank.showcase,
+    icon: "homeFilled"
   },
   children: []
 } satisfies RouteConfigsTable;

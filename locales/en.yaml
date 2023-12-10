@@ -1,5 +1,8 @@
 buttons:
+  hsOverview: Overview
   hsLoginOut: LoginOut
+  hsProfile: Profile
+  hsAccountSetting: Settings
   hsfullscreen: FullScreen
   hsexitfullscreen: ExitFullscreen
   hsrefreshRoute: RefreshRoute
@@ -24,6 +27,11 @@ buttons:
   hscontentExitFullScreen: Content ExitFullScreen
 menus:
   hshome: Home
+  #ace,11.21
+  settings: Settings
+  profile: Profile
+  accountSetting: Account Settings
+  dashboard: Dashboard
   hslogin: Login
   hsempty: Empty Page
   hssysManagement: System Manage
@@ -66,6 +74,7 @@ menus:
   permissionPage: Page Permission
   permissionButton: Button Permission
   hstabs: Tabs Operate
+  asyncRoutes: Async Routes
   hsguide: Guide
   hsAble: Able
   hsMenuTree: Menu Tree

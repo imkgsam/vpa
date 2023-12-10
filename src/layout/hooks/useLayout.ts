@@ -7,6 +7,7 @@ import { useMultiTagsStore } from "@/store/modules/multiTags";
 export function useLayout() {
   const { $storage, $config } = useGlobal<GlobalPropertiesApi>();
 
+  /** 初始化 */
   const initStorage = () => {
     /** 路由 */
     if (
@@ -20,7 +21,7 @@ export function useLayout() {
       $storage.locale = { locale: $config?.Locale ?? "zh" };
       useI18n().locale.value = $config?.Locale ?? "zh";
     }
-    /** 导航 */
+    /** 初始化storage里的layout schema */
     if (!$storage.layout) {
       $storage.layout = {
         layout: $config?.Layout ?? "vertical",
