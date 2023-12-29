@@ -36,10 +36,120 @@ export type setType = {
   hiddenSideBar: boolean;
 };
 
-export type userType = {
-  accountName?: string;
+export enum EntityTypeEnum {
+  COMPANY = "Company",
+  PERSON = "Person"
+}
+
+export enum GenderTypeEnum {
+  MALE = "Male",
+  FEMALE = "Female",
+  OTHERS = "Others"
+}
+
+export type KVMap = {
+  mkey: string;
+  mvalue: string;
+};
+
+export type Department = {
+  name: string;
+  manager?: string;
+  parent?: Department;
+  meta: {
+    enabled: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type Role = {
+  _id: string;
+  code: string;
+};
+
+export type Entity = {
+  _id: string;
+  name: string;
+  alias?: string;
+  etype: string;
+  scompany?: Entity;
+  personal?: {
+    jobTitle?: string;
+    sex?: string;
+    birth?: Date;
+  };
+  enterprise?: {
+    manager?: string;
+    foundedAt?: Date;
+    taxNum?: string;
+  };
+  common?: {
+    website?: string;
+    email?: string;
+    landline?: string;
+    mobilePhone?: string;
+    country?: string;
+    city?: string;
+    industry?: string;
+    internalNote?: string;
+  };
+  socialMedias?: KVMap[];
+  employee?: Employee;
+  meta?: {
+    enabled?: boolean;
+    verified?: boolean;
+  };
+};
+
+export type Employee = {
+  _id: string;
+  etype: string;
+  departments?: [];
+  manager?: Entity;
+  workPhone?: string;
+  workMobile?: string;
+  workEmail?: string;
+  probation?: {
+    isNeeded?: boolean;
+    period?: number;
+    startAt?: Date;
+  };
+  privacy?: {
+    family?: {
+      status?: string;
+      dependentChildrenCount?: number;
+    };
+    nationality?: {
+      country?: string;
+      city?: string;
+      birth?: Date;
+      ID?: string;
+      passport?: string;
+    };
+    emergency?: {
+      contact?: string;
+      phone?: string;
+    };
+  };
+  education?: {
+    qulification?: string;
+    school?: string;
+    graduatedAt?: Date;
+  };
+};
+
+export type User = {
+  accountName: string;
   email: string;
-  roles?: Array<string>;
+  roles: string[];
+  entity?: string;
+};
+
+export type Account = {
+  user: User;
+  entity: Entity;
+  employee?: Employee;
   verifyCode?: string;
   currentPage?: number;
   isRemembered?: boolean;

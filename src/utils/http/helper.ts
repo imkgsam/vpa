@@ -1,7 +1,6 @@
 import { StatusCodeEnum } from "./types.d";
 
 export function isSuccessRes(res) {
-  console.log("in isSuccessRes");
   let rt = true;
   if (!res?.statusCode) {
     rt = false;
@@ -10,6 +9,5 @@ export function isSuccessRes(res) {
   } else if (res.statusCode !== StatusCodeEnum.SUCCESS) {
     rt = false;
   }
-  console.log("rt is ", rt);
   return rt;
 }

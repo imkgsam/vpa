@@ -2,58 +2,192 @@
 import dayjs from "dayjs";
 import MdEditor from "md-editor-v3";
 import TypeIt from "@/components/ReTypeit";
-import { useWindowSize } from "@vueuse/core";
-import { ref, computed, markRaw } from "vue";
-import { randomColor } from "@pureadmin/utils";
+import { onBeforeMount, unref, ref, computed, markRaw, toRaw } from "vue";
 import Info from "@iconify-icons/ri/information-line";
-import Overview from "./components/overview.vue";
-import Mainbody from "./components/mainbody.vue";
+import DescriptionTooltip from "@/components/descriptionTooltip/index.vue";
+import Setting from "@iconify-icons/ri/settings-3-line";
+import AccountCircleLine from "@iconify-icons/ri/account-circle-line";
+import LockPasswordLine from "@iconify-icons/ri/lock-password-line";
+import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
+import { useUserStoreHook } from "@/store/modules/user";
+import { genAvatarText } from "@/utils/stringUtils";
+import UserBlock from "./components/userBlock.vue";
+import EmployeeBlock from "./components/employeeBlock.vue";
+import ChangePasswordBlock from "./components/changePasswordBlock.vue";
+import PhoneTSVBlock from "./components/phoneTSVBlock.vue";
+import EntityBlock from "./components/entityBlock.vue";
+import { storeToRefs } from "pinia";
+
+const { t } = useTranslationLang();
 
 defineOptions({
   name: "Profile"
 });
 
-const tabPosition = ref("left");
-const section = ref("employee");
-
-const loading = ref<boolean>(true);
-// const { version } = __APP_INFO__.pkg;
-const titleClass = computed(() => {
-  return ["text-base", "font-medium"];
+onBeforeMount(async () => {
+  await useUserStoreHook().requestEntity();
 });
 
-const { height } = useWindowSize();
+var userStore = useUserStoreHook();
 
-setTimeout(() => {
-  loading.value = !loading.value;
-}, 800);
+const userInfo = {
+  avatarText: genAvatarText(userStore.user.accountName),
+  user: userStore.user,
+  entity: userStore.entity,
+  employee: userStore.employee
+};
+
+const tag = ref("default");
+
+function hangleTagBtnClick(newTag: string) {
+  tag.value = newTag;
+}
 </script>
 
 <template>
-  <el-row :gutter="5" class="p-3">
-    <el-col v-motion :xs="24" :sm="9" :md="8" :lg="6" :xl="4">
-      <Overview />
+  <el-row class="w-full lg:w-11/12 xl:10/12 !mx-auto" :gutter="20">
+    <el-col v-motion :xs="24" :sm="24" :md="9" :lg="8" :xl="8">
+      <el-card class="text-center">
+        <el-avatar
+          :size="100"
+          shape="square"
+          class="mt-5 !rounded-lg"
+          style="
+
+--el-avatar-text-size: 60px; --el-avatar-bg-color: #002140"
+          text-size="50px"
+          src="https://vue.envytheme.com/adlash/img/user14.9b76cd7b.jpg"
+        >
+          {{ userInfo.avatarText }}
+        </el-avatar>
+        <h3 class="mt-3 text-gray-700">{{ userInfo.entity.name }}</h3>
+        <el-divider />
+        <div>
+          <h4 class="text-left my-2">DETAILS:</h4>
+          <el-descriptions class="" :column="1" size="small" border>
+            <el-descriptions-item :label="t('label.accountName')">
+              <DescriptionTooltip :value="userInfo.user.accountName" />
+            </el-descriptions-item>
+            <el-descriptions-item :label="t('label.email')">
+              <DescriptionTooltip :value="userInfo.user.email" />
+            </el-descriptions-item>
+            <el-descriptions-item :label="t('label.roles')">
+              <el-tag v-for="role in userInfo.user.roles" :key="role">
+                {{ role }}
+              </el-tag>
+            </el-descriptions-item>
+          </el-descriptions>
+        </div>
+      </el-card>
     </el-col>
-    <el-col
-      v-motion
-      :xs="24"
-      :sm="15"
-      :md="16"
-      :lg="18"
-      :xl="20"
-      class="mt-2 md:m-0"
-    >
-      <Mainbody />
+    <el-col v-motion :xs="24" :sm="24" :md="15" :lg="16" :xl="16">
+      <div class="buttongroup py-2">
+        <el-button
+          :class="
+            tag === 'default' ? 'el-button--primary' : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('default')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.defaultInfo") }}
+        </el-button>
+        <el-button
+          :class="tag === 'user' ? 'el-button--primary' : 'is-text btn-border'"
+          @click="hangleTagBtnClick('user')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.account") }}
+        </el-button>
+        <el-button
+          v-if="userInfo.employee._id"
+          :class="
+            tag === 'employee' ? 'el-button--primary' : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('employee')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.employee") }}
+        </el-button>
+        <el-button
+          :class="
+            tag === 'customer' ? 'el-button--primary' : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('customer')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.customer") }}
+        </el-button>
+        <el-button
+          :class="
+            tag === 'supplier' ? 'el-button--primary' : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('supplier')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.supplier") }}
+        </el-button>
+        <el-button
+          :class="
+            tag === 'security' ? 'el-button--primary' : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('security')"
+        >
+          <IconifyIconOffline :icon="LockPasswordLine" style="margin: 5px" />
+          {{ t("buttons.security") }}
+        </el-button>
+        <el-button
+          :class="
+            tag === 'activity' ? 'el-button--primary' : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('activity')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.activity") }}
+        </el-button>
+      </div>
+      <!-- <el-card shadow="hover">
+        <div v-if="tag === 'default'">
+          <EntityBlock :entity="userInfo.entity" />
+        </div>
+        <div v-if="tag === 'user'">
+          <UserBlock :user="userInfo.user" />
+        </div>
+        <div v-if="tag === 'employee'">
+          <EmployeeBlock :employee="userInfo.employee" />
+        </div>
+        <div v-if="tag === 'customer'">customer</div>
+        <div v-if="tag === 'supplier'">supplier</div>
+        <div v-if="tag === 'security'">
+          <ChangePasswordBlock :userEmail="userInfo.user.email" />
+        </div>
+        <div v-if="tag === 'activity'">activity</div>
+      </el-card> -->
     </el-col>
   </el-row>
 </template>
 
-<!-- <style lang="scss" scoped>
-:deep(.el-timeline-item) {
-  margin: 6px 0 0 6px;
+<style scoped lang="scss">
+.btn-border {
+  border: 0.8px solid transparent;
 }
 
-.main-content {
-  margin: 20px 20px 0 !important;
+div.buttongroup {
+  overflow-x: scroll;
+  white-space: nowrap;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    padding: 14px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  button:hover {
+    background-color: #777;
+  }
 }
-</style> -->
+</style>

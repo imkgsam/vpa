@@ -25,6 +25,14 @@ buttons:
   hswholeExitFullScreen: 退出全屏
   hscontentFullScreen: 内容区全屏
   hscontentExitFullScreen: 内容区退出全屏
+  account: 账户信息
+  defaultInfo: 基本资料
+  employee: 员工信息
+  customer: 客户信息
+  supplier: 供应商信息
+  security: 账户安全
+  activity: 账户动态
+  submit: 提交
 menus:
   hshome: 首页
   #ace,11.21
@@ -129,6 +137,9 @@ login:
   accountName: 账号
   email: 邮箱
   password: 密码
+  newPassword: 新密码
+  oldPassword: 旧密码
+  confirmPassword: 确认密码 
   verifyCode: 验证码
   remember: 天内免登录
   rememberInfo: 勾选并登录后，规定天数内无需输入用户名和密码会自动登入系统
@@ -168,3 +179,17 @@ login:
   passwordSureReg: 请输入确认密码
   passwordDifferentReg: 两次密码不一致!
   passwordUpdateReg: 修改密码成功
+  oldPasswordReg: 请输入旧密码
+  newPasswordReg: 请输入新密码
+label:
+  accountName: 用户名
+  email: 登录邮箱
+  roles: 系统权限
+  fullName: 全名
+  scompany: 所属公司
+  etype: 类型
+  sex: 性别
+  jobTitle: 职位
+common:
+  text:
+   changePassword: 修改密码

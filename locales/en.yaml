@@ -25,6 +25,14 @@ buttons:
   hswholeExitFullScreen: ExitFull
   hscontentFullScreen: Content FullScreen
   hscontentExitFullScreen: Content ExitFullScreen
+  account: Account
+  defaultInfo: Default Info
+  employee: Employee
+  customer: Customer
+  supplier: Supplier
+  security: Security
+  activity: Activity
+  submit: Submit
 menus:
   hshome: Home
   #ace,11.21
@@ -129,6 +137,9 @@ login:
   accountName: Account
   email: Email
   password: Password
+  newPassword: New Password
+  oldPassword: Original Password
+  confirmPassword: Confirm Password
   verifyCode: VerifyCode
   remember: days no need to login
   rememberInfo: After checking and logging in, will automatically log in to the system without entering your account name and password within the specified number of days.
@@ -168,3 +179,17 @@ login:
   passwordSureReg: Please enter confirm password
   passwordDifferentReg: The two passwords do not match!
   passwordUpdateReg: Password has been updated
+  oldPasswordReg: Please enter original password
+  newPasswordReg: Please enter new password
+label:
+  accountName: Username
+  email: Login Email
+  roles: Roles
+  fullName: Fullname
+  scompany: Parent Company
+  etype: Type
+  sex: Gender
+  jobTitle: Job Title
+common:
+  text:
+   changePassword: Change Password

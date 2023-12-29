@@ -174,7 +174,7 @@ const layoutHeader = defineComponent({
     >
       <div v-if="set.fixedHeader">
         <layout-header />
-        <!-- 主体内容 -->
+        <!-- 主体内容1 -->
         <app-main :fixed-header="set.fixedHeader" />
       </div>
       <el-scrollbar v-else>
@@ -185,8 +185,8 @@ const layoutHeader = defineComponent({
           <backTop />
         </el-backtop>
         <layout-header />
-        <!-- 主体内容 -->
-        <app-main :fixed-header="set.fixedHeader" />
+        <!-- 主体内容1 -->
+        <app-main :fixed-header="set.fixedHeader"> IFrame </app-main>
       </el-scrollbar>
     </div>
     <!-- 系统设置 -->
