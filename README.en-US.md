@@ -8,7 +8,7 @@
 
 ## Introduction
 
-`vue-pure-admin` is an open source free and out-of-the-box middle and background management system template. Developed using the latest mainstream technologies such as `Vue3`, `Vite`, `Element-Plus`, `TypeScript`, `Pinia`, `Tailwindcss`
+`vue-pure-admin` is an open source, free and out-of-the-box middle and backend management system template. Completely adopts `ECMAScript` module (`ESM`) specifications to write and organize code, using the latest `Vue3`, `Vite`, `Element-Plus`, `TypeScript`, `Pinia`, `Tailwindcss` and other mainstream technologies develop
 
 ## Thin version (offering non-internationalized and internationalized versions)
 
@@ -162,7 +162,7 @@ Support modern browsers, not IE
 
 ## License
 
-In principle, no fees and copyrights are charged, and it is commercially available, but if you need secondary open source (such as using this platform for secondary development and open source, the front-end code must be open source and free), please contact the author for permission! (Free, just take a record)
+Completely free and open source
 
 [MIT © 2020-present, pure-admin](./LICENSE)
 

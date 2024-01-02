@@ -16,6 +16,7 @@ import {
   computed,
   onMounted,
   onBeforeMount,
+  onBeforeUnmount,
   defineComponent
 } from "vue";
 
@@ -151,6 +152,7 @@ const layoutHeader = defineComponent({
 
 <template>
   <div ref="appWrapperRef" :class="['app-wrapper', set.classes]">
+    <!-- mask -->
     <div
       v-show="
         set.device === 'mobile' &&
@@ -160,6 +162,7 @@ const layoutHeader = defineComponent({
       class="app-mask"
       @click="useAppStoreHook().toggleSideBar()"
     />
+    <!-- 竖向导航菜单 -->
     <Vertical
       v-show="
         !pureSetting.hiddenSideBar &&
@@ -173,6 +176,7 @@ const layoutHeader = defineComponent({
       ]"
     >
       <div v-if="set.fixedHeader">
+        <!-- 布局header -->
         <layout-header />
         <!-- 主体内容1 -->
         <app-main :fixed-header="set.fixedHeader" />
