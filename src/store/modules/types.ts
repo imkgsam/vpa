@@ -110,10 +110,25 @@ export type Employee = {
   workPhone?: string;
   workMobile?: string;
   workEmail?: string;
+
+  //员工编号-(唯一识别号, [年]-[h3/1]-[月]-[h3/2]-[日]-[h3/3]-[性别] md5-hash后三位975 陈双鹏2024年01月01日入职男 2490170151 )
+  EID?: string;
+  //ETL 员工职称等级(K为管理体系，P为普通员工体系 K1-9 P1-9 如有细分则为 K1.1 K3.2 P7.4 ...)
+  ETL?: string;
+  //入职日期 = 试用期起始日期 = 进入公司的日期
+  inauguratiionDate?: Date;
+  //试用期
   probation?: {
-    isNeeded?: boolean;
+    //试用期开始时间
+    startDate?: boolean;
+    //计划试用时间 按天算
     period?: number;
-    startAt?: Date;
+    //试用期实际结束日期：提前转正，延期试用
+    actualEndDate?: Date;
+    //试用期结果
+    result?: string;
+    //试用期结果备注
+    note?: string;
   };
   privacy?: {
     family?: {
@@ -126,6 +141,8 @@ export type Employee = {
       birth?: Date;
       ID?: string;
       passport?: string;
+      taxNo?: string;
+      driverLicense?: string;
     };
     emergency?: {
       contact?: string;
@@ -136,6 +153,7 @@ export type Employee = {
     qulification?: string;
     school?: string;
     graduatedAt?: Date;
+    major?: string;
   };
 };
 
@@ -146,10 +164,20 @@ export type User = {
   entity?: string;
 };
 
+export type Supplier = {
+  _id: string;
+};
+
+export type Customer = {
+  _id: string;
+};
+
 export type Account = {
   user: User;
   entity: Entity;
   employee?: Employee;
+  customer?: Customer;
+  supplier?: Supplier;
   verifyCode?: string;
   currentPage?: number;
   isRemembered?: boolean;

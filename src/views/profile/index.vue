@@ -13,10 +13,11 @@ import { useUserStoreHook } from "@/store/modules/user";
 import { genAvatarText } from "@/utils/stringUtils";
 import UserBlock from "./components/userBlock.vue";
 import EmployeeBlock from "./components/employeeBlock.vue";
+import CustomerBlock from "./components/customerBlock.vue";
+import SupplierBlock from "./components/supplierBlock.vue";
 import ChangePasswordBlock from "./components/changePasswordBlock.vue";
 import PhoneTSVBlock from "./components/phoneTSVBlock.vue";
 import EntityBlock from "./components/entityBlock.vue";
-import { storeToRefs } from "pinia";
 
 const { t } = useTranslationLang();
 
@@ -34,7 +35,9 @@ const userInfo = {
   avatarText: genAvatarText(userStore.user.accountName),
   user: userStore.user,
   entity: userStore.entity,
-  employee: userStore.employee
+  employee: userStore.employee,
+  supplier: userStore.supplier,
+  customer: userStore.customer
 };
 
 const tag = ref("default");
@@ -63,7 +66,7 @@ function hangleTagBtnClick(newTag: string) {
         <h3 class="mt-3 text-gray-700">{{ userInfo.entity.name }}</h3>
         <el-divider />
         <div>
-          <h4 class="text-left my-2">DETAILS:</h4>
+          <!-- <h4 class="text-left my-2">DETAILS:</h4> -->
           <el-descriptions class="" :column="1" size="small" border>
             <el-descriptions-item :label="t('label.accountName')">
               <DescriptionTooltip :value="userInfo.user.accountName" />
@@ -109,6 +112,7 @@ function hangleTagBtnClick(newTag: string) {
           {{ t("buttons.employee") }}
         </el-button>
         <el-button
+          v-if="userInfo.customer._id"
           :class="
             tag === 'customer' ? 'el-button--primary' : 'is-text btn-border'
           "
@@ -118,6 +122,7 @@ function hangleTagBtnClick(newTag: string) {
           {{ t("buttons.customer") }}
         </el-button>
         <el-button
+          v-if="userInfo.supplier._id"
           :class="
             tag === 'supplier' ? 'el-button--primary' : 'is-text btn-border'
           "
@@ -145,7 +150,7 @@ function hangleTagBtnClick(newTag: string) {
           {{ t("buttons.activity") }}
         </el-button>
       </div>
-      <!-- <el-card shadow="hover">
+      <el-card shadow="hover">
         <div v-if="tag === 'default'">
           <EntityBlock :entity="userInfo.entity" />
         </div>
@@ -155,13 +160,17 @@ function hangleTagBtnClick(newTag: string) {
         <div v-if="tag === 'employee'">
           <EmployeeBlock :employee="userInfo.employee" />
         </div>
-        <div v-if="tag === 'customer'">customer</div>
-        <div v-if="tag === 'supplier'">supplier</div>
+        <div v-if="tag === 'customer'">
+          <CustomerBlock :customer="userInfo.customer" />
+        </div>
+        <div v-if="tag === 'supplier'">
+          <SupplierBlock :supplier="userInfo.customer" />
+        </div>
         <div v-if="tag === 'security'">
           <ChangePasswordBlock :userEmail="userInfo.user.email" />
         </div>
         <div v-if="tag === 'activity'">activity</div>
-      </el-card> -->
+      </el-card>
     </el-col>
   </el-row>
 </template>

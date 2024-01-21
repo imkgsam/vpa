@@ -190,6 +190,51 @@ label:
   etype: Type
   sex: Gender
   jobTitle: Job Title
+  cemail: Email
+  birth: Birthday
+  website: website
+  landline: landline
+  mobilePhone: Mobile Phone
+  incountry: Country of Residence
+  incity: City of Residence
+  industry: industry
+  verificationStatus: Verification
+  verified: Verified
+  unverified: Unverified
+  employeeEtype: Employment Type
+  department: Department
+  manager: Manager
+  workPhone: Work Landline
+  workMobile: Work Mobilephone
+  workEmail: Work Email
+  education: Education
+  educationQualification: Certificate Level 
+  school: School
+  graduatedAt: Graducation Date
+  family: Family
+  familyStatus: Marital Status
+  childrenNumber: Number of Dependent Children
+  nationality: Citizenship
+  bcountry: Country of Birth
+  ncountry: Country of Citizenship
+  bcity: City of Birth
+  id: Identification No
+  passport: Passport No
+  driverLicense: Driver's License No
+  taxNo: Tax No
+  emergency: Emergency
+  emergencyContact: Contact
+  contactPhone: Phone
+  EID: Employee Identification
+  ETL: Employee Title Level
+  inaugurationDate: Inauguration Date
+  inaugurationDayCount: Inauguration Day Count
+value:
+  Fulltime: Fulltime
+  Intern: Intern
+  Temporary: Temporary
+  Contract: Contract
+  Probationary: Probationary 
 common:
   text:
    changePassword: Change Password

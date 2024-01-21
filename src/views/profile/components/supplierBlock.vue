@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onBeforeMount, toRaw, onMounted } from "vue";
-import { Entity, User } from "@/store/modules/types";
+import { Supplier } from "@/store/modules/types";
 import { useI18n } from "vue-i18n";
 import { FormInstance } from "element-plus";
 import { merge } from "lodash";
@@ -9,19 +9,17 @@ const ruleFormRef = ref<FormInstance>();
 const { t } = useI18n();
 
 defineOptions({
-  name: "UserBlock"
+  name: "SupplierBlock"
 });
-const props = defineProps(["user"]);
+const props = defineProps(["supplier"]);
 const editing = ref(false);
 const loading = ref(false);
-var dataForm = reactive<User>({
-  accountName: "",
-  email: "",
-  roles: []
+var dataForm = reactive<Supplier>({
+  _id: ""
 });
 
 onBeforeMount(() => {
-  merge(dataForm, props.user);
+  merge(dataForm, props.supplier);
 });
 
 async function save() {
@@ -45,66 +43,50 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 async function cancle(formEl: FormInstance | undefined) {
   resetForm(formEl);
-  merge(dataForm, props.user);
+  merge(dataForm, props.supplier);
   editing.value = !editing.value;
 }
 </script>
 
 <template>
   <div>
-    <el-form>
+    <!-- <el-form>
       <el-row :gutter="10">
         <el-col v-motion :xs="24" :lg="12">
           <el-form-item :label="t('label.accountName')">
-            <el-input
-              v-if="editing"
-              v-model="dataForm.accountName"
-              :value="props.user.accountName"
-            />
-            <span v-else>{{ props.user.accountName }}</span>
+            <el-input v-if="editing" :value="props.supplier.accountName" v-model="dataForm.accountName" />
+            <span v-else>{{ props.supplier.accountName }}</span>
           </el-form-item>
         </el-col>
         <el-col v-motion :xs="24" :lg="12">
           <el-form-item :label="t('label.email')">
-            <span>{{ props.user.email || "无" }}</span>
+            <span>{{ props.supplier.email || '无' }}</span>
           </el-form-item>
         </el-col>
         <el-col v-motion :xs="24" :lg="12">
           <el-form-item :label="t('label.roles')">
-            <el-tag
-              v-for="(role, idx) in props.user.roles"
-              :key="idx"
-              type="success"
-              size="small"
-            >
+            <el-tag type="success" size="small" v-for="(role, idx) in props.supplier.roles" :key="idx">
               {{ role }}
             </el-tag>
           </el-form-item>
         </el-col>
         <el-col v-motion :xs="24">
           <el-form-item class="flex right">
-            <el-button
-              v-if="editing"
-              :loading="loading"
-              type="default"
-              @click="cancle(ruleFormRef)"
-            >
-              {{ "取消" }}
+            <el-button :loading="loading" type="default" @click="cancle(ruleFormRef)" v-if="editing">
+              {{ '取消' }}
             </el-button>
-            <el-button
-              :loading="loading"
-              :type="editing ? 'primary' : 'warning'"
-              @click="save"
-              >{{ editing ? "保存" : "修改" }}</el-button
-            >
+            <el-button :loading="loading" :type="editing ? 'primary' : 'warning'" @click="save">{{
+              editing
+              ? '保存' : '修改'
+            }}</el-button>
           </el-form-item>
         </el-col>
       </el-row>
-    </el-form>
+    </el-form> -->
 
-    <!-- <div>
+    <div>
       <h4>store</h4>
-      {{ props.user }}
-    </div> -->
+      {{ props.supplier }}
+    </div>
   </div>
 </template>

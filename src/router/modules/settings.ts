@@ -1,13 +1,10 @@
 import { $t } from "@/plugins/i18n";
 import { routeRank } from "@/router/enums";
 // const { VITE_HIDE_HOME } = import.meta.env;
-// const Layout = () => import("@/layout/index.vue");
-const MyLayout = () => import("@/layout/mylayout.vue");
 
 export default {
   path: "/settings",
   name: "Settings",
-  component: MyLayout,
   redirect: "/settings/profile",
   meta: {
     icon: "homeFilled",

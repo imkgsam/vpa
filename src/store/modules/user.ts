@@ -60,7 +60,11 @@ export const useUserStore = defineStore({
         industry: "",
         internalNote: ""
       },
-      socialMedias: []
+      socialMedias: [],
+      meta: {
+        enabled: false,
+        verified: false
+      }
     },
     employee: {
       _id: "",
@@ -70,6 +74,12 @@ export const useUserStore = defineStore({
       workPhone: "",
       workMobile: "",
       workEmail: ""
+    },
+    supplier: {
+      _id: null
+    },
+    customer: {
+      _id: null
     },
     // 前端生成的验证码（按实际需求替换）
     verifyCode: "",

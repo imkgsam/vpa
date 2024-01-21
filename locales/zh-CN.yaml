@@ -190,6 +190,51 @@ label:
   etype: 类型
   sex: 性别
   jobTitle: 职位
+  cemail: 邮箱
+  birth: 出生日期
+  website: 网站
+  landline: 固话
+  mobilePhone: 手机
+  incountry: 居住国家
+  incity: 居住城市
+  industry: 从事行业
+  verificationStatus: 认证状态
+  verified: 已认证
+  unverified: 未认证
+  employeeEtype: 雇佣类型
+  department: 所属部门
+  manager: 管理员
+  workPhone: 工作电话
+  workMobile: 工作手机
+  workEmail: 工作邮箱
+  education: 教育水平
+  educationQualification: 学历水平 
+  school: 毕业院校
+  graduatedAt: 毕业时间
+  family: 家庭状况
+  familyStatus: 婚姻状况
+  childrenNumber: 抚养儿童数量
+  nationality: 国籍
+  bcountry: 出生国家
+  ncountry: 国籍国家
+  bcity: 出生城市
+  id: 身份证号
+  passport: 护照号码
+  driverLicense: 驾照号码
+  taxNo: 缴税号码
+  emergency: 紧急联系
+  emergencyContact: 紧急联系人
+  contactPhone: 联系方式
+  EID: 员工编号
+  ETL: 员工等级
+  inaugurationDate: 入职日期
+  inaugurationDayCount: 在职天数
+value:
+  Fulltime: 全职员工
+  Intern: 实习员工
+  Temporary: 临时员工
+  Contract: 合同员工
+  Probationary: 试用员工 
 common:
   text:
    changePassword: 修改密码

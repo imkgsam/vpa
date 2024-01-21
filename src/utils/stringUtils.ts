@@ -26,4 +26,14 @@ function genAvatarText(input: string) {
   }
 }
 
-export { genAvatarText };
+function formatInaugurationDays(date: Date) {
+  if (date) {
+    return Math.round(
+      (new Date().getTime() - new Date(date).getTime()) / (3600 * 24 * 1000)
+    );
+  } else {
+    return 0;
+  }
+}
+
+export { genAvatarText, formatInaugurationDays };
