@@ -27,7 +27,7 @@ const repeatPasswordRule = [
 ];
 
 defineOptions({
-  name: "ChangePasswordBlock"
+  name: "SecurityBlock"
 });
 const props = defineProps(["userEmail"]);
 const ruleFormRef = ref<FormInstance>();
@@ -86,7 +86,9 @@ const onChangePassword = async (formEl: FormInstance | undefined) => {
 <template>
   <div>
     <div>
-      <h3 class="my-4">{{ t("common.text.changePassword") }}</h3>
+      <el-divider content-position="left">{{
+        t("common.text.changePassword")
+      }}</el-divider>
       <el-form
         ref="ruleFormRef"
         label-position="top"

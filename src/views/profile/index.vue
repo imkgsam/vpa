@@ -11,11 +11,11 @@ import LockPasswordLine from "@iconify-icons/ri/lock-password-line";
 import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
 import { useUserStoreHook } from "@/store/modules/user";
 import { genAvatarText } from "@/utils/stringUtils";
-import UserBlock from "./components/userBlock.vue";
+// import UserBlock from "./components/userBlock.vue";
 import EmployeeBlock from "./components/employeeBlock.vue";
 import CustomerBlock from "./components/customerBlock.vue";
 import SupplierBlock from "./components/supplierBlock.vue";
-import ChangePasswordBlock from "./components/changePasswordBlock.vue";
+import SecurityBlock from "./components/securityBlock.vue";
 import PhoneTSVBlock from "./components/phoneTSVBlock.vue";
 import EntityBlock from "./components/entityBlock.vue";
 
@@ -94,13 +94,11 @@ function hangleTagBtnClick(newTag: string) {
           <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
           {{ t("buttons.defaultInfo") }}
         </el-button>
-        <el-button
-          :class="tag === 'user' ? 'el-button--primary' : 'is-text btn-border'"
-          @click="hangleTagBtnClick('user')"
-        >
+        <!-- <el-button :class="tag === 'user' ? 'el-button--primary' : 'is-text btn-border'"
+          @click="hangleTagBtnClick('user')">
           <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
           {{ t("buttons.account") }}
-        </el-button>
+        </el-button> -->
         <el-button
           v-if="userInfo.employee._id"
           :class="
@@ -154,9 +152,9 @@ function hangleTagBtnClick(newTag: string) {
         <div v-if="tag === 'default'">
           <EntityBlock :entity="userInfo.entity" />
         </div>
-        <div v-if="tag === 'user'">
+        <!-- <div v-if="tag === 'user'">
           <UserBlock :user="userInfo.user" />
-        </div>
+        </div> -->
         <div v-if="tag === 'employee'">
           <EmployeeBlock :employee="userInfo.employee" />
         </div>
@@ -167,7 +165,7 @@ function hangleTagBtnClick(newTag: string) {
           <SupplierBlock :supplier="userInfo.customer" />
         </div>
         <div v-if="tag === 'security'">
-          <ChangePasswordBlock :userEmail="userInfo.user.email" />
+          <SecurityBlock :userEmail="userInfo.user.email" />
         </div>
         <div v-if="tag === 'activity'">activity</div>
       </el-card>

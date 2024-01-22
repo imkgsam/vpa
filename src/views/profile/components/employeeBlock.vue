@@ -241,14 +241,5 @@ async function cancle(formEl: FormInstance | undefined) {
         >
       </el-form-item>
     </el-form>
-
-    <div>
-      <h4>store</h4>
-      {{ props.employee }}
-    </div>
-    <el-divider />
-    <div>
-      {{ dataForm }}
-    </div>
   </div>
 </template>
