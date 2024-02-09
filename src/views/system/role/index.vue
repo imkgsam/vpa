@@ -8,13 +8,12 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 // import More from "@iconify-icons/ep/more-filled";
 import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "Role"
+  name: "SystemRole"
 });
 
 const formRef = ref();
@@ -50,7 +49,7 @@ const {
           v-model="form.name"
           placeholder="请输入角色名称"
           clearable
-          class="!w-[200px]"
+          class="!w-[180px]"
         />
       </el-form-item>
       <el-form-item label="角色标识：" prop="code">
@@ -75,7 +74,7 @@ const {
       <el-form-item>
         <el-button
           type="primary"
-          :icon="useRenderIcon(Search)"
+          :icon="useRenderIcon('search')"
           :loading="loading"
           @click="onSearch"
         >
@@ -88,7 +87,7 @@ const {
     </el-form>
 
     <PureTableBar
-      title="角色列表（仅演示，操作后不生效）"
+      title="角色管理（仅演示，操作后不生效）"
       :columns="columns"
       @refresh="onSearch"
     >
@@ -128,7 +127,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="openDialog('编辑', row)"
+              @click="openDialog('修改', row)"
             >
               修改
             </el-button>

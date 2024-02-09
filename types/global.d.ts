@@ -1,11 +1,4 @@
-import type {
-  VNode,
-  FunctionalComponent,
-  PropType as VuePropType,
-  ComponentPublicInstance
-} from "vue";
 import type { ECharts } from "echarts";
-import type { IconifyIcon } from "@iconify/vue";
 import type { TableColumns } from "@pureadmin/table";
 
 /**
@@ -13,12 +6,16 @@ import type { TableColumns } from "@pureadmin/table";
  */
 declare global {
   /**
-   * 平台的名称、版本、依赖、最后构建时间的类型提示
+   * 平台的名称、版本、运行所需的`node`和`pnpm`版本、依赖、最后构建时间的类型提示
    */
   const __APP_INFO__: {
     pkg: {
       name: string;
       version: string;
+      engines: {
+        node: string;
+        pnpm: string;
+      };
       dependencies: Recordable<string>;
       devDependencies: Recordable<string>;
     };
@@ -88,6 +85,7 @@ declare global {
     Layout?: string;
     Theme?: string;
     DarkMode?: boolean;
+    OverallStyle?: string;
     Grey?: boolean;
     Weak?: boolean;
     HideTabs?: boolean;
@@ -131,6 +129,8 @@ declare global {
     hideFooter?: boolean;
     sidebarStatus?: boolean;
     epThemeColor?: string;
+    themeColor?: string;
+    overallStyle?: string;
     showLogo?: boolean;
     showModel?: string;
     mapConfigure?: {
@@ -157,6 +157,8 @@ declare global {
       darkMode?: boolean;
       sidebarStatus?: boolean;
       epThemeColor?: string;
+      themeColor?: string;
+      overallStyle?: string;
     };
     configure: {
       grey?: boolean;

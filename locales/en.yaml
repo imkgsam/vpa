@@ -52,24 +52,35 @@ menus:
   hsfourZeroOne: "403"
   hsFive: "500"
   hscomponents: Components
-  hsdialog: Dialog Components
-  hsmessage: Message Tips Components
-  hsvideo: Video Components
-  hssegmented: Segmented Components
-  hswaterfall: Waterfall Components
-  hsmap: Map Components
-  hsdraggable: Draggable Components
+  hsdialog: Dialog
+  hsmessage: Message Tips
+  hsvideo: Video
+  hssegmented: Segmented
+  hswaterfall: Waterfall
+  hsmap: Map
+  hsdraggable: Draggable
   hssplitPane: Split Pane
-  hsbutton: Button Components
+  hsElButton: Button
+  hsbutton: Button Animation
+  hsCheckButton: Check Button
   hscropping: Picture Cropping
   hsanimatecss: AnimateCss Selector
   hscountTo: Digital Animation
-  hsselector: Selector Components
+  hsselector: Scope Selector
   hsflowChart: Flow Chart
   hsseamless: Seamless Scroll
   hscontextmenu: Context Menu
-  hstypeit: Typeit Components
+  hstypeit: Typeit
   hsjsoneditor: JSON Editor
+  hsColorPicker: Color Picker
+  hsDatePicker: Date Picker
+  hsDateTimePicker: DateTimePicker
+  hsTimePicker: TimePicker
+  hsTag: Tag
+  hsStatistic: Statistic
+  hsCollapse: Collapse
+  hsProgress: Progress
+  hsUpload: File Upload
   hsmenus: MultiLevel Menu
   hsmenu1: Menu1
   hsmenu1-1: Menu1-1
@@ -93,14 +104,16 @@ menus:
   hsPrint: Print
   hsDownload: Download
   hsExternalPage: External Page
-  hsPureDocument: Pure Doc(Embedded)
-  externalLink: Pure Doc(External)
-  hsEpDocument: Element Plus Doc(Embedded)
-  hsVueDocument: Vue3 Doc(Embedded)
-  hsViteDocument: Vite Doc(Embedded)
-  hsPiniaDocument: Pinia Doc(Embedded)
-  hsRouterDocument: Vue Router Doc(Embedded)
-  hsTailwindcssDocument: Tailwindcss Doc(Embedded)
+  hsExternalDoc: Docs External
+  hsEmbeddedDoc: Docs Embedded
+  externalLink: Vue-Pure-Admin
+  pureutilsLink: Pure-Admin-Utils
+  hsEpDocument: Element-Plus
+  hsTailwindcssDocument: Tailwindcss
+  hsVueDocument: Vue3
+  hsViteDocument: Vite
+  hsPiniaDocument: Pinia
+  hsRouterDocument: Vue-Router
   hsAbout: About
   #ace,11.20
   showcase: Showcase
@@ -124,10 +137,10 @@ menus:
   hsInfiniteScroll: Table Infinite Scroll
   hsSensitive: Sensitive Filter
   hsPinyin: PinYin
-  hsdanmaku: Danmaku Components
+  hsdanmaku: Danmaku
   hsPureTableBase: Base Usage
   hsPureTableHigh: High Usage
-  hsTree: Big Data Tree
+  hsboard: Paint Board
   hsMenuoverflow: Menu Overflow Show Tooltip Text
   hsChildMenuoverflow: Child Menu Overflow Show Tooltip Text
   test: Test homepage

@@ -18,7 +18,7 @@ const systemRouter = {
   children: [
     {
       path: "/system/user/index",
-      name: "User",
+      name: "SystemUser",
       meta: {
         icon: "flUser",
         title: "menus.hsUser",
@@ -27,7 +27,7 @@ const systemRouter = {
     },
     {
       path: "/system/role/index",
-      name: "Role",
+      name: "SystemRole",
       meta: {
         icon: "role",
         title: "menus.hsRole",
@@ -36,7 +36,7 @@ const systemRouter = {
     },
     {
       path: "/system/dept/index",
-      name: "Dept",
+      name: "SystemDept",
       meta: {
         icon: "dept",
         title: "menus.hsDept",
@@ -84,75 +84,96 @@ const frameRouter = {
   },
   children: [
     {
-      path: "/iframe/pure",
-      name: "FramePure",
+      path: "/iframe/external",
       meta: {
-        title: "menus.hsPureDocument",
-        frameSrc: "https://yiming_chang.gitee.io/pure-admin-doc",
-        roles: ["admin", "common"]
-      }
+        title: "menus.hsExternalDoc"
+      },
+      children: [
+        {
+          path: "/external",
+          name: "https://yiming_chang.gitee.io/pure-admin-doc",
+          meta: {
+            title: "menus.externalLink",
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/pureutilsLink",
+          name: "https://pure-admin-utils.netlify.app/",
+          meta: {
+            title: "menus.pureutilsLink",
+            roles: ["admin", "common"]
+          }
+        }
+      ]
     },
     {
-      path: "/external",
-      name: "https://yiming_chang.gitee.io/pure-admin-doc",
+      path: "/iframe/embedded",
       meta: {
-        title: "menus.externalLink",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/iframe/ep",
-      name: "FrameEp",
-      meta: {
-        title: "menus.hsEpDocument",
-        frameSrc: "https://element-plus.org/zh-CN/",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/iframe/vue3",
-      name: "FrameVue",
-      meta: {
-        title: "menus.hsVueDocument",
-        frameSrc: "https://cn.vuejs.org/",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/iframe/vite",
-      name: "FrameVite",
-      meta: {
-        title: "menus.hsViteDocument",
-        frameSrc: "https://cn.vitejs.dev/",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/iframe/pinia",
-      name: "FramePinia",
-      meta: {
-        title: "menus.hsPiniaDocument",
-        frameSrc: "https://pinia.vuejs.org/zh/index.html",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/iframe/vue-router",
-      name: "FrameRouter",
-      meta: {
-        title: "menus.hsRouterDocument",
-        frameSrc: "https://router.vuejs.org/zh/",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/iframe/tailwindcss",
-      name: "FrameTailwindcss",
-      meta: {
-        title: "menus.hsTailwindcssDocument",
-        frameSrc: "https://tailwindcss.com/docs/installation",
-        roles: ["admin", "common"]
-      }
+        title: "menus.hsEmbeddedDoc"
+      },
+      children: [
+        {
+          path: "/iframe/ep",
+          name: "FrameEp",
+          meta: {
+            title: "menus.hsEpDocument",
+            frameSrc: "https://element-plus.org/zh-CN/",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/iframe/tailwindcss",
+          name: "FrameTailwindcss",
+          meta: {
+            title: "menus.hsTailwindcssDocument",
+            frameSrc: "https://tailwindcss.com/docs/installation",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/iframe/vue3",
+          name: "FrameVue",
+          meta: {
+            title: "menus.hsVueDocument",
+            frameSrc: "https://cn.vuejs.org/",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/iframe/vite",
+          name: "FrameVite",
+          meta: {
+            title: "menus.hsViteDocument",
+            frameSrc: "https://cn.vitejs.dev/",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/iframe/pinia",
+          name: "FramePinia",
+          meta: {
+            title: "menus.hsPiniaDocument",
+            frameSrc: "https://pinia.vuejs.org/zh/index.html",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/iframe/vue-router",
+          name: "FrameRouter",
+          meta: {
+            title: "menus.hsRouterDocument",
+            frameSrc: "https://router.vuejs.org/zh/",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        }
+      ]
     }
   ]
 };
@@ -161,7 +182,7 @@ const frameRouter = {
 const tabsRouter = {
   path: "/tabs",
   meta: {
-    icon: "IF-pure-iconfont-tabs",
+    icon: "tag",
     title: "menus.hstabs",
     rank: routeRank.tabs
   },

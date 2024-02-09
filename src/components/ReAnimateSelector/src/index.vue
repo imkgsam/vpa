@@ -9,6 +9,7 @@ defineOptions({
 
 const inputValue = defineModel({ type: String });
 
+const searchVal = ref();
 const animatesList = ref(animates);
 const copyAnimatesList = cloneDeep(animatesList);
 
@@ -48,6 +49,7 @@ function onClear() {
 }
 
 function filterMethod(value: any) {
+  searchVal.value = value;
   animatesList.value = copyAnimatesList.value.filter((i: string | any[]) =>
     i.includes(value)
   );
@@ -70,10 +72,11 @@ function onMouseleave() {
 
 <template>
   <el-select
-    :model-value="inputValue"
-    placeholder="请选择动画"
     clearable
     filterable
+    placeholder="请选择动画"
+    popper-class="pure-animate-popper"
+    :model-value="inputValue"
     :filter-method="filterMethod"
     @clear="onClear"
   >
@@ -110,7 +113,7 @@ function onMouseleave() {
           </ul>
           <el-empty
             v-show="animatesList.length === 0"
-            description="暂无动画"
+            :description="`${searchVal} 动画不存在`"
             :image-size="60"
           />
         </el-scrollbar>
@@ -118,3 +121,9 @@ function onMouseleave() {
     </template>
   </el-select>
 </template>
+
+<style>
+.pure-animate-popper {
+  min-width: 0 !important;
+}
+</style>

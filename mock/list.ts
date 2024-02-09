@@ -451,6 +451,7 @@ export default defineFakeRoute([
         }
       };
     }
+<<<<<<< HEAD
   },
   {
     // https://api.github.com/repos/pure-admin/vue-pure-admin/releases?per_page=100
@@ -675,5 +676,7 @@ export default defineFakeRoute([
         }
       };
     }
+=======
+>>>>>>> upstream/main
   }
 ]);

@@ -1,12 +1,16 @@
 import { $t } from "@/plugins/i18n";
+<<<<<<< HEAD
 import { routeRank } from "@/router/enums";
 import hot from "@/assets/svg/hot.svg?component";
+=======
+import { table } from "@/router/enums";
+>>>>>>> upstream/main
 
 export default {
   path: "/pure-table",
   redirect: "/pure-table/index",
   meta: {
-    icon: hot,
+    icon: "table",
     title: "pure-admin-table",
     rank: routeRank.table
   },

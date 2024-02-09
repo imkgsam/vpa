@@ -53,7 +53,7 @@ export const list = [
   {
     key: "edit",
     content: rendContent("edit"),
-    title: "单元格编辑",
+    title: "单元格修改",
     component: Edit
   },
   {
@@ -71,7 +71,7 @@ export const list = [
   {
     key: "watermark",
     content: rendContent("watermark"),
-    title: "水印（无法删除的水印哦🤓️）",
+    title: "水印",
     component: Watermark
   },
   {
