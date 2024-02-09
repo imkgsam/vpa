@@ -1,5 +1,5 @@
 import { $t } from "@/plugins/i18n";
-import { about } from "@/router/enums";
+import { routeRank } from "@/router/enums";
 
 export default {
   path: "/about",
@@ -7,7 +7,7 @@ export default {
   meta: {
     icon: "info",
     title: $t("menus.hsAbout"),
-    rank: about
+    rank: routeRank.about
   },
   children: [
     {

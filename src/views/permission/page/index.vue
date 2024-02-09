@@ -54,11 +54,7 @@ function onChange() {
           <span>当前角色：{{ accountName }}</span>
         </div>
       </template>
-<<<<<<< HEAD
       <el-select v-model="accountName" @change="onChange">
-=======
-      <el-select v-model="username" class="!w-[160px]" @change="onChange">
->>>>>>> upstream/main
         <el-option
           v-for="item in options"
           :key="item.value"

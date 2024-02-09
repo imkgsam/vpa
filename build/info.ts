@@ -28,13 +28,7 @@ export function viteBuildInfo(): Plugin {
       outDir = resolvedConfig.build?.outDir ?? "dist";
     },
     buildStart() {
-<<<<<<< HEAD
-      console.log(
-        bold(green(`👏欢迎继续开发 ${blue("SET 4 [vue-pure-admin]")}`))
-      );
-=======
       console.log(boxen(welcomeMessage, boxenOptions));
->>>>>>> upstream/main
       if (config.command === "build") {
         startTime = dayjs(new Date());
       }

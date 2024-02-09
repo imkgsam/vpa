@@ -70,7 +70,7 @@ nextTick(() => {
       <!-- 通知 -->
       <Notice id="header-notice" />
       <!-- 国际化 -->
-      <el-dropdown id="header-translation" trigger="click">
+      <!-- <el-dropdown id="header-translation" trigger="click">
         <globalization
           class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-none"
         />
@@ -98,15 +98,15 @@ nextTick(() => {
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
-      </el-dropdown>
+      </el-dropdown> -->
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover">
-          <img :src="userAvatar" :style="avatarsStyle" />
           <p v-if="accountName" class="dark:text-white">{{ accountName }}</p>
+          <img :src="userAvatar" :style="avatarsStyle" class="mx-3" />
         </span>
         <template #dropdown>
-          <el-dropdown-menu class="logout">
+          <el-dropdown-menu>
             <el-dropdown-item @click="router.push({ name: 'Profile' })">
               <IconifyIconOffline
                 :icon="AccountCircleLine"
@@ -128,13 +128,13 @@ nextTick(() => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
+      <!-- <span
         class="set-icon navbar-bg-hover"
         :title="t('buttons.hssystemSet')"
         @click="onPanel"
       >
         <IconifyIconOffline :icon="Setting" />
-      </span>
+      </span> -->
     </div>
   </div>
 </template>

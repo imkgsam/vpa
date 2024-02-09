@@ -33,6 +33,7 @@ buttons:
   security: 账户安全
   activity: 账户动态
   submit: 提交
+  systemConfig: 系统设置
 menus:
   hshome: 首页
   #ace,11.21

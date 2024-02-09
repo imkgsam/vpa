@@ -33,6 +33,7 @@ buttons:
   security: Security
   activity: Activity
   submit: Submit
+  systemConfig: System Config
 menus:
   hshome: Home
   #ace,11.21

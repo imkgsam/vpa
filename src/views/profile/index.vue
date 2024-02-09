@@ -16,7 +16,7 @@ import EmployeeBlock from "./components/employeeBlock.vue";
 import CustomerBlock from "./components/customerBlock.vue";
 import SupplierBlock from "./components/supplierBlock.vue";
 import SecurityBlock from "./components/securityBlock.vue";
-import PhoneTSVBlock from "./components/phoneTSVBlock.vue";
+import SystemSettingsBlock from "./components/systemSettingsBlock.vue";
 import EntityBlock from "./components/entityBlock.vue";
 
 const { t } = useTranslationLang();
@@ -147,6 +147,17 @@ function hangleTagBtnClick(newTag: string) {
           <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
           {{ t("buttons.activity") }}
         </el-button>
+        <el-button
+          :class="
+            tag === 'system config'
+              ? 'el-button--primary'
+              : 'is-text btn-border'
+          "
+          @click="hangleTagBtnClick('system config')"
+        >
+          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
+          {{ t("buttons.systemConfig") }}
+        </el-button>
       </div>
       <el-card shadow="hover">
         <div v-if="tag === 'default'">
@@ -168,6 +179,9 @@ function hangleTagBtnClick(newTag: string) {
           <SecurityBlock :userEmail="userInfo.user.email" />
         </div>
         <div v-if="tag === 'activity'">activity</div>
+        <div v-if="tag === 'system config'">
+          <SystemSettingsBlock />
+        </div>
       </el-card>
     </el-col>
   </el-row>

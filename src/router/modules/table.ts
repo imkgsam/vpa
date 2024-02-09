@@ -1,10 +1,6 @@
 import { $t } from "@/plugins/i18n";
-<<<<<<< HEAD
 import { routeRank } from "@/router/enums";
-import hot from "@/assets/svg/hot.svg?component";
-=======
-import { table } from "@/router/enums";
->>>>>>> upstream/main
+// import hot from "@/assets/svg/hot.svg?component";
 
 export default {
   path: "/pure-table",

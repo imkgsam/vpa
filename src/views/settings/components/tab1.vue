@@ -4,7 +4,7 @@ import MdEditor from "md-editor-v3";
 import Bar from "../../welcome/components/Bar.vue";
 import Pie from "../../welcome/components/Pie.vue";
 import Line from "../../welcome/components/Line.vue";
-import { getReleases } from "@/api/list";
+// import { getReleases } from "@/api/list";
 import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
 import { ref, computed, markRaw } from "vue";
@@ -25,19 +25,19 @@ setTimeout(() => {
   loading.value = !loading.value;
 }, 800);
 
-getReleases().then(({ data }) => {
-  list.value = data.list.map(v => {
-    return {
-      content: v.body,
-      timestamp: dayjs(v.published_at).format("YYYY/MM/DD hh:mm:ss A"),
-      icon: markRaw(
-        useRenderFlicker({
-          background: randomColor({ type: "hex" }) as string
-        })
-      )
-    };
-  });
-});
+// getReleases().then(({ data }) => {
+//   list.value = data.list.map(v => {
+//     return {
+//       content: v.body,
+//       timestamp: dayjs(v.published_at).format("YYYY/MM/DD hh:mm:ss A"),
+//       icon: markRaw(
+//         useRenderFlicker({
+//           background: randomColor({ type: "hex" }) as string
+//         })
+//       )
+//     };
+//   });
+// });
 </script>
 
 <template>

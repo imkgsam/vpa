@@ -1,5 +1,5 @@
 import { $t } from "@/plugins/i18n";
-import { board } from "@/router/enums";
+import { routeRank } from "@/router/enums";
 const IFrame = () => import("@/layout/frameView.vue");
 
 export default {
@@ -8,7 +8,7 @@ export default {
   meta: {
     icon: "artboard",
     title: $t("menus.hsboard"),
-    rank: board
+    rank: routeRank.board
   },
   children: [
     {
