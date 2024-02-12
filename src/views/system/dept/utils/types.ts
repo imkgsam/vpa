@@ -1,13 +1,16 @@
 interface FormItemProps {
   higherDeptOptions: Record<string, unknown>[];
-  parentId: number;
+  parent: string;
   name: string;
-  principal: string;
-  phone: string | number;
-  email: string;
-  sort: number;
-  status: number;
-  remark: string;
+  manager: string;
+  // phone: string | number;
+  // email: string;
+  // sort: number;
+  meta: {
+    enabled: boolean;
+  };
+  color: string;
+  // remark: string;
 }
 interface FormProps {
   formInline: FormItemProps;

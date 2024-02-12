@@ -2,7 +2,7 @@
 import { tableData } from "./data";
 
 const indexMethod = (index: number) => {
-  return index * 2;
+  return index * 1;
 };
 
 const columns: TableColumnList = [

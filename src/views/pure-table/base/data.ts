@@ -5,8 +5,8 @@ const date = dayjs(new Date()).format("YYYY-MM-DD");
 
 const tableData = [
   {
-    date,
-    name: "Tom",
+    date: "2023-01-01",
+    name: "Tom1",
     address: "No. 189, Grove St, Los Angeles"
   },
   {

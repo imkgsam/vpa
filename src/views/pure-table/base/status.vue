@@ -40,6 +40,10 @@ const columns: TableColumnList = [
   --el-table-tr-bg-color: var(--el-color-warning-light-9);
 }
 
+.pure-primary-row {
+  --el-table-tr-bg-color: var(--el-color-primary-light-9);
+}
+
 .pure-success-row {
   --el-table-tr-bg-color: var(--el-color-success-light-9);
 }

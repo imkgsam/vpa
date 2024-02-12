@@ -1,8 +1,8 @@
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { getDeptList } from "@/api/system";
+import { /**getDeptList,*/ getDepartmentList } from "@/api/system";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -12,48 +12,53 @@ import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 export function useDept() {
   const form = reactive({
     name: "",
-    status: null
+    meta: {
+      enabled: false
+    }
   });
 
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-  const { tagStyle } = usePublicHooks();
+  const { /**tagStyle,*/ tagStyleByBool } = usePublicHooks();
 
   const columns: TableColumnList = [
     {
       label: "部门名称",
       prop: "name",
-      width: 180,
+      // width: 180,
       align: "left"
     },
-    {
-      label: "排序",
-      prop: "sort",
-      minWidth: 70
-    },
+    // {
+    //   label: "排序",
+    //   prop: "sort",
+    //   minWidth: 70
+    // },
     {
       label: "状态",
-      prop: "status",
-      minWidth: 100,
+      prop: "meta.enabled",
+      // minWidth: 100,
       cellRenderer: ({ row, props }) => (
-        <el-tag size={props.size} style={tagStyle.value(row.status)}>
-          {row.status === 1 ? "启用" : "停用"}
+        <el-tag
+          size={props.size}
+          style={tagStyleByBool.value(row.meta.enabled)}
+        >
+          {row.meta.enabled ? "启用" : "停用"}
         </el-tag>
       )
     },
-    {
-      label: "创建时间",
-      minWidth: 200,
-      prop: "createTime",
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
-    },
-    {
-      label: "备注",
-      prop: "remark",
-      minWidth: 320
-    },
+    // {
+    //   label: "创建时间",
+    //   minWidth: 200,
+    //   prop: "createTime",
+    //   formatter: ({ createTime }) =>
+    //     dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+    // },
+    // {
+    //   label: "备注",
+    //   prop: "remark",
+    //   minWidth: 320
+    // },
     {
       label: "操作",
       fixed: "right",
@@ -73,18 +78,20 @@ export function useDept() {
   }
 
   async function onSearch() {
+    console.log("in onSearch function");
     loading.value = true;
-    const { data } = await getDeptList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+    const { data } = await getDepartmentList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data;
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称
       newData = newData.filter(item => item.name.includes(form.name));
     }
-    if (!isAllEmpty(form.status)) {
+    if (!isAllEmpty(form.meta.enabled)) {
       // 前端搜索状态
-      newData = newData.filter(item => item.status === form.status);
+      newData = newData.filter(item => item.meta.enabled === form.meta.enabled);
     }
-    dataList.value = handleTree(newData); // 处理成树结构
+    dataList.value = handleTree(newData, "_id", "parent"); // 处理成树结构
+    console.log(dataList.value);
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -108,25 +115,25 @@ export function useDept() {
       props: {
         formInline: {
           higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
-          parentId: row?.parentId ?? 0,
+          parent: row?.parent,
           name: row?.name ?? "",
-          principal: row?.principal ?? "",
-          phone: row?.phone ?? "",
-          email: row?.email ?? "",
-          sort: row?.sort ?? 0,
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          manager: row?.manager ?? null,
+          meta: {
+            enabled: row?.meta.enabled
+          },
+          color: row?.color ?? ""
         }
       },
-      width: "40%",
-      draggable: true,
-      fullscreenIcon: true,
+      width: "45%",
+      draggable: false,
+      fullscreenIcon: false,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
       beforeSure: (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
+          console.log(curData);
           message(`您${title}了部门名称为${curData.name}的这条数据`, {
             type: "success"
           });
@@ -168,7 +175,7 @@ export function useDept() {
     onSearch,
     /** 重置 */
     resetForm,
-    /** 新增、修改部门 */
+    /** 打开 新增、修改部门 的弹窗*/
     openDialog,
     /** 删除部门 */
     handleDelete,

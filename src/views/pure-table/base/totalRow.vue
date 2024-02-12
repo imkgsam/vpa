@@ -31,7 +31,7 @@ const getSummaries = (param: SummaryMethodProps) => {
         }
       }, 0)}`;
     } else {
-      sums[index] = "N/A";
+      sums[index] = "";
     }
   });
 

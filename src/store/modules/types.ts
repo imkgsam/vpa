@@ -59,6 +59,8 @@ export type Department = {
   meta: {
     enabled: boolean;
   };
+  color?: string;
+  company?: Entity;
   createdAt?: Date;
   updatedAt?: Date;
 };

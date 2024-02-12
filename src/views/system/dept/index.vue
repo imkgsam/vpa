@@ -30,6 +30,7 @@ const {
 
 <template>
   <div class="main">
+    <!-- 添加的form -->
     <el-form
       ref="formRef"
       :inline="true"
@@ -44,15 +45,15 @@ const {
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="状态：" prop="meta.enabled">
         <el-select
-          v-model="form.status"
+          v-model="form.meta.enabled"
           placeholder="请选择状态"
           clearable
           class="!w-[180px]"
         >
-          <el-option label="启用" :value="1" />
-          <el-option label="停用" :value="0" />
+          <el-option label="启用" :value="true" />
+          <el-option label="停用" :value="false" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -70,8 +71,9 @@ const {
       </el-form-item>
     </el-form>
 
+    <!-- table列表 -->
     <PureTableBar
-      title="部门管理（仅演示，操作后不生效）"
+      title="部门管理1"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
@@ -91,7 +93,7 @@ const {
           adaptive
           :adaptiveConfig="{ offsetBottom: 32 }"
           align-whole="center"
-          row-key="id"
+          row-key="_id"
           showOverflowTooltip
           table-layout="auto"
           default-expand-all
@@ -127,6 +129,7 @@ const {
               修改
             </el-button>
             <el-popconfirm
+              :persistent="true"
               :title="`是否确认删除部门名称为${row.name}的这条数据`"
               @confirm="handleDelete(row)"
             >

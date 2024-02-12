@@ -1,8 +1,10 @@
 import { http } from "@/utils/http";
+import type { Department } from "@/store/modules/types";
+import { baseUrlApi } from "./utils";
 
 type Result = {
   success: boolean;
-  data?: Array<any>;
+  data?: Array<Department>;
 };
 
 type ResultTable = {
@@ -42,4 +44,9 @@ export const getRoleList = (data?: object) => {
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
   return http.request<Result>("post", "/dept", { data });
+};
+
+/** 获取部门管理列表 */
+export const getDepartmentList = (data?: object) => {
+  return http.request<Result>("get", baseUrlApi("department/all"), { data });
 };

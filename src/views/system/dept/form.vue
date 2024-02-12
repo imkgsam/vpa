@@ -8,14 +8,13 @@ import { usePublicHooks } from "../hooks";
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     higherDeptOptions: [],
-    parentId: 0,
+    parent: "",
     name: "",
-    principal: "",
-    phone: "",
-    email: "",
-    sort: 0,
-    status: 1,
-    remark: ""
+    manager: "",
+    meta: {
+      enabled: null
+    },
+    color: ""
   })
 });
 
@@ -41,11 +40,11 @@ defineExpose({ getRef });
       <re-col>
         <el-form-item label="上级部门">
           <el-cascader
-            v-model="newFormInline.parentId"
+            v-model="newFormInline.parent"
             class="w-full"
             :options="newFormInline.higherDeptOptions"
             :props="{
-              value: 'id',
+              value: '_id',
               label: 'name',
               emitPath: false,
               checkStrictly: true
@@ -74,33 +73,32 @@ defineExpose({ getRef });
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="部门负责人">
           <el-input
-            v-model="newFormInline.principal"
+            v-model="newFormInline.manager"
             clearable
             placeholder="请输入部门负责人"
           />
         </el-form-item>
       </re-col>
-
-      <re-col :value="12" :xs="24" :sm="24">
+      <!-- <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="手机号" prop="phone">
-          <el-input
-            v-model="newFormInline.phone"
-            clearable
-            placeholder="请输入手机号"
-          />
+          <el-input v-model="newFormInline.phone" clearable placeholder="请输入手机号" />
         </el-form-item>
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="邮箱" prop="email">
+          <el-input v-model="newFormInline.email" clearable placeholder="请输入邮箱" />
+        </el-form-item>
+      </re-col> -->
+      <re-col :value="12" :xs="24" :sm="24">
+        <el-form-item label="部门颜色" prop="color">
           <el-input
-            v-model="newFormInline.email"
+            v-model="newFormInline.color"
             clearable
-            placeholder="请输入邮箱"
+            placeholder="请输入部门颜色"
           />
         </el-form-item>
       </re-col>
-
-      <re-col :value="12" :xs="24" :sm="24">
+      <!-- <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="排序">
           <el-input-number
             v-model="newFormInline.sort"
@@ -110,14 +108,14 @@ defineExpose({ getRef });
             controls-position="right"
           />
         </el-form-item>
-      </re-col>
+      </re-col> -->
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="部门状态">
           <el-switch
-            v-model="newFormInline.status"
+            v-model="newFormInline.meta.enabled"
             inline-prompt
-            :active-value="1"
-            :inactive-value="0"
+            :active-value="true"
+            :inactive-value="false"
             active-text="启用"
             inactive-text="停用"
             :style="switchStyle"
@@ -125,7 +123,7 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
 
-      <re-col>
+      <!-- <re-col>
         <el-form-item label="备注">
           <el-input
             v-model="newFormInline.remark"
@@ -133,7 +131,7 @@ defineExpose({ getRef });
             type="textarea"
           />
         </el-form-item>
-      </re-col>
+      </re-col> -->
     </el-row>
   </el-form>
 </template>

@@ -80,7 +80,7 @@ const columns: TableColumnList = [
 <template>
   <pure-table :data="tableData" :columns="columns">
     <template #content="{ row }">
-      <span v-html="row.other[1].more.content" />
+      <div v-html="row.other[1].more.content" />
     </template>
   </pure-table>
 </template>
