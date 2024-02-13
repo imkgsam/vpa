@@ -2,25 +2,32 @@
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { /**getDeptList,*/ getDepartmentList } from "@/api/system";
+import {
+  getDepartmentList,
+  createDepartment,
+  updateDepartment,
+  toggleDepartmentStatus,
+  deleteDepartment
+} from "@/api/system";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
 import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
+import { ElMessageBox } from "element-plus";
 
 export function useDept() {
   const form = reactive({
     name: "",
     meta: {
-      enabled: false
+      enabled: null
     }
   });
 
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-  const { /**tagStyle,*/ tagStyleByBool } = usePublicHooks();
+  const { tagStyleByBool } = usePublicHooks();
 
   const columns: TableColumnList = [
     {
@@ -29,11 +36,6 @@ export function useDept() {
       // width: 180,
       align: "left"
     },
-    // {
-    //   label: "排序",
-    //   prop: "sort",
-    //   minWidth: 70
-    // },
     {
       label: "状态",
       prop: "meta.enabled",
@@ -41,24 +43,12 @@ export function useDept() {
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
-          style={tagStyleByBool.value(row.meta.enabled)}
+          style={tagStyleByBool.value(row.meta.enabled || false)}
         >
-          {row.meta.enabled ? "启用" : "停用"}
+          {row?.meta.enabled ? "启用" : "停用"}
         </el-tag>
       )
     },
-    // {
-    //   label: "创建时间",
-    //   minWidth: 200,
-    //   prop: "createTime",
-    //   formatter: ({ createTime }) =>
-    //     dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
-    // },
-    // {
-    //   label: "备注",
-    //   prop: "remark",
-    //   minWidth: 320
-    // },
     {
       label: "操作",
       fixed: "right",
@@ -109,17 +99,25 @@ export function useDept() {
     return newTreeList;
   }
 
+  async function toggleStatus(id: string, newValue: boolean) {
+    let rt = await toggleDepartmentStatus({ _id: id }, newValue);
+
+    console.log(rt);
+    await onSearch();
+  }
+
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
       title: `${title}部门`,
       props: {
         formInline: {
+          _id: row?._id,
           higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
           parent: row?.parent,
           name: row?.name ?? "",
           manager: row?.manager ?? null,
           meta: {
-            enabled: row?.meta.enabled
+            enabled: row?.meta?.enabled || null
           },
           color: row?.color ?? ""
         }
@@ -133,22 +131,39 @@ export function useDept() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          console.log(curData);
           message(`您${title}了部门名称为${curData.name}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
             console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              let rt = await createDepartment({
+                name: curData.name,
+                _id: curData._id,
+                color: curData.color,
+                meta: { enabled: curData.meta.enabled },
+                manager: curData.manager,
+                parent: curData.parent
+              });
+              console.log(rt);
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              let rt = await updateDepartment({
+                name: curData.name,
+                _id: curData._id,
+                color: curData.color,
+                meta: { enabled: curData.meta.enabled },
+                manager: curData.manager,
+                parent: curData.parent
+              });
+              console.log(rt);
               chores();
             }
           }
@@ -157,9 +172,17 @@ export function useDept() {
     });
   }
 
-  function handleDelete(row) {
-    message(`您删除了部门名称为${row.name}的这条数据`, { type: "success" });
-    onSearch();
+  function myHandleDelete(row) {
+    ElMessageBox.confirm(`请确认是否删除部门: ${row.name} `, {
+      type: "warning"
+    })
+      .then(async () => {
+        let rt = await deleteDepartment({ _id: row._id });
+        console.log(rt);
+        message(`已成功删除了部门: ${row.name} `, { type: "success" });
+        onSearch();
+      })
+      .catch(() => {});
   }
 
   onMounted(() => {
@@ -178,7 +201,9 @@ export function useDept() {
     /** 打开 新增、修改部门 的弹窗*/
     openDialog,
     /** 删除部门 */
-    handleDelete,
-    handleSelectionChange
+    myHandleDelete,
+    handleSelectionChange,
+    /** 修改部门状态 */
+    toggleStatus
   };
 }

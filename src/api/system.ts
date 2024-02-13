@@ -50,3 +50,34 @@ export const getDeptList = (data?: object) => {
 export const getDepartmentList = (data?: object) => {
   return http.request<Result>("get", baseUrlApi("department/all"), { data });
 };
+
+/** 创建新部门 */
+export const createDepartment = (data?: object) => {
+  console.log(data);
+  return http.request<Result>("post", baseUrlApi("department/"), { data });
+};
+
+/** 修改部门信息 */
+export const updateDepartment = (data?: object) => {
+  return http.request<Result>("put", baseUrlApi("department/"), { data });
+};
+
+/** 修改 部门 状态 */
+export const toggleDepartmentStatus = (data: object, newValue: boolean) => {
+  if (newValue) {
+    return http.request<Result>("post", baseUrlApi("department/enable"), {
+      data
+    });
+  } else {
+    return http.request<Result>("post", baseUrlApi("department/disable"), {
+      data
+    });
+  }
+};
+
+/**  删除部门 */
+export const deleteDepartment = (data: object) => {
+  return http.request<Result>("post", baseUrlApi("department/delete"), {
+    data
+  });
+};

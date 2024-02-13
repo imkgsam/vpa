@@ -8,6 +8,7 @@ import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import MenuLine from "@iconify-icons/ri/menu-line";
 
 defineOptions({
   name: "SystemDept"
@@ -23,7 +24,8 @@ const {
   onSearch,
   resetForm,
   openDialog,
-  handleDelete,
+  myHandleDelete,
+  toggleStatus,
   handleSelectionChange
 } = useDept();
 </script>
@@ -90,6 +92,7 @@ const {
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
+          stripe
           adaptive
           :adaptiveConfig="{ offsetBottom: 32 }"
           align-whole="center"
@@ -108,43 +111,63 @@ const {
           @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(AddFill)"
-              @click="openDialog('新增', { parentId: row.id } as any)"
-            >
-              新增
-            </el-button>
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)"
-            >
-              修改
-            </el-button>
-            <el-popconfirm
-              :persistent="true"
-              :title="`是否确认删除部门名称为${row.name}的这条数据`"
-              @confirm="handleDelete(row)"
-            >
-              <template #reference>
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
+            <el-dropdown trigger="click" class="!align-middle">
+              <el-icon>
+                <IconifyIconOffline :icon="MenuLine" />
+              </el-icon>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(AddFill)"
+                      @click="openDialog('新增', { parent: row._id } as any)"
+                    >
+                      新增
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="openDialog('修改', row)"
+                    >
+                      修改
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="info"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="toggleStatus(row._id, !row.meta.enabled)"
+                    >
+                      {{ row?.meta.enabled ? "Disable" : "Enable" }}
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Delete)"
+                      @click="myHandleDelete(row)"
+                    >
+                      删除
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
               </template>
-            </el-popconfirm>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>
