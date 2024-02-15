@@ -41,6 +41,8 @@ export const getRoleList = (data?: object) => {
   return http.request<ResultTable>("post", "/role", { data });
 };
 
+// ------------------------- 部门 ---------------------------
+
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
   return http.request<Result>("post", "/dept", { data });

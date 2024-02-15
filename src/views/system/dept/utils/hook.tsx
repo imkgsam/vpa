@@ -9,6 +9,7 @@ import {
   toggleDepartmentStatus,
   deleteDepartment
 } from "@/api/system";
+
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -33,13 +34,38 @@ export function useDept() {
     {
       label: "部门名称",
       prop: "name",
-      // width: 180,
+      width: 200,
       align: "left"
+    },
+    {
+      label: "部门颜色",
+      prop: "color",
+      width: 100,
+      // align: "left"
+      cellRenderer: ({ row }) => (
+        <div class="flex justify-center">
+          <iconify-icon-online
+            color={row.color}
+            icon="ri:checkbox-blank-circle-fill"
+          />
+        </div>
+      )
+    },
+    {
+      label: "部门主管",
+      prop: "manager",
+      width: 100,
+      // align: "left"
+      cellRenderer: ({ row, props }) => (
+        <el-tag size={props.size} type={row?.manager?._id ? "primary" : "info"}>
+          {row?.manager?._id ? row.manager.name : "无"}
+        </el-tag>
+      )
     },
     {
       label: "状态",
       prop: "meta.enabled",
-      // minWidth: 100,
+      width: 100,
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
@@ -68,7 +94,6 @@ export function useDept() {
   }
 
   async function onSearch() {
-    console.log("in onSearch function");
     loading.value = true;
     const { data } = await getDepartmentList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data;
@@ -81,7 +106,6 @@ export function useDept() {
       newData = newData.filter(item => item.meta.enabled === form.meta.enabled);
     }
     dataList.value = handleTree(newData, "_id", "parent"); // 处理成树结构
-    console.log(dataList.value);
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -92,7 +116,7 @@ export function useDept() {
     if (!treeList || !treeList.length) return;
     const newTreeList = [];
     for (let i = 0; i < treeList.length; i++) {
-      treeList[i].disabled = treeList[i].status === 0 ? true : false;
+      treeList[i].disabled = !treeList[i].meta.enabled;
       formatHigherDeptOptions(treeList[i].children);
       newTreeList.push(treeList[i]);
     }
@@ -107,19 +131,22 @@ export function useDept() {
   }
 
   function openDialog(title = "新增", row?: FormItemProps) {
+    console.log(title, row?._id);
     addDialog({
       title: `${title}部门`,
       props: {
         formInline: {
           _id: row?._id,
-          higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
+          higherDeptOptions: formatHigherDeptOptions(
+            cloneDeep(dataList.value.filter(each => each._id !== row?._id))
+          ),
           parent: row?.parent,
-          name: row?.name ?? "",
-          manager: row?.manager ?? null,
+          name: row?.name || "",
+          manager: row?.manager || { _id: null, name: null },
           meta: {
             enabled: row?.meta?.enabled || null
           },
-          color: row?.color ?? ""
+          color: row?.color || ""
         }
       },
       width: "45%",
@@ -139,31 +166,29 @@ export function useDept() {
         }
         FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
+            console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              let rt = await createDepartment({
+              await createDepartment({
                 name: curData.name,
                 _id: curData._id,
                 color: curData.color,
                 meta: { enabled: curData.meta.enabled },
-                manager: curData.manager,
+                manager: curData?.manager._id || null,
                 parent: curData.parent
               });
-              console.log(rt);
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
-              let rt = await updateDepartment({
+              await updateDepartment({
                 name: curData.name,
                 _id: curData._id,
                 color: curData.color,
                 meta: { enabled: curData.meta.enabled },
-                manager: curData.manager,
+                manager: curData?.manager._id || null,
                 parent: curData.parent
               });
-              console.log(rt);
               chores();
             }
           }

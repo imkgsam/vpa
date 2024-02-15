@@ -124,6 +124,7 @@ const {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(AddFill)"
+                      :disabled="!row?.meta.enabled"
                       @click="openDialog('新增', { parent: row._id } as any)"
                     >
                       新增
@@ -133,7 +134,7 @@ const {
                     <el-button
                       class="reset-margin"
                       link
-                      type="primary"
+                      type="warning"
                       :size="size"
                       :icon="useRenderIcon(EditPen)"
                       @click="openDialog('修改', row)"
@@ -145,19 +146,19 @@ const {
                     <el-button
                       class="reset-margin"
                       link
-                      type="info"
+                      :type="row?.meta.enabled ? 'danger' : 'success'"
                       :size="size"
                       :icon="useRenderIcon(EditPen)"
                       @click="toggleStatus(row._id, !row.meta.enabled)"
                     >
-                      {{ row?.meta.enabled ? "Disable" : "Enable" }}
+                      {{ row?.meta.enabled ? "停用" : "启用" }}
                     </el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button
                       class="reset-margin"
                       link
-                      type="primary"
+                      type="danger"
                       :size="size"
                       :icon="useRenderIcon(Delete)"
                       @click="myHandleDelete(row)"
