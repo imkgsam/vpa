@@ -52,7 +52,9 @@ export const getLogout = () => {
 
 /** 刷新token */
 export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>("post", "/refresh-token", { data });
+  return http.request<RefreshTokenResult>("post", baseUrlApi("token/refresh"), {
+    data
+  });
 };
 
 /**获取entity讯息 */

@@ -124,26 +124,26 @@ class PureHttp {
     instance.interceptors.response.use(
       (response: PureHttpResponse) => {
         console.log(
-          "in httpInterceptorsResponse 0",
+          // "in httpInterceptorsResponse 0",
           response.request.responseURL,
           response.data
         );
         const $config = response.config;
         // 关闭进度条动画
         NProgress.done();
-        console.log("in httpInterceptorsResponse 1");
+        // console.log("in httpInterceptorsResponse 1");
         // 优先判断post/get等方法是否传入回调，否则执行初始化设置等回调
         if (typeof $config.beforeResponseCallback === "function") {
-          console.log("in httpInterceptorsResponse 2");
+          // console.log("in httpInterceptorsResponse 2");
           $config.beforeResponseCallback(response);
           return response.data;
         }
         if (PureHttp.initConfig.beforeResponseCallback) {
-          console.log("in httpInterceptorsResponse 3");
+          // console.log("in httpInterceptorsResponse 3");
           PureHttp.initConfig.beforeResponseCallback(response);
           return response.data;
         }
-        console.log("in httpInterceptorsResponse 4");
+        // console.log("in httpInterceptorsResponse 4");
 
         return response.data;
       },
