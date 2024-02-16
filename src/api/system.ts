@@ -55,7 +55,6 @@ export const getDepartmentList = (data?: object) => {
 
 /** 创建新部门 */
 export const createDepartment = (data?: object) => {
-  console.log(data);
   return http.request<Result>("post", baseUrlApi("department/"), { data });
 };
 

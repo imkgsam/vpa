@@ -60,11 +60,14 @@ class PureHttp {
 
   /** 请求拦截 */
   private httpInterceptorsRequest(): void {
+    console.log("in httpInterceptorsRequest");
     PureHttp.axiosInstance.interceptors.request.use(
       async (config: PureHttpRequestConfig): Promise<any> => {
+        console.log("requesting ", config.url);
         // 开启进度条动画
         NProgress.start();
         // 优先判断post/get等方法是否传入回调，否则执行初始化设置等回调
+
         if (typeof config.beforeRequestCallback === "function") {
           config.beforeRequestCallback(config);
           return config;
@@ -74,17 +77,37 @@ class PureHttp {
           return config;
         }
         /** 请求白名单，放置一些不需要token的接口（通过设置请求白名单，防止token过期后再请求造成的死循环问题） */
-        const whiteList = ["/refresh-token", "/login"];
+        const whiteList = ["/login", "/api/token/refresh"];
         return whiteList.find(url => url === config.url)
-          ? config
+          ? // ? config
+            new Promise(resolve => {
+              if (config.url === "/api/token/refresh") {
+                const data = getToken();
+                console.log("token ", data);
+                if (data)
+                  config.headers["Authorization"] = formatToken(
+                    data.accessToken
+                  );
+              }
+              resolve(config);
+            })
           : new Promise(resolve => {
               //ace,11.18, add x-api-key to header for every request
               config.headers["X-API-KEY"] = VITE_X_API_KEY;
+              console.log("not in whitelist, adding x-api-key");
               const data = getToken();
+              console.log("token ", data);
               if (data) {
                 const now = new Date().getTime();
                 const expired = parseInt(data.expires) - now <= 0;
+                console.log(
+                  "current tiem is ",
+                  now,
+                  " token expired tiem ",
+                  expired
+                );
                 if (expired) {
+                  console.log("token expired");
                   if (!PureHttp.isRefreshing) {
                     PureHttp.isRefreshing = true;
                     // token过期刷新
@@ -102,6 +125,7 @@ class PureHttp {
                   }
                   resolve(PureHttp.retryOriginalRequest(config));
                 } else {
+                  console.log("token not expired");
                   config.headers["Authorization"] = formatToken(
                     data.accessToken
                   );
@@ -123,11 +147,6 @@ class PureHttp {
     const instance = PureHttp.axiosInstance;
     instance.interceptors.response.use(
       (response: PureHttpResponse) => {
-        console.log(
-          // "in httpInterceptorsResponse 0",
-          response.request.responseURL,
-          response.data
-        );
         const $config = response.config;
         // 关闭进度条动画
         NProgress.done();
@@ -148,6 +167,7 @@ class PureHttp {
         return response.data;
       },
       (error: PureHttpError) => {
+        console.log(error);
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画

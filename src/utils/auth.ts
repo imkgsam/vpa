@@ -35,9 +35,10 @@ export const multipleTabsKey = "multiple-tabs";
 /** 获取`token` */
 export function getToken(): DataInfo<number> {
   // 此处与`TokenKey`相同，此写法解决初始化时`Cookies`中不存在`TokenKey`报错
-  return Cookies.get(TokenKey)
+  const token = Cookies.get(TokenKey)
     ? JSON.parse(Cookies.get(TokenKey))
     : storageLocal().getItem(userKey);
+  return token;
 }
 
 /**
@@ -75,7 +76,8 @@ export function setToken(data: DataInfo<Date>) {
     storageLocal().setItem(userKey, {
       refreshToken,
       expires,
-      user
+      user,
+      accessToken
     });
   }
 

@@ -52,6 +52,7 @@ export const getLogout = () => {
 
 /** 刷新token */
 export const refreshTokenApi = (data?: object) => {
+  console.log("in refreshTokenApi");
   return http.request<RefreshTokenResult>("post", baseUrlApi("token/refresh"), {
     data
   });
