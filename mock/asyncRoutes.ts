@@ -42,6 +42,15 @@ const systemRouter = {
         title: "menus.hsDept",
         roles: ["admin"]
       }
+    },
+    {
+      path: "/system/route/index",
+      name: "SystemRoute",
+      meta: {
+        icon: "terminalWindowLine",
+        title: "menus.hsRoute",
+        roles: ["admin"]
+      }
     }
   ]
 };

@@ -45,6 +45,7 @@ menus:
   hsempty: Empty Page
   hssysManagement: System Manage
   hsUser: User Manage
+  hsRoute: Route Manage
   hsRole: Role Manage
   hsDept: Dept Manage
   hseditor: Editor

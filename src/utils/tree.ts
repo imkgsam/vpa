@@ -177,6 +177,11 @@ export const handleTree = (
   function adaptToChildrenList(o: Record<string, any>) {
     if (childrenListMap[o[config.id]] !== null) {
       o[config.childrenList] = childrenListMap[o[config.id]];
+      // delete o[config.id]
+      // delete o['parent']
+      // if (!o[config.childrenList])
+      //   delete o[config.childrenList]
+      if (o["meta"].roles && !o["meta"].roles.length) delete o["meta"].roles;
     }
     if (o[config.childrenList]) {
       for (const c of o[config.childrenList]) {

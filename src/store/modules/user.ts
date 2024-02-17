@@ -21,6 +21,7 @@ import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
 // import { toRaw } from "vue";
 import { merge } from "lodash";
+import { message } from "@/utils/message";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -161,13 +162,19 @@ export const useUserStore = defineStore({
         await getLogout();
       } catch (err) {
       } finally {
-        removeToken();
-        useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
-        resetRouter();
-        this.$reset();
-        router.push("/login");
+        this.localLogout();
       }
     },
+
+    localLogout() {
+      message("身份已过期,请重新登录", { type: "warning" });
+      removeToken();
+      useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
+      resetRouter();
+      this.$reset();
+      router.push("/login");
+    },
+
     /** 刷新`token` */
     async handRefreshToken(data) {
       console.log("in handRefreshToken ", data);

@@ -94,20 +94,11 @@ class PureHttp {
           : new Promise(resolve => {
               //ace,11.18, add x-api-key to header for every request
               config.headers["X-API-KEY"] = VITE_X_API_KEY;
-              console.log("not in whitelist, adding x-api-key");
               const data = getToken();
-              console.log("token ", data);
               if (data) {
                 const now = new Date().getTime();
                 const expired = parseInt(data.expires) - now <= 0;
-                console.log(
-                  "current tiem is ",
-                  now,
-                  " token expired tiem ",
-                  expired
-                );
                 if (expired) {
-                  console.log("token expired");
                   if (!PureHttp.isRefreshing) {
                     PureHttp.isRefreshing = true;
                     // token过期刷新
@@ -125,7 +116,6 @@ class PureHttp {
                   }
                   resolve(PureHttp.retryOriginalRequest(config));
                 } else {
-                  console.log("token not expired");
                   config.headers["Authorization"] = formatToken(
                     data.accessToken
                   );
@@ -163,11 +153,11 @@ class PureHttp {
           return response.data;
         }
         // console.log("in httpInterceptorsResponse 4");
-
         return response.data;
       },
       (error: PureHttpError) => {
-        console.log(error);
+        console.log(error.response);
+        if (error?.response.status === 401) useUserStoreHook().localLogout();
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画

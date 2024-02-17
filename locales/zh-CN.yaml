@@ -45,6 +45,7 @@ menus:
   hsempty: 无Layout页
   hssysManagement: 系统管理
   hsUser: 用户管理
+  hsRoute: 路由管理
   hsRole: 角色管理
   hsDept: 部门管理
   hseditor: 编辑器
