@@ -8,10 +8,10 @@ import { routeRank, newRouteRank } from "@/router/enums";
  * common：普通角色
  */
 
-const systemRouter = {
+const systemManagementRouter = {
   path: "/system",
   meta: {
-    icon: "setting",
+    icon: "ri:settings-3-line",
     title: "menus.hssysManagement",
     rank: routeRank.system
   },
@@ -20,7 +20,7 @@ const systemRouter = {
       path: "/system/user/index",
       name: "SystemUser",
       meta: {
-        icon: "flUser",
+        icon: "ri:admin-line",
         title: "menus.hsUser",
         roles: ["admin"]
       }
@@ -29,8 +29,17 @@ const systemRouter = {
       path: "/system/role/index",
       name: "SystemRole",
       meta: {
-        icon: "role",
+        icon: "ri:admin-fill",
         title: "menus.hsRole",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/system/menu/index",
+      name: "SystemMenu",
+      meta: {
+        icon: "ep:menu",
+        title: "menus.hsSystemMenu",
         roles: ["admin"]
       }
     },
@@ -38,7 +47,7 @@ const systemRouter = {
       path: "/system/dept/index",
       name: "SystemDept",
       meta: {
-        icon: "dept",
+        icon: "ri:git-branch-line",
         title: "menus.hsDept",
         roles: ["admin"]
       }
@@ -55,12 +64,63 @@ const systemRouter = {
   ]
 };
 
+const systemMonitorRouter = {
+  path: "/monitor",
+  meta: {
+    icon: "ep:monitor",
+    title: "menus.hssysMonitor",
+    rank: routeRank.monitor
+  },
+  children: [
+    {
+      path: "/monitor/online-user",
+      component: "monitor/online/index",
+      name: "OnlineUser",
+      meta: {
+        icon: "ri:user-voice-line",
+        title: "menus.hsOnlineUser",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/login-logs",
+      component: "monitor/logs/login/index",
+      name: "LoginLog",
+      meta: {
+        icon: "ri:window-line",
+        title: "menus.hsLoginLog",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/operation-logs",
+      component: "monitor/logs/operation/index",
+      name: "OperationLog",
+      meta: {
+        icon: "ri:history-fill",
+        title: "menus.hsOperationLog",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/system-logs",
+      component: "monitor/logs/system/index",
+      name: "SystemLog",
+      meta: {
+        icon: "ri:file-search-line",
+        title: "menus.hsSystemLog",
+        roles: ["admin"]
+      }
+    }
+  ]
+};
+
 const permissionRouter = {
   path: "/permission",
   meta: {
     title: "menus.permission",
-    icon: "lollipop",
-    rank: routeRank.permission
+    rank: routeRank.permission,
+    icon: "ep:lollipop"
   },
   children: [
     {
@@ -77,7 +137,11 @@ const permissionRouter = {
       meta: {
         title: "menus.permissionButton",
         roles: ["admin", "common"],
-        auths: ["btn_add", "btn_edit", "btn_delete"]
+        auths: [
+          "permission:btn:add",
+          "permission:btn:edit",
+          "permission:btn:delete"
+        ]
       }
     }
   ]
@@ -87,7 +151,7 @@ const permissionRouter = {
 const frameRouter = {
   path: "/iframe",
   meta: {
-    icon: "monitor",
+    icon: "ri:links-fill",
     title: "menus.hsExternalPage",
     rank: routeRank.frame
   },
@@ -191,7 +255,7 @@ const frameRouter = {
 const tabsRouter = {
   path: "/tabs",
   meta: {
-    icon: "tag",
+    icon: "ri:bookmark-2-line",
     title: "menus.hstabs",
     rank: routeRank.tabs
   },
@@ -237,7 +301,13 @@ const asyncRouter = {
     title: "menus.asyncRoutes",
     rank: newRouteRank.asyncroutes
   },
-  children: [systemRouter, permissionRouter, frameRouter, tabsRouter]
+  children: [
+    systemManagementRouter,
+    systemMonitorRouter,
+    permissionRouter,
+    frameRouter,
+    tabsRouter
+  ]
 };
 
 export default defineFakeRoute([

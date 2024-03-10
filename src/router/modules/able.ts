@@ -5,7 +5,7 @@ export default {
   path: "/able",
   redirect: "/able/watermark",
   meta: {
-    icon: "ubuntuFill",
+    icon: "ri:ubuntu-fill",
     title: $t("menus.hsAble"),
     rank: routeRank.able
   },
@@ -40,6 +40,15 @@ export default {
       component: () => import("@/views/able/excel.vue"),
       meta: {
         title: $t("menus.hsExcel")
+      }
+    },
+    {
+      path: "/components/ripple",
+      name: "Ripple",
+      component: () => import("@/views/able/ripple.vue"),
+      meta: {
+        title: $t("menus.hsRipple"),
+        extraIcon: "IF-pure-iconfont-new svg"
       }
     },
     {

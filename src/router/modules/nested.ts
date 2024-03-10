@@ -6,8 +6,8 @@ export default {
   redirect: "/nested/menu1/menu1-1",
   meta: {
     title: $t("menus.hsmenus"),
-    icon: "histogram",
-    rank: routeRank.nested
+    rank: routeRank.nested,
+    icon: "ep:histogram"
   },
   children: [
     {

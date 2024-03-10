@@ -47,7 +47,13 @@ menus:
   hsUser: User Manage
   hsRoute: Route Manage
   hsRole: Role Manage
+  hsSystemMenu: Menu Manage
   hsDept: Dept Manage
+  hssysMonitor: System Monitor
+  hsOnlineUser: Online User
+  hsLoginLog: Login Log
+  hsOperationLog: Operation Log
+  hsSystemLog: System Log
   hseditor: Editor
   hsabnormal: Abnormal Page
   hsfourZeroFour: "404"
@@ -62,6 +68,7 @@ menus:
   hsmap: Map
   hsdraggable: Draggable
   hssplitPane: Split Pane
+  hsText: Text Ellipsis
   hsElButton: Button
   hsbutton: Button Animation
   hsCheckButton: Check Button
@@ -83,6 +90,7 @@ menus:
   hsCollapse: Collapse
   hsProgress: Progress
   hsUpload: File Upload
+  hsCheckCard: CheckCard
   hsmenus: MultiLevel Menu
   hsmenu1: Menu1
   hsmenu1-1: Menu1-1
@@ -101,6 +109,7 @@ menus:
   hsMenuTree: Menu Tree
   hsVideoFrame: Video Frame Capture
   hsWavesurfer: Audio Visualization
+  hsRipple: Ripple
   hsOptimize: Debounce、Throttle、Copy、Longpress Directives
   hsWatermark: Water Mark
   hsPrint: Print

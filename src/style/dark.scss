@@ -45,6 +45,15 @@ html.dark {
     .arrow-right {
       border-left: 1px solid $border-style;
     }
+
+    .scroll-item {
+      .el-icon-close {
+        &:hover {
+          color: rgb(255 255 255 / 85%) !important;
+          background-color: rgb(255 255 255 / 12%);
+        }
+      }
+    }
   }
 
   /* 项目配置面板 */
@@ -87,15 +96,8 @@ html.dark {
     color: var(--el-color-primary);
   }
 
-  /* element-plus */
-  .el-table__cell {
-    background: var(--el-bg-color);
-  }
-
   .el-card {
     --el-card-bg-color: var(--el-bg-color);
-
-    // border: none !important;
   }
 
   .el-backtop {

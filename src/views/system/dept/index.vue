@@ -61,7 +61,7 @@ const {
       <el-form-item>
         <el-button
           type="primary"
-          :icon="useRenderIcon('search')"
+          :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
           @click="onSearch"
         >
@@ -94,7 +94,7 @@ const {
           ref="tableRef"
           stripe
           adaptive
-          :adaptiveConfig="{ offsetBottom: 32 }"
+          :adaptiveConfig="{ offsetBottom: 45 }"
           align-whole="center"
           row-key="_id"
           showOverflowTooltip
@@ -177,6 +177,14 @@ const {
 </template>
 
 <style lang="scss" scoped>
+:deep(.el-table__inner-wrapper::before) {
+  height: 0;
+}
+
+.main-content {
+  margin: 24px 24px 0 !important;
+}
+
 .search-form {
   :deep(.el-form-item) {
     margin-bottom: 12px;

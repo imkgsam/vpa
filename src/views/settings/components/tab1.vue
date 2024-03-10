@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
-import MdEditor from "md-editor-v3";
+// import MdEditor from "md-editor-v3";
 import Bar from "../../welcome/components/Bar.vue";
 import Pie from "../../welcome/components/Pie.vue";
 import Line from "../../welcome/components/Line.vue";

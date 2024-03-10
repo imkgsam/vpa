@@ -24,7 +24,8 @@ export const routeRank = {
   about: 20,
   test: 21,
   settings: 22,
-  board: 23
+  board: 23,
+  monitor: 24
 };
 
 export const newRouteRank = {

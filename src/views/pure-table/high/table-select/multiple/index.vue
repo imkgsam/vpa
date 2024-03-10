@@ -77,8 +77,8 @@ const {
           row-key="id"
           alignWhole="center"
           :header-cell-style="{
-            background: '#f5f7fa',
-            color: '#303133'
+            background: 'var(--el-fill-color-light)',
+            color: 'var(--el-text-color-primary)'
           }"
           :data="
             tableData.slice(
@@ -91,7 +91,7 @@ const {
           @selection-change="handleSelectionChange"
         />
         <el-button
-          class="absolute bottom-[17px]"
+          class="absolute bottom-[25px] left-[20px]"
           type="primary"
           size="small"
           text

@@ -6,7 +6,7 @@ export default {
   path: "/board",
   redirect: "/board/index",
   meta: {
-    icon: "artboard",
+    icon: "ri:artboard-line",
     title: $t("menus.hsboard"),
     rank: routeRank.board
   },
@@ -17,8 +17,7 @@ export default {
       component: IFrame,
       meta: {
         title: $t("menus.hsboard"),
-        frameSrc: "https://songlh.top/paint-board/",
-        extraIcon: "IF-pure-iconfont-new svg"
+        frameSrc: "https://songlh.top/paint-board/"
       }
     }
   ]

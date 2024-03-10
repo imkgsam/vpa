@@ -1,12 +1,14 @@
 import { $t } from "@/plugins/i18n";
+import { routeRank } from "@/router/enums";
 
 export default {
   path: "/error",
   redirect: "/error/403",
   meta: {
-    icon: "informationLine",
-    showLink: false,
-    title: $t("menus.hsabnormal")
+    icon: "ri:information-line",
+    // showLink: false,
+    title: $t("menus.hsabnormal"),
+    rank: routeRank.error
   },
   children: [
     {
