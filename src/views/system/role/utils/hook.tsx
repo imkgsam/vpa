@@ -155,11 +155,27 @@ export function useRole() {
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;
-
     setTimeout(() => {
       loading.value = false;
     }, 500);
   }
+
+  // async function onSearch() {
+  //   const { data } = await getDepartmentList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+  //   let newData = data;
+  //   if (!isAllEmpty(form.name)) {
+  //     // 前端搜索部门名称
+  //     newData = newData.filter(item => item.name.includes(form.name));
+  //   }
+  //   if (!isAllEmpty(form.meta.enabled)) {
+  //     // 前端搜索状态
+  //     newData = newData.filter(item => item.meta.enabled === form.meta.enabled);
+  //   }
+  //   dataList.value = handleTree(newData, "_id", "parent"); // 处理成树结构
+  //   setTimeout(() => {
+  //     loading.value = false;
+  //   }, 500);
+  // }
 
   const resetForm = formEl => {
     if (!formEl) return;

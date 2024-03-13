@@ -118,10 +118,109 @@ export default defineFakeRoute([
           createTime: 1605456000000,
           updateTime: 1684512000000,
           id: 2,
-          name: "普通角色",
+          name: "普通用户",
           code: "common",
           status: 1,
           remark: "普通角色拥有部分权限"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 3,
+          name: "供应商",
+          code: "supplier",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "供应商角色"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 4,
+          name: "高级采购员",
+          code: "senior buyer",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "高级采购员"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 5,
+          name: "初级销售员",
+          code: "junior buyer",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "初级销售员"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 6,
+          name: "采购主管",
+          code: "purchase manager",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "采购主管"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 7,
+          name: "初级销售员",
+          code: "junior seller",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "初级销售员"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 8,
+          name: "销售经理",
+          code: "seller",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "销售经理"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 9,
+          name: "销售主管",
+          code: "seller manager",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "销售主管"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 10,
+          name: "Role1",
+          code: "role1",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "role1"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 11,
+          name: "role2",
+          code: "role2",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "role2"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 12,
+          name: "Role3",
+          code: "role3",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "role3"
+        },
+        {
+          createTime: 1605456000000, // 时间戳（毫秒ms）
+          updateTime: 1684512000000,
+          id: 13,
+          name: "role4",
+          code: "role4",
+          status: 1, // 状态 1 启用 0 停用
+          remark: "role4"
         }
       ];
       list = list.filter(item => item.name.includes(body?.name));

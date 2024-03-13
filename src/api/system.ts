@@ -56,12 +56,18 @@ export const getDepartmentList = (data?: object) => {
   return http.request<Result>("get", baseUrlApi("department/all"), { data });
 };
 
-/** 创建新部门 */
+/**
+ * 创建新部门
+ * API: baseUrlApi
+ */
 export const createDepartment = (data?: object) => {
   return http.request<Result>("post", baseUrlApi("department/"), { data });
 };
 
-/** 修改部门信息 */
+/**
+ * 修改部门信息
+ * API: baseUrlApi
+ */
 export const updateDepartment = (data?: object) => {
   return http.request<Result>("put", baseUrlApi("department/"), { data });
 };

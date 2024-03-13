@@ -30,6 +30,6 @@ export const routeRank = {
 
 export const newRouteRank = {
   home: 0,
-  showcase: 1,
-  asyncroutes: 2
+  showcase: 2,
+  asyncroutes: 1
 };
