@@ -223,18 +223,30 @@ export default defineFakeRoute([
           remark: "role4"
         }
       ];
+      //filtering
       list = list.filter(item => item.name.includes(body?.name));
       list = list.filter(item =>
         String(item.status).includes(String(body?.status))
       );
       if (body.code) list = list.filter(item => item.code === body.code);
+      //limiting by page and pageSize
+      if (!body.pageSize || body.currentPage <= 0) {
+        body.pageSize = 10; // set to default page size
+      }
+      if (!body.currentPage || body.currentPage <= 0) {
+        body.currentPage = 1;
+      }
+      const rt = list.slice(
+        body.pageSize * (body.currentPage - 1),
+        body.pageSize * body.currentPage
+      );
       return {
         success: true,
         data: {
-          list,
+          list: rt,
           total: list.length, // 总条目数
-          pageSize: 10, // 每页显示条目个数
-          currentPage: 1 // 当前页数
+          pageSize: body.pageSize, // 每页显示条目个数
+          currentPage: body.currentPage // 当前页数
         }
       };
     }

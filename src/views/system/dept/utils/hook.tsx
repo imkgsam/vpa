@@ -125,7 +125,6 @@ export function useDept() {
 
   async function toggleStatus(id: string, newValue: boolean) {
     let rt = await toggleDepartmentStatus({ _id: id }, newValue);
-
     console.log(rt);
     await onSearch();
   }

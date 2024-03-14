@@ -37,7 +37,7 @@ export const getRoleIds = (data?: object) => {
 };
 
 /** 获取系统管理-角色管理列表 */
-export const getRoleList = (data?: object) => {
+export const getRoleListWithFilters = (data?: object) => {
   return http.request<ResultTable>("post", "/role", { data });
 };
 
@@ -51,23 +51,39 @@ export const getDeptList = (data?: object) => {
   return http.request<Result>("post", "/dept", { data });
 };
 
+/** 获取系统监控-在线用户列表 */
+export const getOnlineLogsList = (data?: object) => {
+  return http.request<ResultTable>("post", "/online-logs", { data });
+};
+
+/** 获取系统监控-登录日志列表 */
+export const getLoginLogsList = (data?: object) => {
+  return http.request<ResultTable>("post", "/login-logs", { data });
+};
+
+/** 获取系统监控-操作日志列表 */
+export const getOperationLogsList = (data?: object) => {
+  return http.request<ResultTable>("post", "/operation-logs", { data });
+};
+
+/** 获取系统监控-系统日志列表 */
+export const getSystemLogsList = (data?: object) => {
+  return http.request<ResultTable>("post", "/system-logs", { data });
+};
+
+// --------------------------------- api ---------------------------------------------------
+
 /** 获取部门管理列表 */
 export const getDepartmentList = (data?: object) => {
   return http.request<Result>("get", baseUrlApi("department/all"), { data });
 };
 
-/**
- * 创建新部门
- * API: baseUrlApi
- */
+/** 创建新部门 */
 export const createDepartment = (data?: object) => {
   return http.request<Result>("post", baseUrlApi("department/"), { data });
 };
 
-/**
- * 修改部门信息
- * API: baseUrlApi
- */
+/** 修改部门信息*/
 export const updateDepartment = (data?: object) => {
   return http.request<Result>("put", baseUrlApi("department/"), { data });
 };
@@ -91,22 +107,10 @@ export const deleteDepartment = (data: object) => {
     data
   });
 };
-/** 获取系统监控-在线用户列表 */
-export const getOnlineLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/online-logs", { data });
-};
 
-/** 获取系统监控-登录日志列表 */
-export const getLoginLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/login-logs", { data });
-};
-
-/** 获取系统监控-操作日志列表 */
-export const getOperationLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/operation-logs", { data });
-};
-
-/** 获取系统监控-系统日志列表 */
-export const getSystemLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/system-logs", { data });
+/** 获取系统管理-角色管理列表 */
+export const getRoleListWithFilter = (data?: object) => {
+  return http.request<ResultTable>("post", baseUrlApi("roles/filters"), {
+    data
+  });
 };

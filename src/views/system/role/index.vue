@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRole } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import MenuLine from "@iconify-icons/ri/menu-line";
 
 // import Database from "@iconify-icons/ri/database-2-line";
 // import More from "@iconify-icons/ep/more-filled";
@@ -46,7 +47,7 @@ const {
     >
       <el-form-item label="角色名称：" prop="name">
         <el-input
-          v-model="form.name"
+          v-model="form.code"
           placeholder="请输入角色名称"
           clearable
           class="!w-[180px]"
@@ -62,7 +63,7 @@ const {
       </el-form-item>
       <el-form-item label="状态：" prop="status">
         <el-select
-          v-model="form.status"
+          v-model="form.meta.enabled"
           placeholder="请选择状态"
           clearable
           class="!w-[180px]"
@@ -122,43 +123,69 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #operation="{ row }">
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)"
-            >
+            <el-dropdown trigger="click" class="!align-middle">
+              <el-icon>
+                <IconifyIconOffline :icon="MenuLine" />
+              </el-icon>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="warning"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="openDialog('修改', row)"
+                    >
+                      修改
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      :type="row?.meta.enabled ? 'danger' : 'success'"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="toggleStatus(row._id, !row.meta.enabled)"
+                    >
+                      {{ row?.meta.enabled ? "停用" : "启用" }}
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="danger"
+                      :size="size"
+                      :icon="useRenderIcon(Delete)"
+                      @click="myHandleDelete(row)"
+                    >
+                      删除
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </template>
+          <!-- <template #operation="{ row }">
+            <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(EditPen)"
+              @click="openDialog('修改', row)">
               修改
             </el-button>
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(Menu)"
-              @click="handleMenu"
-            >
+            <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Menu)"
+              @click="handleMenu">
               菜单权限
             </el-button>
-            <el-popconfirm
-              :title="`是否确认删除角色名称为${row.name}的这条数据`"
-              @confirm="handleDelete(row)"
-            >
+            <el-popconfirm :title="`是否确认删除角色名称为${row.name}的这条数据`" @confirm="handleDelete(row)">
               <template #reference>
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
+                <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Delete)">
                   删除
                 </el-button>
               </template>
             </el-popconfirm>
-          </template>
+          </template> -->
         </pure-table>
       </template>
     </PureTableBar>
