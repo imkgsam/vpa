@@ -73,44 +73,95 @@ export const getSystemLogsList = (data?: object) => {
 
 // --------------------------------- api ---------------------------------------------------
 
-/** 获取部门管理列表 */
-export const getDepartmentList = (data?: object) => {
-  return http.request<Result>("get", baseUrlApi("department/all"), { data });
-};
-
-/** 创建新部门 */
-export const createDepartment = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("department/"), { data });
-};
-
-/** 修改部门信息*/
-export const updateDepartment = (data?: object) => {
-  return http.request<Result>("put", baseUrlApi("department/"), { data });
-};
-
-/** 修改 部门 状态 */
-export const toggleDepartmentStatus = (data: object, newValue: boolean) => {
-  if (newValue) {
-    return http.request<Result>("post", baseUrlApi("department/enable"), {
-      data
-    });
-  } else {
-    return http.request<Result>("post", baseUrlApi("department/disable"), {
+export const DepartmentAPI = {
+  getList: (data?: object) => {
+    return http.request<Result>("get", baseUrlApi("department/all"), { data });
+  },
+  create: (data?: object) => {
+    return http.request<Result>("post", baseUrlApi("department/"), { data });
+  },
+  update: (data?: object) => {
+    return http.request<Result>("put", baseUrlApi("department/"), { data });
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<Result>("post", baseUrlApi("department/enable"), {
+        data
+      });
+    } else {
+      return http.request<Result>("post", baseUrlApi("department/disable"), {
+        data
+      });
+    }
+  },
+  delete: (data: object) => {
+    return http.request<Result>("post", baseUrlApi("department/delete"), {
       data
     });
   }
 };
 
-/**  删除部门 */
-export const deleteDepartment = (data: object) => {
-  return http.request<Result>("post", baseUrlApi("department/delete"), {
-    data
-  });
+export const RoleAPI = {
+  getListWithFilter: (data?: object) => {
+    return http.request<ResultTable>("post", baseUrlApi("roles/filters"), {
+      data
+    });
+  }
 };
 
-/** 获取系统管理-角色管理列表 */
-export const getRoleListWithFilter = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("roles/filters"), {
-    data
-  });
+export const CategoryAPI = {
+  getList: (data?: object) => {
+    return http.request<Result>("get", baseUrlApi("item/category/all"), {
+      data
+    });
+  },
+  create: (data?: object) => {
+    return http.request<Result>("post", baseUrlApi("item/category/"), { data });
+  },
+  update: (data?: object) => {
+    return http.request<Result>("put", baseUrlApi("item/category/"), { data });
+  },
+  delete: (data: object) => {
+    return http.request<Result>("post", baseUrlApi("item/category/delete"), {
+      data
+    });
+  }
+};
+
+export const AttributeAPI = {
+  getListWithFilter: (data?: object) => {
+    return http.request<ResultTable>(
+      "post",
+      baseUrlApi("item/attribute/filters"),
+      { data }
+    );
+  },
+  create: (data?: object) => {
+    return http.request<Result>("post", baseUrlApi("item/attribute/"), {
+      data
+    });
+  },
+  update: (data?: object) => {
+    return http.request<Result>("put", baseUrlApi("item/attribute/"), { data });
+  },
+  delete: (data: object) => {
+    return http.request<Result>("post", baseUrlApi("item/attribute/delete"), {
+      data
+    });
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<Result>("post", baseUrlApi("item/attribute/enable"), {
+        data
+      });
+    } else {
+      return http.request<Result>(
+        "post",
+        baseUrlApi("item/attribute/disable"),
+        {
+          data
+        }
+      );
+    }
+  }
 };

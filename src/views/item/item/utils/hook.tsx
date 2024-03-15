@@ -52,8 +52,8 @@ export function useRole() {
       label: "创建时间",
       minWidth: 180,
       prop: "createdAt",
-      formatter: ({ createdAt }) =>
-        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createTime }) =>
+        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",
@@ -62,6 +62,51 @@ export function useRole() {
       slot: "operation"
     }
   ];
+  // const buttonClass = computed(() => {
+  //   return [
+  //     "!h-[20px]",
+  //     "reset-margin",
+  //     "!text-gray-500",
+  //     "dark:!text-white",
+  //     "dark:hover:!text-primary"
+  //   ];
+  // });
+
+  // function onChange({ row, index }) {
+  //   ElMessageBox.confirm(
+  //     `确认要${
+  //       row.meta.enabled ? "停用" : "启用"
+  //     }<strong style='color:var(--el-color-primary)'>${
+  //       row.code
+  //     }</strong>吗?`,
+  //     "系统提示",
+  //     {
+  //       confirmButtonText: "确定",
+  //       cancelButtonText: "取消",
+  //       type: "warning",
+  //       dangerouslyUseHTMLString: true,
+  //       draggable: true,
+  //       callback: async (action, instance) => {
+  //         return new Promise((resolve, reject) => {
+  //           console.log(action, instance)
+  //           if (action === 'confirm') {
+  //             resolve(true)
+  //           } else {
+  //             reject(false)
+  //           }
+  //         })
+  //       }
+  //     }
+  //   )
+  //     // .then( async () => {
+  //     //   console.log('returning ture')
+  //     //   return true
+  //     // })
+  //     // .catch(() => {
+  //     //   console.log('returning false')
+  //     //   return false
+  //     // });
+  // }
 
   function handleDelete(row) {
     message(`您删除了角色名称为${row.code}的这条数据`, { type: "success" });

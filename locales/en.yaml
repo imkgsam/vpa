@@ -43,6 +43,10 @@ menus:
   dashboard: Dashboard
   hslogin: Login
   hsempty: Empty Page
+  hsitemManagement: Item Manage
+  hsCategory: Category Manage
+  hsAttribute: Attribute Manage
+  hsItem: Item Manage
   hssysManagement: System Manage
   hsUser: User Manage
   hsRoute: Route Manage

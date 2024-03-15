@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { RoleAPI } from "@/api/system";
+import { AttributeAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
@@ -11,12 +11,14 @@ import { reactive, ref, onMounted, h } from "vue";
 
 const { tagStyleByBool } = usePublicHooks();
 
-export function useRole() {
+export function useHook() {
   const form = reactive({
+    name: "",
     code: "",
     meta: {
       enabled: undefined
-    }
+    },
+    values: []
   });
   const formRef = ref();
   const dataList = ref([]);
@@ -31,7 +33,12 @@ export function useRole() {
   });
   const columns: TableColumnList = [
     {
-      label: "角色名称",
+      label: "属性名称",
+      prop: "name",
+      minWidth: 120
+    },
+    {
+      label: "属性代码",
       prop: "code",
       minWidth: 120
     },
@@ -52,8 +59,8 @@ export function useRole() {
       label: "创建时间",
       minWidth: 180,
       prop: "createdAt",
-      formatter: ({ createdAt }) =>
-        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createTime }) =>
+        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",
@@ -62,9 +69,58 @@ export function useRole() {
       slot: "operation"
     }
   ];
+  // const buttonClass = computed(() => {
+  //   return [
+  //     "!h-[20px]",
+  //     "reset-margin",
+  //     "!text-gray-500",
+  //     "dark:!text-white",
+  //     "dark:hover:!text-primary"
+  //   ];
+  // });
+
+  // function onChange({ row, index }) {
+  //   ElMessageBox.confirm(
+  //     `确认要${
+  //       row.meta.enabled ? "停用" : "启用"
+  //     }<strong style='color:var(--el-color-primary)'>${
+  //       row.name
+  //     }</strong>吗?`,
+  //     "系统提示",
+  //     {
+  //       confirmButtonText: "确定",
+  //       cancelButtonText: "取消",
+  //       type: "warning",
+  //       dangerouslyUseHTMLString: true,
+  //       draggable: true,
+  //       callback: async (action, instance) => {
+  //         return new Promise((resolve, reject) => {
+  //           console.log(action, instance)
+  //           if (action === 'confirm') {
+  //             resolve(true)
+  //           } else {
+  //             reject(false)
+  //           }
+  //         })
+  //       }
+  //     }
+  //   )
+  //     // .then( async () => {
+  //     //   console.log('returning ture')
+  //     //   return true
+  //     // })
+  //     // .catch(() => {
+  //     //   console.log('returning false')
+  //     //   return false
+  //     // });
+  // }
+
+  async function myHandleDelete(row) {
+    console.log(row);
+  }
 
   function handleDelete(row) {
-    message(`您删除了角色名称为${row.code}的这条数据`, { type: "success" });
+    message(`您删除了属性名称为${row.name}的这条数据`, { type: "success" });
     onSearch();
   }
 
@@ -78,6 +134,14 @@ export function useRole() {
     onSearch();
   }
 
+  async function handleAttributeValueEdit(row) {
+    console.log("attribute value edit clicked", row);
+  }
+
+  async function handleAttributeValueDelete(row) {
+    console.log("attribute value delete clicked", row);
+  }
+
   function handleSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
@@ -85,8 +149,8 @@ export function useRole() {
   async function onSearch() {
     loading.value = true;
     let filters = {};
-    if (form.code) {
-      filters["code"] = form.code;
+    if (form.name) {
+      filters["name"] = form.name;
     }
     if (form.meta.enabled !== undefined) {
       filters["meta"] = form.meta;
@@ -96,7 +160,8 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await RoleAPI.getListWithFilter(ops);
+    console.log("ops", ops);
+    const { data } = await AttributeAPI.getListWithFilter(ops);
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -112,15 +177,46 @@ export function useRole() {
     onSearch();
   };
 
+  async function toggleStatus(id: string, newValue: boolean) {
+    let rt = await AttributeAPI.toggleStatus({ id: id }, newValue);
+    console.log(rt);
+    await onSearch();
+  }
+
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}角色`,
+      title: `${title}属性`,
       props: {
         formInline: {
-          code: row?.code ?? ""
+          _id: row?._id,
+          name: row?.name ?? "",
+          code: row?.code ?? "",
+          meta: {
+            enabled: row?.meta?.enabled || null
+          },
+          values: [
+            {
+              _id: "lkjwerklj23lk4j2lk3j4",
+              code: "black",
+              name: "黑色",
+              abbr: "BLK"
+            },
+            {
+              _id: "lkjwerklj23lk4j2lk3j42",
+              code: "red",
+              name: "红色",
+              abbr: "RED"
+            },
+            {
+              _id: "lkjwerklj23lk4j2lk3j3",
+              code: "pink",
+              name: "粉色",
+              abbr: "PNK"
+            }
+          ]
         }
       },
-      width: "40%",
+      width: "45%",
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -129,21 +225,32 @@ export function useRole() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了角色名称为${curData.code}的这条数据`, {
+          message(`您${title}了属性名称为${curData.name}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
+            console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              await AttributeAPI.create({
+                name: curData.name,
+                code: curData.code,
+                meta: { enabled: curData.meta.enabled }
+              });
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              await AttributeAPI.update({
+                _id: curData._id,
+                name: curData.name,
+                code: curData.code,
+                meta: { enabled: curData.meta.enabled }
+              });
               chores();
             }
           }
@@ -176,9 +283,12 @@ export function useRole() {
     openDialog,
     handleMenu,
     handleDelete,
-    // handleDatabase,
+    myHandleDelete,
     handleSizeChange,
     handleCurrentChange,
-    handleSelectionChange
+    handleSelectionChange,
+    toggleStatus,
+    handleAttributeValueEdit,
+    handleAttributeValueDelete
   };
 }

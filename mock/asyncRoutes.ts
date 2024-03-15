@@ -64,6 +64,44 @@ const systemManagementRouter = {
   ]
 };
 
+const itemManagementRouter = {
+  path: "/item",
+  meta: {
+    icon: "ri:settings-3-line",
+    title: "menus.hsitemManagement",
+    rank: routeRank.item
+  },
+  children: [
+    {
+      path: "/item/category/index",
+      name: "itemCategory",
+      meta: {
+        icon: "ri:admin-line",
+        title: "menus.hsCategory",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/item/attribute/index",
+      name: "itemAttribute",
+      meta: {
+        icon: "ri:admin-fill",
+        title: "menus.hsAttribute",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/item/item/index",
+      name: "Items",
+      meta: {
+        icon: "ep:menu",
+        title: "menus.hsItem",
+        roles: ["admin"]
+      }
+    }
+  ]
+};
+
 const systemMonitorRouter = {
   path: "/monitor",
   meta: {
@@ -302,6 +340,7 @@ const asyncRouter = {
     rank: newRouteRank.asyncroutes
   },
   children: [
+    itemManagementRouter,
     systemManagementRouter,
     systemMonitorRouter,
     permissionRouter,

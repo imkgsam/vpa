@@ -181,7 +181,8 @@ export const handleTree = (
       // delete o['parent']
       // if (!o[config.childrenList])
       //   delete o[config.childrenList]
-      if (o["meta"].roles && !o["meta"].roles.length) delete o["meta"].roles;
+      if (o["meta"] && o["meta"].roles && !o["meta"].roles.length)
+        delete o["meta"].roles;
     }
     if (o[config.childrenList]) {
       for (const c of o[config.childrenList]) {

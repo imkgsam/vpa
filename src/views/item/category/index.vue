@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDept } from "./utils/hook";
+import { useHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
@@ -25,9 +25,8 @@ const {
   resetForm,
   openDialog,
   myHandleDelete,
-  toggleStatus,
   handleSelectionChange
-} = useDept();
+} = useHook();
 </script>
 
 <template>
@@ -39,15 +38,15 @@ const {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
-      <el-form-item label="部门名称：" prop="name">
+      <el-form-item label="类别名称:" prop="name">
         <el-input
           v-model="form.name"
-          placeholder="请输入部门名称"
+          placeholder="请输入类别名称"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="meta.enabled">
+      <!-- <el-form-item label="状态：" prop="meta.enabled">
         <el-select
           v-model="form.meta.enabled"
           placeholder="请选择状态"
@@ -57,7 +56,7 @@ const {
           <el-option label="启用" :value="true" />
           <el-option label="停用" :value="false" />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button
           type="primary"
@@ -75,7 +74,7 @@ const {
 
     <!-- table列表 -->
     <PureTableBar
-      title="部门管理"
+      title="产品类别管理"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
@@ -86,7 +85,7 @@ const {
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增部门
+          新增类别
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">
@@ -124,7 +123,6 @@ const {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(AddFill)"
-                      :disabled="!row?.meta.enabled"
                       @click="openDialog('新增', { parent: row._id } as any)"
                     >
                       新增
@@ -140,18 +138,6 @@ const {
                       @click="openDialog('修改', row)"
                     >
                       修改
-                    </el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button
-                      class="reset-margin"
-                      link
-                      :type="row?.meta.enabled ? 'danger' : 'success'"
-                      :size="size"
-                      :icon="useRenderIcon(EditPen)"
-                      @click="toggleStatus(row._id, !row.meta.enabled)"
-                    >
-                      {{ row?.meta.enabled ? "停用" : "启用" }}
                     </el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>

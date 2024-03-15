@@ -2,13 +2,7 @@
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import {
-  getDepartmentList,
-  createDepartment,
-  updateDepartment,
-  toggleDepartmentStatus,
-  deleteDepartment
-} from "@/api/system";
+import { DepartmentAPI } from "@/api/system";
 
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
@@ -95,7 +89,7 @@ export function useDept() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getDepartmentList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+    const { data } = await DepartmentAPI.getList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data;
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称
@@ -124,7 +118,7 @@ export function useDept() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await toggleDepartmentStatus({ _id: id }, newValue);
+    let rt = await DepartmentAPI.toggleStatus({ _id: id }, newValue);
     console.log(rt);
     await onSearch();
   }
@@ -169,7 +163,7 @@ export function useDept() {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              await createDepartment({
+              await DepartmentAPI.create({
                 name: curData.name,
                 _id: curData._id,
                 color: curData.color,
@@ -180,7 +174,7 @@ export function useDept() {
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
-              await updateDepartment({
+              await DepartmentAPI.update({
                 name: curData.name,
                 _id: curData._id,
                 color: curData.color,
@@ -201,7 +195,7 @@ export function useDept() {
       type: "warning"
     })
       .then(async () => {
-        let rt = await deleteDepartment({ _id: row._id });
+        let rt = await DepartmentAPI.delete({ _id: row._id });
         console.log(rt);
         message(`已成功删除了部门: ${row.name} `, { type: "success" });
         onSearch();
