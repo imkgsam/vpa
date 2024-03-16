@@ -1,10 +1,42 @@
 import { http } from "@/utils/http";
-import type { Department } from "@/store/modules/types";
+import type {
+  Department,
+  Role,
+  Attribute,
+  Category
+} from "@/store/modules/types";
 import { baseUrlApi } from "./utils";
 
 type Result = {
   success: boolean;
-  data?: Array<Department>;
+  data?: object;
+};
+
+type ListResult<T> = {
+  statusCode: string;
+  message: string;
+  data: Array<T>;
+};
+
+type OneResult<T> = {
+  statusCode: string;
+  message: string;
+  data: T;
+};
+
+type ListResultWithPage<T> = {
+  statusCode: string;
+  message: string;
+  data?: {
+    /** 列表数据 */
+    list: Array<T>;
+    /** 总条目数 */
+    total?: number;
+    /** 每页显示条目个数 */
+    pageSize?: number;
+    /** 当前页数 */
+    currentPage?: number;
+  };
 };
 
 type ResultTable = {
@@ -75,87 +107,156 @@ export const getSystemLogsList = (data?: object) => {
 
 export const DepartmentAPI = {
   getList: (data?: object) => {
-    return http.request<Result>("get", baseUrlApi("department/all"), { data });
+    return http.request<ListResult<Department>>(
+      "get",
+      baseUrlApi("department/all"),
+      { data }
+    );
   },
   create: (data?: object) => {
-    return http.request<Result>("post", baseUrlApi("department/"), { data });
+    return http.request<OneResult<Department>>(
+      "post",
+      baseUrlApi("department/"),
+      { data }
+    );
   },
   update: (data?: object) => {
-    return http.request<Result>("put", baseUrlApi("department/"), { data });
+    return http.request<OneResult<Department>>(
+      "put",
+      baseUrlApi("department/"),
+      { data }
+    );
   },
   toggleStatus: (data: object, newValue: boolean) => {
     if (newValue) {
-      return http.request<Result>("post", baseUrlApi("department/enable"), {
-        data
-      });
+      return http.request<OneResult<Department>>(
+        "post",
+        baseUrlApi("department/enable"),
+        {
+          data
+        }
+      );
     } else {
-      return http.request<Result>("post", baseUrlApi("department/disable"), {
-        data
-      });
+      return http.request<OneResult<Department>>(
+        "post",
+        baseUrlApi("department/disable"),
+        {
+          data
+        }
+      );
     }
   },
   delete: (data: object) => {
-    return http.request<Result>("post", baseUrlApi("department/delete"), {
-      data
-    });
+    return http.request<OneResult<Department>>(
+      "post",
+      baseUrlApi("department/delete"),
+      {
+        data
+      }
+    );
   }
 };
 
 export const RoleAPI = {
   getListWithFilter: (data?: object) => {
-    return http.request<ResultTable>("post", baseUrlApi("roles/filters"), {
-      data
-    });
+    return http.request<ListResultWithPage<Role>>(
+      "post",
+      baseUrlApi("roles/filters"),
+      {
+        data
+      }
+    );
   }
 };
 
 export const CategoryAPI = {
   getList: (data?: object) => {
-    return http.request<Result>("get", baseUrlApi("item/category/all"), {
-      data
-    });
+    return http.request<ListResult<Category>>(
+      "get",
+      baseUrlApi("item/category/all"),
+      {
+        data
+      }
+    );
   },
   create: (data?: object) => {
-    return http.request<Result>("post", baseUrlApi("item/category/"), { data });
+    return http.request<OneResult<Category>>(
+      "post",
+      baseUrlApi("item/category/"),
+      { data }
+    );
   },
   update: (data?: object) => {
-    return http.request<Result>("put", baseUrlApi("item/category/"), { data });
+    return http.request<OneResult<Category>>(
+      "put",
+      baseUrlApi("item/category/"),
+      { data }
+    );
   },
   delete: (data: object) => {
-    return http.request<Result>("post", baseUrlApi("item/category/delete"), {
-      data
-    });
+    return http.request<OneResult<Category>>(
+      "post",
+      baseUrlApi("item/category/delete"),
+      {
+        data
+      }
+    );
   }
 };
 
 export const AttributeAPI = {
   getListWithFilter: (data?: object) => {
-    return http.request<ResultTable>(
+    return http.request<ListResultWithPage<Attribute>>(
       "post",
       baseUrlApi("item/attribute/filters"),
       { data }
     );
   },
   create: (data?: object) => {
-    return http.request<Result>("post", baseUrlApi("item/attribute/"), {
-      data
-    });
+    return http.request<OneResult<Attribute>>(
+      "post",
+      baseUrlApi("item/attribute/"),
+      {
+        data
+      }
+    );
+  },
+  detail: (id: string) => {
+    return http.request<OneResult<Attribute>>(
+      "get",
+      baseUrlApi("item/attribute/detail"),
+      {
+        params: { id }
+      }
+    );
   },
   update: (data?: object) => {
-    return http.request<Result>("put", baseUrlApi("item/attribute/"), { data });
+    return http.request<OneResult<Attribute>>(
+      "put",
+      baseUrlApi("item/attribute/"),
+      { data }
+    );
   },
   delete: (data: object) => {
-    return http.request<Result>("post", baseUrlApi("item/attribute/delete"), {
-      data
-    });
+    return http.request<OneResult<Attribute>>(
+      "post",
+      baseUrlApi("item/attribute/delete"),
+      {
+        data
+      }
+    );
   },
   toggleStatus: (data: object, newValue: boolean) => {
     if (newValue) {
-      return http.request<Result>("post", baseUrlApi("item/attribute/enable"), {
-        data
-      });
+      return http.request<OneResult<Attribute>>(
+        "post",
+        baseUrlApi("item/attribute/enable"),
+        {
+          data
+        }
+      );
     } else {
-      return http.request<Result>(
+      return http.request<OneResult<Attribute>>(
         "post",
         baseUrlApi("item/attribute/disable"),
         {

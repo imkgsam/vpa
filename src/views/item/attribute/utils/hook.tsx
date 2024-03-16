@@ -69,51 +69,6 @@ export function useHook() {
       slot: "operation"
     }
   ];
-  // const buttonClass = computed(() => {
-  //   return [
-  //     "!h-[20px]",
-  //     "reset-margin",
-  //     "!text-gray-500",
-  //     "dark:!text-white",
-  //     "dark:hover:!text-primary"
-  //   ];
-  // });
-
-  // function onChange({ row, index }) {
-  //   ElMessageBox.confirm(
-  //     `确认要${
-  //       row.meta.enabled ? "停用" : "启用"
-  //     }<strong style='color:var(--el-color-primary)'>${
-  //       row.name
-  //     }</strong>吗?`,
-  //     "系统提示",
-  //     {
-  //       confirmButtonText: "确定",
-  //       cancelButtonText: "取消",
-  //       type: "warning",
-  //       dangerouslyUseHTMLString: true,
-  //       draggable: true,
-  //       callback: async (action, instance) => {
-  //         return new Promise((resolve, reject) => {
-  //           console.log(action, instance)
-  //           if (action === 'confirm') {
-  //             resolve(true)
-  //           } else {
-  //             reject(false)
-  //           }
-  //         })
-  //       }
-  //     }
-  //   )
-  //     // .then( async () => {
-  //     //   console.log('returning ture')
-  //     //   return true
-  //     // })
-  //     // .catch(() => {
-  //     //   console.log('returning false')
-  //     //   return false
-  //     // });
-  // }
 
   async function myHandleDelete(row) {
     console.log(row);
@@ -160,7 +115,6 @@ export function useHook() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    console.log("ops", ops);
     const { data } = await AttributeAPI.getListWithFilter(ops);
     dataList.value = data.list;
     pagination.total = data.total;
@@ -194,26 +148,7 @@ export function useHook() {
           meta: {
             enabled: row?.meta?.enabled || null
           },
-          values: [
-            {
-              _id: "lkjwerklj23lk4j2lk3j4",
-              code: "black",
-              name: "黑色",
-              abbr: "BLK"
-            },
-            {
-              _id: "lkjwerklj23lk4j2lk3j42",
-              code: "red",
-              name: "红色",
-              abbr: "RED"
-            },
-            {
-              _id: "lkjwerklj23lk4j2lk3j3",
-              code: "pink",
-              name: "粉色",
-              abbr: "PNK"
-            }
-          ]
+          values: []
         }
       },
       width: "45%",
@@ -240,6 +175,7 @@ export function useHook() {
               await AttributeAPI.create({
                 name: curData.name,
                 code: curData.code,
+                values: curData.values,
                 meta: { enabled: curData.meta.enabled }
               });
               chores();
@@ -249,6 +185,7 @@ export function useHook() {
                 _id: curData._id,
                 name: curData.name,
                 code: curData.code,
+                values: curData.values,
                 meta: { enabled: curData.meta.enabled }
               });
               chores();

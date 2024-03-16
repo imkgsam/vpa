@@ -133,12 +133,10 @@ export const useUserStore = defineStore({
     /** 获取基本entity信息 */
     async requestEntity() {
       if (!this.entity.name && this.entity._id) {
-        console.log("requesting remote");
         const entityInfo = await requestDetailedAccountInfoByEntity();
         merge(this.entity, entityInfo.data);
         merge(this.employee, entityInfo.data.employee);
       } else {
-        console.log("requesting local ");
       }
     },
     /** 修改密码 */
@@ -177,16 +175,13 @@ export const useUserStore = defineStore({
 
     /** 刷新`token` */
     async handRefreshToken(data) {
-      console.log("in handRefreshToken ", data);
       return new Promise<RefreshTokenResult>((resolve, reject) => {
         refreshTokenApi(data)
           .then(data => {
-            console.log(" refreshtokenapi return data is ", data);
             if (data) {
               setToken(data.data);
               resolve(data);
             } else {
-              console.log("data is null");
             }
           })
           .catch(error => {

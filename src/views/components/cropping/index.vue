@@ -15,7 +15,6 @@ const showPopover = ref(false);
 const cropperImg = ref<string>("");
 
 function onCropper({ base64, blob, info }) {
-  console.log(blob);
   infos.value = info;
   cropperImg.value = base64;
 }

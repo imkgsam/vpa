@@ -60,10 +60,8 @@ class PureHttp {
 
   /** 请求拦截 */
   private httpInterceptorsRequest(): void {
-    console.log("in httpInterceptorsRequest");
     PureHttp.axiosInstance.interceptors.request.use(
       async (config: PureHttpRequestConfig): Promise<any> => {
-        console.log("requesting ", config.url);
         // 开启进度条动画
         NProgress.start();
         // 优先判断post/get等方法是否传入回调，否则执行初始化设置等回调
@@ -83,7 +81,6 @@ class PureHttp {
             new Promise(resolve => {
               if (config.url === "/api/token/refresh") {
                 const data = getToken();
-                console.log("token ", data);
                 if (data)
                   config.headers["Authorization"] = formatToken(
                     data.accessToken
@@ -140,19 +137,15 @@ class PureHttp {
         const $config = response.config;
         // 关闭进度条动画
         NProgress.done();
-        // console.log("in httpInterceptorsResponse 1");
         // 优先判断post/get等方法是否传入回调，否则执行初始化设置等回调
         if (typeof $config.beforeResponseCallback === "function") {
-          // console.log("in httpInterceptorsResponse 2");
           $config.beforeResponseCallback(response);
           return response.data;
         }
         if (PureHttp.initConfig.beforeResponseCallback) {
-          // console.log("in httpInterceptorsResponse 3");
           PureHttp.initConfig.beforeResponseCallback(response);
           return response.data;
         }
-        // console.log("in httpInterceptorsResponse 4");
         return response.data;
       },
       (error: PureHttpError) => {

@@ -185,3 +185,26 @@ export type Account = {
   isRemembered?: boolean;
   loginDay?: number;
 };
+
+export type Attribute = {
+  _id: string;
+  name: string;
+  code?: string;
+  values?: Array<AttributeValue>;
+};
+
+export type AttributeValue = {
+  _id: string;
+  name: string;
+  code: string;
+  abbr: string;
+  attribute: string;
+};
+
+export type Category = {
+  _id: string;
+  name: string;
+  code: string;
+  abbr: string;
+  attribute: string;
+};

@@ -1,38 +1,85 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { formRules } from "./utils/rule";
+import { ref, reactive, onBeforeMount, toRaw } from "vue";
+import { formRules, form2Rules } from "./utils/rule";
 import { FormProps } from "./utils/types";
 import { useHook } from "./utils/hook";
+import { ElMessage } from "element-plus";
+import { AttributeAPI } from "@/api/system";
 
-const { handleAttributeValueEdit, handleAttributeValueDelete } = useHook();
+onBeforeMount(async () => {
+  console.log("in onBeforeMount of form");
+  if (newFormInline.value._id) {
+    console.log("requesting detail");
+    let data = await AttributeAPI.detail(newFormInline.value._id);
+    console.log(data.data.values);
+    newFormInline.value.values = data.data.values;
+  }
+});
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
+    _id: null,
     name: "",
     code: "",
     meta: {
       enabled: null
     },
-    values: [
-      {
-        _id: "lkjwerklj23lk4j2lk3j4",
-        code: "black",
-        name: "黑色",
-        abbr: "BLK"
-      },
-      { _id: "lkjwerklj23lk4j2lk3j42", code: "red", name: "红色", abbr: "RED" },
-      { _id: "lkjwerklj23lk4j2lk3j3", code: "pink", name: "粉色", abbr: "PNK" }
-    ]
+    values: []
   })
 });
 
+function addValue(formEl) {
+  if (!formEl) return;
+  formEl.validate(valid => {
+    if (valid) {
+      let matches = newFormInline.value.values.filter(
+        each =>
+          each.name === state.form.name ||
+          each.code === state.form.code ||
+          each.abbr === state.form.abbr
+      );
+      if (matches.length) ElMessage.error("数值已存在,请修改");
+      else {
+        newFormInline.value.values.push(JSON.parse(JSON.stringify(state.form)));
+        resetFrom();
+      }
+    } else {
+      return false;
+    }
+  });
+}
+
+function resetFrom() {
+  state.form = { ...form };
+}
+
+function handleAttributeValueDelete(row) {
+  newFormInline.value.values = newFormInline.value.values.filter(
+    each => each.name != row.name
+  );
+}
+
+function handleAttributeValueEdit(row) {
+  state.form = { ...row };
+}
+
+const form = {
+  _id: null,
+  name: "",
+  code: "",
+  abbr: "",
+  attribute: null
+};
+
 const state = reactive({
-  search: ""
+  search: "",
+  form: { ...form }
 });
 
 const ruleFormRef = ref();
 const newFormInline = ref(props.formInline);
-
+const valuesTableRef = ref();
+const addValueFromRef = ref();
 function getRef() {
   return ruleFormRef.value;
 }
@@ -76,35 +123,69 @@ defineExpose({ getRef });
       </el-col>
     </el-row>
     <el-divider />
+    <el-form
+      ref="addValueFromRef"
+      :model="state.form"
+      :rules="form2Rules"
+      label-width="82px"
+    >
+      <el-row>
+        <el-col :xs="24" :sm="12" :lg="6">
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="state.form.name" clearable placeholder="名称" />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="6">
+          <el-form-item label="代码" prop="code">
+            <el-input v-model="state.form.code" clearable placeholder="代码" />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="6">
+          <el-form-item label="缩写" prop="abbr">
+            <el-input v-model="state.form.abbr" clearable placeholder="缩写" />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="6">
+          <el-form-item>
+            <el-button
+              :type="state.form._id ? 'warning' : 'primary'"
+              @click="addValue(addValueFromRef)"
+            >
+              {{ state.form._id ? "修改" : "新增" }}
+            </el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
     <el-table
       ref="valuesTableRef"
       :data="newFormInline.values"
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column type="index" width="50" />
+      <el-table-column type="index" width="50" label="No." />
+      <el-table-column property="_id" label="Id" />
       <el-table-column property="name" label="Name" />
       <el-table-column property="abbr" label="Abbreviation" />
-      <el-table-column property="code" label="Code" width="120" />
-      <el-table-column align="right">
-        <template #header>
-          <el-input
-            v-model="state.search"
-            size="small"
-            placeholder="Type to search"
-          />
-        </template>
+      <el-table-column property="code" label="Code" />
+      <el-table-column property="attribute" label="attr" />
+      <el-table-column align="right" label="Ops">
         <template #default="scope">
-          <div class="flex">
-            <el-button size="small" @click="handleAttributeValueEdit(scope.row)"
-              >修改</el-button
+          <div class="float-right">
+            <el-button
+              size="small"
+              type="primary"
+              @click="handleAttributeValueEdit(scope.row)"
             >
+              修改
+            </el-button>
             <el-button
               size="small"
               type="danger"
               @click="handleAttributeValueDelete(scope.row)"
-              >删除</el-button
             >
+              删除
+            </el-button>
           </div>
         </template>
       </el-table-column>
