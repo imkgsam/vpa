@@ -82,7 +82,7 @@ const {
           adaptive
           :adaptiveConfig="{ offsetBottom: 45 }"
           align-whole="center"
-          row-key="id"
+          row-key="_id"
           showOverflowTooltip
           table-layout="auto"
           :loading="loading"

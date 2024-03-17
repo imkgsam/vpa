@@ -273,7 +273,7 @@ export const RouteAPI = {
   getList: (data?: object) => {
     return http.request<ListResult<Route>>(
       "get",
-      baseUrlApi("item/category/all"),
+      baseUrlApi("test/route/all"),
       {
         data
       }
