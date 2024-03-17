@@ -3,8 +3,10 @@ import type {
   Department,
   Role,
   Attribute,
-  Category
+  Category,
+  Route
 } from "@/store/modules/types";
+
 import { baseUrlApi } from "./utils";
 
 type Result = {
@@ -265,4 +267,19 @@ export const AttributeAPI = {
       );
     }
   }
+};
+
+export const RouteAPI = {
+  getList: (data?: object) => {
+    return http.request<ListResult<Route>>(
+      "get",
+      baseUrlApi("item/category/all"),
+      {
+        data
+      }
+    );
+  }
+  // export const getMenuList = (data?: object) => {
+  //   return http.request<Result>("post", "/menu", { data });
+  // };
 };

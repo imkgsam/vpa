@@ -691,7 +691,7 @@ export default defineFakeRoute([
             enterTransition: "",
             leaveTransition: "",
             activePath: "",
-            auths: "",
+            auths: ["btn_add", "btn_delete"],
             frameSrc: "",
             frameLoading: true,
             keepAlive: false,

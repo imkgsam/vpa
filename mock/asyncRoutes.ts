@@ -22,7 +22,8 @@ const systemManagementRouter = {
       meta: {
         icon: "ri:admin-line",
         title: "menus.hsUser",
-        roles: ["admin"]
+        roles: ["admin"],
+        auths: ["btn_add"]
       }
     },
     {
@@ -31,7 +32,8 @@ const systemManagementRouter = {
       meta: {
         icon: "ri:admin-fill",
         title: "menus.hsRole",
-        roles: ["admin"]
+        roles: ["admin"],
+        auths: ["btn_create"]
       }
     },
     {
@@ -49,15 +51,6 @@ const systemManagementRouter = {
       meta: {
         icon: "ri:git-branch-line",
         title: "menus.hsDept",
-        roles: ["admin"]
-      }
-    },
-    {
-      path: "/system/route/index",
-      name: "SystemRoute",
-      meta: {
-        icon: "terminalWindowLine",
-        title: "menus.hsRoute",
         roles: ["admin"]
       }
     }
