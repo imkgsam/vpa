@@ -6,6 +6,8 @@ interface AttributeValue {
   code: string;
   abbr: string;
   attribute?: string;
+  isEditing: boolean;
+  updatedAt?: Date;
 }
 
 interface FormItemProps {

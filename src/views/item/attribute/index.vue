@@ -62,15 +62,15 @@ const {
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="状态：" prop="meta.enabled">
         <el-select
           v-model="form.meta.enabled"
           placeholder="请选择状态"
           clearable
           class="!w-[180px]"
         >
-          <el-option label="已启用" value="true" />
-          <el-option label="已停用" value="false" />
+          <el-option label="已启用" :value="true" />
+          <el-option label="已停用" :value="false" />
         </el-select>
       </el-form-item>
       <el-form-item>

@@ -59,8 +59,15 @@ export function useHook() {
       label: "创建时间",
       minWidth: 180,
       prop: "createdAt",
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createdAt }) =>
+        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
+    },
+    {
+      label: "更新时间",
+      minWidth: 180,
+      prop: "updatedAt",
+      formatter: ({ updatedAt }) =>
+        dayjs(updatedAt).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",
@@ -72,11 +79,13 @@ export function useHook() {
 
   async function myHandleDelete(row) {
     console.log(row);
-  }
-
-  function handleDelete(row) {
-    message(`您删除了属性名称为${row.name}的这条数据`, { type: "success" });
-    onSearch();
+    let rt = await AttributeAPI.delete({ id: row._id });
+    if (rt && rt.statusCode === "10000") {
+      message(`您删除了属性名称为${row.name}的这条数据`, { type: "success" });
+      onSearch();
+    } else {
+      message(`${rt.message}`, { type: "error" });
+    }
   }
 
   function handleSizeChange(val: number) {
@@ -169,8 +178,16 @@ export function useHook() {
         FormRef.validate(async valid => {
           if (valid) {
             console.log(curData);
+            curData.values = curData.values.map(each => {
+              delete each.isEditing;
+              return each;
+            });
             // 表单规则校验通过
             if (title === "新增") {
+              curData.values = curData.values.map(each => {
+                delete each.attribute;
+                return each;
+              });
               // 实际开发先调用新增接口，再进行下面操作
               await AttributeAPI.create({
                 name: curData.name,
@@ -219,7 +236,6 @@ export function useHook() {
     resetForm,
     openDialog,
     handleMenu,
-    handleDelete,
     myHandleDelete,
     handleSizeChange,
     handleCurrentChange,

@@ -5,14 +5,17 @@ import { FormProps } from "./utils/types";
 import { useHook } from "./utils/hook";
 import { ElMessage } from "element-plus";
 import { AttributeAPI } from "@/api/system";
+// import { AttributeValue } from './utils/types';
+import dayjs from "dayjs";
 
 onBeforeMount(async () => {
-  console.log("in onBeforeMount of form");
   if (newFormInline.value._id) {
-    console.log("requesting detail");
     let data = await AttributeAPI.detail(newFormInline.value._id);
     console.log(data.data.values);
-    newFormInline.value.values = data.data.values;
+    newFormInline.value.values = data.data.values.map(each => {
+      each.isEditing = false;
+      return each;
+    });
   }
 });
 
@@ -28,6 +31,35 @@ const props = withDefaults(defineProps<FormProps>(), {
   })
 });
 
+const form: AttributeValue = {
+  _id: null,
+  name: "",
+  code: "",
+  abbr: "",
+  attribute: null,
+  isEditing: false
+};
+
+const editDefaultForm = {
+  name: "",
+  code: "",
+  abbr: ""
+};
+
+const state = reactive({
+  search: "",
+  form: { ...form },
+  defaultForm: { ...editDefaultForm }
+});
+
+const ruleFormRef = ref();
+const newFormInline = ref(props.formInline);
+const valuesTableRef = ref();
+const addValueFromRef = ref();
+
+function getRef() {
+  return ruleFormRef.value;
+}
 function addValue(formEl) {
   if (!formEl) return;
   formEl.validate(valid => {
@@ -60,28 +92,27 @@ function handleAttributeValueDelete(row) {
 }
 
 function handleAttributeValueEdit(row) {
-  state.form = { ...row };
+  row.isEditing = true;
+  state.defaultForm = { ...row };
 }
 
-const form = {
-  _id: null,
-  name: "",
-  code: "",
-  abbr: "",
-  attribute: null
-};
-
-const state = reactive({
-  search: "",
-  form: { ...form }
-});
-
-const ruleFormRef = ref();
-const newFormInline = ref(props.formInline);
-const valuesTableRef = ref();
-const addValueFromRef = ref();
-function getRef() {
-  return ruleFormRef.value;
+function handleAttributeValueSave(row) {
+  if (!row.name || !row.code || !row.abbr) {
+    ElMessage.error("数值不能为空");
+  }
+  let matches = newFormInline.value.values.filter(
+    each =>
+      each.name === row.name || each.code === row.code || each.abbr === row.abbr
+  );
+  if (matches.length > 1) {
+    ElMessage.error("数值不能重复");
+    row.name = state.defaultForm.name;
+    row.code = state.defaultForm.code;
+    row.abbr = state.defaultForm.abbr;
+  } else {
+    state.defaultForm = { ...editDefaultForm };
+    row.isEditing = false;
+  }
 }
 
 defineExpose({ getRef });
@@ -122,7 +153,7 @@ defineExpose({ getRef });
         />
       </el-col>
     </el-row>
-    <el-divider />
+    <el-divider content-position="left"> 属性值 </el-divider>
     <el-form
       ref="addValueFromRef"
       :model="state.form"
@@ -147,11 +178,8 @@ defineExpose({ getRef });
         </el-col>
         <el-col :xs="24" :sm="12" :lg="6">
           <el-form-item>
-            <el-button
-              :type="state.form._id ? 'warning' : 'primary'"
-              @click="addValue(addValueFromRef)"
-            >
-              {{ state.form._id ? "修改" : "新增" }}
+            <el-button type="primary" @click="addValue(addValueFromRef)">
+              新增
             </el-button>
           </el-form-item>
         </el-col>
@@ -164,20 +192,61 @@ defineExpose({ getRef });
       style="width: 100%"
     >
       <el-table-column type="index" width="50" label="No." />
-      <el-table-column property="_id" label="Id" />
-      <el-table-column property="name" label="Name" />
-      <el-table-column property="abbr" label="Abbreviation" />
-      <el-table-column property="code" label="Code" />
-      <el-table-column property="attribute" label="attr" />
+      <el-table-column property="name" label="Name">
+        <template #default="scope">
+          <el-input
+            v-if="scope.row.isEditing"
+            v-model="scope.row.name"
+            size="small"
+          />
+          <span v-else>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column property="code" label="Code">
+        <template #default="scope">
+          <el-input
+            v-if="scope.row.isEditing"
+            v-model="scope.row.code"
+            size="small"
+          />
+          <span v-else>{{ scope.row.code }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column property="abbr" label="Abbr">
+        <template #default="scope">
+          <el-input
+            v-if="scope.row.isEditing"
+            v-model="scope.row.abbr"
+            size="small"
+          />
+          <span v-else>{{ scope.row.abbr }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column property="updatedAt" label="更新时间">
+        <template #default="scope">
+          <span>{{
+            dayjs(scope.row.updatedAt).format("YYYY-MM-DD HH:mm:ss")
+          }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="right" label="Ops">
         <template #default="scope">
-          <div class="float-right">
+          <div class="flex">
             <el-button
+              v-if="!scope.row.isEditing"
               size="small"
-              type="primary"
+              type="warning"
               @click="handleAttributeValueEdit(scope.row)"
             >
               修改
+            </el-button>
+            <el-button
+              v-if="scope.row.isEditing"
+              size="small"
+              type="primary"
+              @click="handleAttributeValueSave(scope.row)"
+            >
+              保存
             </el-button>
             <el-button
               size="small"
