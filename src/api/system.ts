@@ -271,15 +271,13 @@ export const AttributeAPI = {
 
 export const RouteAPI = {
   getList: (data?: object) => {
-    return http.request<ListResult<Route>>(
-      "get",
-      baseUrlApi("test/route/all"),
-      {
-        data
-      }
-    );
+    return http.request<ListResult<Route>>("get", baseUrlApi("route/all"), {
+      data
+    });
+  },
+  create: (data?: object) => {
+    return http.request<OneResult<Route>>("post", baseUrlApi("route/"), {
+      data
+    });
   }
-  // export const getMenuList = (data?: object) => {
-  //   return http.request<Result>("post", "/menu", { data });
-  // };
 };

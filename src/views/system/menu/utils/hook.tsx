@@ -43,8 +43,7 @@ export function useMenu() {
               style: { paddingTop: "1px" }
             })}
           </span>
-          <span v-if="row.meta.title">{transformI18n(row.meta.title)}</span>
-          <span v-else>N/A</span>
+          <span>{transformI18n(row.meta.title)}</span>
         </>
       )
     },
