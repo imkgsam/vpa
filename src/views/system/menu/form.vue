@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import ReCol from "@/components/ReCol";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
@@ -16,6 +16,11 @@ import {
   showParentOptions,
   frameLoadingOptions
 } from "./utils/enums";
+
+onBeforeMount(() => {
+  console.log("in onBeforeMount");
+  console.log(props.formInline);
+});
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
@@ -85,7 +90,7 @@ defineExpose({ getRef });
             class="w-full"
             :options="newFormInline.higherOptions"
             :props="{
-              value: 'id',
+              value: '_id',
               label: 'title',
               emitPath: false,
               checkStrictly: true
@@ -95,7 +100,7 @@ defineExpose({ getRef });
             placeholder="请选择上级菜单"
           >
             <template #default="{ node, data }">
-              <span>{{ transformI18n(data.title) }}</span>
+              <span>{{ transformI18n(data.meta.title) }}</span>
               <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
             </template>
           </el-cascader>

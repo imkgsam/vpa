@@ -126,39 +126,34 @@ export function useMenu() {
     if (!treeList || !treeList.length) return;
     const newTreeList = [];
     for (let i = 0; i < treeList.length; i++) {
-      treeList[i].title = transformI18n(treeList[i].title);
+      treeList[i].title = transformI18n(treeList[i].meta.title);
       formatHigherMenuOptions(treeList[i].children);
       newTreeList.push(treeList[i]);
     }
     return newTreeList;
   }
 
+  // function formatHigherDeptOptions(treeList) {
+  //   // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
+  //   if (!treeList || !treeList.length) return;
+  //   const newTreeList = [];
+  //   for (let i = 0; i < treeList.length; i++) {
+  //     treeList[i].disabled = !treeList[i].meta.enabled;
+  //     formatHigherDeptOptions(treeList[i].children);
+  //     newTreeList.push(treeList[i]);
+  //   }
+  //   return newTreeList;
+  // }
+
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
       title: `${title}菜单`,
       props: {
         formInline: {
-          menuType: row?.menuType ?? 0,
-          higherMenuOptions: formatHigherMenuOptions(cloneDeep(dataList.value)),
-          parentId: row?.parentId ?? 0,
-          title: row?.title ?? "",
-          name: row?.name ?? "",
-          path: row?.path ?? "",
-          component: row?.component ?? "",
-          rank: row?.rank ?? 99,
-          redirect: row?.redirect ?? "",
-          icon: row?.icon ?? "",
-          extraIcon: row?.extraIcon ?? "",
-          enterTransition: row?.enterTransition ?? "",
-          leaveTransition: row?.leaveTransition ?? "",
-          activePath: row?.activePath ?? "",
-          auths: row?.auths ?? "",
-          frameSrc: row?.frameSrc ?? "",
-          frameLoading: row?.frameLoading ?? true,
-          keepAlive: row?.keepAlive ?? false,
-          hiddenTag: row?.hiddenTag ?? false,
-          showLink: row?.showLink ?? true,
-          showParent: row?.showParent ?? false
+          higherOptions: formatHigherMenuOptions(
+            cloneDeep(dataList.value.filter(each => each._id !== row?._id))
+          ),
+          ...row
         }
       },
       width: "45%",
@@ -171,7 +166,7 @@ export function useMenu() {
         const curData = options.props.formInline as FormItemProps;
         function chores() {
           message(
-            `您${title}了菜单名称为${transformI18n(curData.title)}的这条数据`,
+            `您${title}了菜单名称为${transformI18n(curData.name)}的这条数据`,
             {
               type: "success"
             }

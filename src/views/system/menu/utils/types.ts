@@ -8,7 +8,7 @@ interface FormItemProps {
   name?: string;
   component?: string;
   redirect?: string;
-  meta?: {
+  meta: {
     title: string;
     icon?: string;
     extraIcon?: string;
