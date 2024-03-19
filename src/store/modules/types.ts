@@ -235,6 +235,7 @@ export type Route = {
     dynamicLevel?: number;
     activePath?: string;
     rank?: number;
+    enabled: boolean;
   };
   parent?: Route;
   createdAt?: Date;

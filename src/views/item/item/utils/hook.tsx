@@ -141,7 +141,7 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await RoleAPI.getListWithFilter(ops);
+    const { data } = await RoleAPI.getPListWithFilter(ops);
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;

@@ -28,6 +28,7 @@ interface FormItemProps {
     dynamicLevel?: number;
     activePath?: string;
     rank?: number;
+    enabled: boolean;
   };
   parent?: string;
   createdAt?: Date;

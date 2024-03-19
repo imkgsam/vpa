@@ -1,17 +1,22 @@
 import { defineStore } from "pinia";
 import { store } from "@/store";
 // import { EntityTypeEnum, Entity } from "./types";
-import type { Department } from "./types";
+import type { Department, Role } from "./types";
 import { getAllEmployees } from "@/api/entity";
+import { RoleAPI } from "@/api/system";
 
 export const useEntityStore = defineStore({
   id: "pure-employee",
   state: () => ({
-    employees: []
+    employees: [],
+    roles: []
   }),
   actions: {
     SET_EMPLOYEES(employees: Array<Department>) {
       this.employees = employees;
+    },
+    SET_ROLES(roles: Array<Role>) {
+      this.roles = roles;
     },
 
     /** 获取所有员工 */
@@ -22,6 +27,14 @@ export const useEntityStore = defineStore({
       } else {
       }
       return this.employees;
+    },
+    async getAllRoles_public(refresh: boolean) {
+      if (refresh || this.roles.length === 0) {
+        const req = await RoleAPI.getPublicList();
+        this.SET_ROLES(req.data);
+      } else {
+      }
+      return this.roles;
     }
   }
 });

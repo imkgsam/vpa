@@ -160,10 +160,19 @@ export const DepartmentAPI = {
 };
 
 export const RoleAPI = {
-  getListWithFilter: (data?: object) => {
+  getPListWithFilter: (data?: object) => {
     return http.request<ListResultWithPage<Role>>(
       "post",
       baseUrlApi("roles/filters"),
+      {
+        data
+      }
+    );
+  },
+  getPublicList: (data?: object) => {
+    return http.request<ListResult<Role>>(
+      "get",
+      baseUrlApi("roles/all-public"),
       {
         data
       }
@@ -207,7 +216,7 @@ export const CategoryAPI = {
 };
 
 export const AttributeAPI = {
-  getListWithFilter: (data?: object) => {
+  getPListWithFilter: (data?: object) => {
     return http.request<ListResultWithPage<Attribute>>(
       "post",
       baseUrlApi("item/attribute/filters"),
@@ -279,5 +288,34 @@ export const RouteAPI = {
     return http.request<OneResult<Route>>("post", baseUrlApi("route/"), {
       data
     });
+  },
+  update: (data?: object) => {
+    return http.request<OneResult<Route>>("put", baseUrlApi("route/"), {
+      data
+    });
+  },
+  delete: (data: object) => {
+    return http.request<OneResult<Route>>("post", baseUrlApi("route/delete"), {
+      data
+    });
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Route>>(
+        "post",
+        baseUrlApi("route/enable"),
+        {
+          data
+        }
+      );
+    } else {
+      return http.request<OneResult<Route>>(
+        "post",
+        baseUrlApi("route/disable"),
+        {
+          data
+        }
+      );
+    }
   }
 };

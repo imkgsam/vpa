@@ -124,7 +124,7 @@ export function useHook() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await AttributeAPI.getListWithFilter(ops);
+    const { data } = await AttributeAPI.getPListWithFilter(ops);
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;

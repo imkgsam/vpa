@@ -50,7 +50,8 @@ const props = withDefaults(defineProps<FormProps>(), {
       hiddenTag: false,
       dynamicLevel: 0,
       activePath: "",
-      rank: undefined
+      rank: undefined,
+      enabled: false
     },
     parent: ""
   })

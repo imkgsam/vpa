@@ -118,7 +118,7 @@ export function useDept() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await DepartmentAPI.toggleStatus({ _id: id }, newValue);
+    let rt = await DepartmentAPI.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
   }
@@ -195,7 +195,7 @@ export function useDept() {
       type: "warning"
     })
       .then(async () => {
-        let rt = await DepartmentAPI.delete({ _id: row._id });
+        let rt = await DepartmentAPI.delete({ id: row._id });
         console.log(rt);
         message(`已成功删除了部门: ${row.name} `, { type: "success" });
         onSearch();

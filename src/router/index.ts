@@ -64,7 +64,7 @@ const t = [];
 /** 删除原各个路由中的rank，并添加至showcase的子路由中 */
 Object.keys(modules).forEach(key => {
   const r = cloneDeep(modules[key].default);
-  delete r.rank;
+  // delete r.rank;
   t.push(r);
 });
 showcaseRouter.children = t;

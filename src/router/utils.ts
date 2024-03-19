@@ -18,10 +18,7 @@ import {
 } from "@pureadmin/utils";
 import { getConfig } from "@/config";
 import type { menuType } from "@/layout/types";
-import {
-  buildHierarchyTree
-  // , handleTree
-} from "@/utils/tree";
+import { buildHierarchyTree, handleTree } from "@/utils/tree";
 import { userKey, type DataInfo } from "@/utils/auth";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { usePermissionStoreHook } from "@/store/modules/permission";
@@ -30,10 +27,7 @@ const IFrame = () => import("@/layout/frameView.vue");
 const modulesRoutes = import.meta.glob("/src/views/**/*.{vue,tsx}");
 
 // 动态路由
-import {
-  getAsyncRoutes
-  // , getAllAsyncRoutes
-} from "@/api/routes";
+import { getAsyncRoutes, getAllAsyncRoutes } from "@/api/routes";
 
 function handRank(routeInfo: any) {
   const { name, path, parentId, meta } = routeInfo;
@@ -47,6 +41,8 @@ function handRank(routeInfo: any) {
 
 /** 按照路由中meta下的rank等级升序来排序路由 */
 function ascending(arr: any[]) {
+  console.log("===== level 4 ----- ascending");
+  console.log("arr", arr);
   arr.forEach((v, index) => {
     // 当rank不存在时，根据顺序自动创建，首页路由永远在第一位
     if (handRank(v)) v.meta.rank = index + 2;
@@ -157,6 +153,7 @@ function addPathMatch() {
 
 /** 处理动态路由（后端返回的路由） */
 function handleAsyncRoutes(routeList) {
+  console.log("===== level 2 ----- handleAsyncRoutes");
   if (routeList.length === 0) {
     usePermissionStoreHook().handleWholeMenus(routeList);
   } else {
@@ -209,17 +206,18 @@ function initRouter() {
     }
   } else {
     return new Promise(resolve => {
-      getAsyncRoutes().then(({ data }) => {
-        handleAsyncRoutes(cloneDeep(data));
-        resolve(router);
-      });
-
-      // getAllAsyncRoutes().then(({ data }) => {
-      //   const routesTree = handleTree(data, "_id", "parent");
-      //   console.log(routesTree);
-      //   handleAsyncRoutes(cloneDeep(routesTree));
+      // getAsyncRoutes().then(({ data }) => {
+      //   handleAsyncRoutes(cloneDeep(data));
       //   resolve(router);
       // });
+
+      getAllAsyncRoutes().then(({ data }) => {
+        console.log("===== level 1 ----- getAllAsyncRoutes");
+        const routesTree = handleTree(data, "_id", "parent");
+        console.log(routesTree);
+        handleAsyncRoutes(cloneDeep(routesTree));
+        resolve(router);
+      });
     });
   }
 }
@@ -230,6 +228,8 @@ function initRouter() {
  * @returns 返回处理后的一维路由
  */
 function formatFlatteningRoutes(routesList: RouteRecordRaw[]) {
+  console.log("===== level 3 ----- formatFlatteningRoutes");
+  console.log("routesList", routesList);
   if (routesList.length === 0) return routesList;
   let hierarchyList = buildHierarchyTree(routesList);
   for (let i = 0; i < hierarchyList.length; i++) {
@@ -305,6 +305,8 @@ function handleAliveRoute({ name }: ToRouteType, mode?: string) {
 
 /** 过滤后端传来的动态路由 重新生成规范路由 */
 function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
+  console.log("===== level 3 ----- addAsyncRoutes");
+
   if (!arrRoutes || !arrRoutes.length) return;
   const modulesRoutesKeys = Object.keys(modulesRoutes);
   arrRoutes.forEach((v: RouteRecordRaw) => {

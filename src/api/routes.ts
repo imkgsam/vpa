@@ -13,5 +13,5 @@ export const getAsyncRoutes = () => {
 };
 
 export const getAllAsyncRoutes = () => {
-  return http.request<Result>("get", baseUrlApi("test/route/all"));
+  return http.request<Result>("get", baseUrlApi("route/get-async-routes"));
 };

@@ -49,6 +49,8 @@ menus:
   hsItem: Item管理
   hssysManagement: 系统管理
   hsUser: 用户管理
+  hsTabQurtyDetail: Query传参测试页
+  hsTabParamDetail: Param传参测试页
   hsRoute: 路由管理
   hsRole: 角色管理
   hsSystemMenu: 菜单管理

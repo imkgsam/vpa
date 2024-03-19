@@ -4,15 +4,18 @@ import { message } from "@/utils/message";
 import { RouteAPI } from "@/api/system";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
+import { usePublicHooks } from "../../hooks";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
 import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { ElMessageBox } from "element-plus";
 
 export function useMenu() {
   const form = reactive({
     title: ""
   });
+  const { tagStyleByBool } = usePublicHooks();
 
   const formRef = ref();
   const dataList = ref([]);
@@ -71,10 +74,16 @@ export function useMenu() {
       formatter: ({ path, component }) =>
         isAllEmpty(component) ? path : component
     },
-    {
-      label: "权限标识",
-      prop: "meta.auths"
-    },
+    // {
+    //   label: "组件权限",
+    //   prop: "meta.auths"
+    // },
+    // {
+    //   label: "页面权限",
+    //   prop: "meta.roles",
+    //   // formatter:({ meta }) =>
+    //   //   meta.roles
+    // },
     {
       label: "排序",
       prop: "meta.rank",
@@ -83,8 +92,20 @@ export function useMenu() {
     {
       label: "隐藏",
       prop: "meta.showLink",
-      formatter: ({ showLink }) => (showLink ? "否" : "是"),
       width: 100
+    },
+    {
+      label: "状态",
+      prop: "meta.enabled",
+      width: 100,
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          style={tagStyleByBool.value(row.meta.enabled || false)}
+        >
+          {row?.meta.enabled ? "启用" : "停用"}
+        </el-tag>
+      )
     },
     {
       label: "操作",
@@ -153,7 +174,35 @@ export function useMenu() {
           higherOptions: formatHigherMenuOptions(
             cloneDeep(dataList.value.filter(each => each._id !== row?._id))
           ),
-          ...row
+          menuType: 0,
+          _id: row?._id,
+          path: row?.path,
+          name: row?.name,
+          component: row?.component,
+          redirect: row?.redirect,
+          meta: {
+            title: row?.meta?.title,
+            icon: row?.meta?.icon,
+            extraIcon: row?.meta?.extraIcon,
+            showLink: row?.meta?.showLink,
+            showParent: row?.meta?.showParent,
+            roles: row?.meta?.roles,
+            auths: row?.meta?.auths,
+            keepAlive: row?.meta?.keepAlive,
+            frameSrc: row?.meta?.frameSrc,
+            frameLoading: row?.meta?.frameLoading,
+            transition: {
+              name: row?.meta?.transition?.name,
+              enterTransition: row?.meta?.transition?.enterTransition,
+              leaveTransition: row?.meta?.transition?.leaveTransition
+            },
+            hiddenTag: row?.meta?.hiddenTag,
+            dynamicLevel: row?.meta?.dynamicLevel,
+            activePath: row?.meta?.activePath,
+            rank: row?.meta?.rank,
+            enabled: row?.meta?.enabled
+          },
+          parent: row?.parent
         }
       },
       width: "45%",
@@ -174,15 +223,21 @@ export function useMenu() {
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
             console.log("curData", curData);
+            delete curData.higherOptions;
+            delete curData.menuType;
             // 表单规则校验通过
             if (title === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
+              await RouteAPI.create({
+                ...curData
+              });
               chores();
             } else {
-              // 实际开发先调用修改接口，再进行下面操作
+              await RouteAPI.update({
+                ...curData
+              });
               chores();
             }
           }
@@ -191,14 +246,30 @@ export function useMenu() {
     });
   }
 
-  function handleDelete(row) {
-    message(`您删除了菜单名称为${transformI18n(row.title)}的这条数据`, {
-      type: "success"
-    });
-    onSearch();
+  async function toggleStatus(id: string, newValue: boolean) {
+    await RouteAPI.toggleStatus({ id }, newValue);
+    await onSearch();
   }
 
-  onMounted(() => {
+  function myHandleDelete(row) {
+    console.log(row);
+    ElMessageBox.confirm(
+      `请确认是否删除菜单: ${transformI18n(row.meta.title)} `,
+      {
+        type: "warning"
+      }
+    )
+      .then(async () => {
+        await RouteAPI.delete({ id: row._id });
+        message(`已成功删除了部门: ${transformI18n(row.meta.title)} `, {
+          type: "success"
+        });
+        await onSearch();
+      })
+      .catch(() => {});
+  }
+
+  onMounted(async () => {
     onSearch();
   });
 
@@ -214,7 +285,8 @@ export function useMenu() {
     /** 新增、修改菜单 */
     openDialog,
     /** 删除菜单 */
-    handleDelete,
-    handleSelectionChange
+    myHandleDelete,
+    handleSelectionChange,
+    toggleStatus
   };
 }

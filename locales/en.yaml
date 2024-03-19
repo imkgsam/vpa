@@ -49,6 +49,8 @@ menus:
   hsItem: Item Manage
   hssysManagement: System Manage
   hsUser: User Manage
+  hsTabQurtyDetail: Tab Query Detail
+  hsTabParamDetail: Tab Param Detail 
   hsRoute: Route Manage
   hsRole: Role Manage
   hsSystemMenu: Menu Manage
