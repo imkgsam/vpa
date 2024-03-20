@@ -8,6 +8,7 @@ import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
+import { ElMessageBox } from "element-plus";
 
 const { tagStyleByBool } = usePublicHooks();
 
@@ -63,9 +64,17 @@ export function useRole() {
     }
   ];
 
-  function handleDelete(row) {
-    message(`您删除了角色名称为${row.code}的这条数据`, { type: "success" });
-    onSearch();
+  function myHandleDelete(row) {
+    ElMessageBox.confirm(`请确认是否删除角色: ${row.name} `, {
+      type: "warning"
+    })
+      .then(async () => {
+        let rt = await RoleAPI.delete({ id: row._id });
+        console.log(rt);
+        message(`已成功删除了角色: ${row.name} `, { type: "success" });
+        onSearch();
+      })
+      .catch(() => {});
   }
 
   function handleSizeChange(val: number) {
@@ -152,9 +161,10 @@ export function useRole() {
     });
   }
 
-  /** 菜单权限 */
-  function handleMenu() {
-    message("等菜单管理页面开发后完善");
+  async function toggleStatus(id: string, newValue: boolean) {
+    let rt = await RoleAPI.toggleStatus({ id: id }, newValue);
+    console.log(rt);
+    await onSearch();
   }
 
   /** 数据权限 可自行开发 */
@@ -174,11 +184,11 @@ export function useRole() {
     onSearch,
     resetForm,
     openDialog,
-    handleMenu,
-    handleDelete,
     // handleDatabase,
     handleSizeChange,
     handleCurrentChange,
-    handleSelectionChange
+    handleSelectionChange,
+    toggleStatus,
+    myHandleDelete
   };
 }

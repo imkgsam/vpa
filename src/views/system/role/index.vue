@@ -28,12 +28,12 @@ const {
   onSearch,
   resetForm,
   openDialog,
-  handleMenu,
-  handleDelete,
   // handleDatabase,
   handleSizeChange,
   handleCurrentChange,
-  handleSelectionChange
+  handleSelectionChange,
+  toggleStatus,
+  myHandleDelete
 } = useRole();
 </script>
 

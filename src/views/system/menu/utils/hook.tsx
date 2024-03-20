@@ -137,7 +137,6 @@ export function useMenu() {
       );
     }
     dataList.value = handleTree(newData, "_id", "parent"); // 处理成树结构
-    console.log(dataList.value);
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -270,7 +269,7 @@ export function useMenu() {
   }
 
   onMounted(async () => {
-    onSearch();
+    await onSearch();
   });
 
   return {

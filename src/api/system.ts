@@ -160,6 +160,11 @@ export const DepartmentAPI = {
 };
 
 export const RoleAPI = {
+  delete: (data: object) => {
+    return http.request<OneResult<Role>>("post", baseUrlApi("roles/delete"), {
+      data
+    });
+  },
   getPListWithFilter: (data?: object) => {
     return http.request<ListResultWithPage<Role>>(
       "post",
@@ -177,6 +182,21 @@ export const RoleAPI = {
         data
       }
     );
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Role>>("post", baseUrlApi("roles/enable"), {
+        data
+      });
+    } else {
+      return http.request<OneResult<Role>>(
+        "post",
+        baseUrlApi("roles/disable"),
+        {
+          data
+        }
+      );
+    }
   }
 };
 
