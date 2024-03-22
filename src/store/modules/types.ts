@@ -241,3 +241,8 @@ export type Route = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type RouteAuth = {
+  _id?: string;
+  name: string;
+};

@@ -4,7 +4,8 @@ import type {
   Role,
   Attribute,
   Category,
-  Route
+  Route,
+  RouteAuth
 } from "@/store/modules/types";
 
 import { baseUrlApi } from "./utils";
@@ -299,43 +300,61 @@ export const AttributeAPI = {
 };
 
 export const RouteAPI = {
-  getList: (data?: object) => {
-    return http.request<ListResult<Route>>("get", baseUrlApi("route/all"), {
-      data
-    });
-  },
-  create: (data?: object) => {
-    return http.request<OneResult<Route>>("post", baseUrlApi("route/"), {
-      data
-    });
-  },
-  update: (data?: object) => {
-    return http.request<OneResult<Route>>("put", baseUrlApi("route/"), {
-      data
-    });
-  },
-  delete: (data: object) => {
-    return http.request<OneResult<Route>>("post", baseUrlApi("route/delete"), {
-      data
-    });
-  },
-  toggleStatus: (data: object, newValue: boolean) => {
-    if (newValue) {
+  Route: {
+    getList: (data?: object) => {
+      return http.request<ListResult<Route>>("get", baseUrlApi("route/all"), {
+        data
+      });
+    },
+    create: (data?: object) => {
+      return http.request<OneResult<Route>>("post", baseUrlApi("route/"), {
+        data
+      });
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<Route>>("put", baseUrlApi("route/"), {
+        data
+      });
+    },
+    delete: (data: object) => {
       return http.request<OneResult<Route>>(
         "post",
-        baseUrlApi("route/enable"),
+        baseUrlApi("route/delete"),
         {
           data
         }
       );
-    } else {
-      return http.request<OneResult<Route>>(
-        "post",
-        baseUrlApi("route/disable"),
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<Route>>(
+          "post",
+          baseUrlApi("route/enable"),
+          {
+            data
+          }
+        );
+      } else {
+        return http.request<OneResult<Route>>(
+          "post",
+          baseUrlApi("route/disable"),
+          {
+            data
+          }
+        );
+      }
+    }
+  },
+  RouteAuth: {
+    getList: (data?: object) => {
+      return http.request<ListResult<RouteAuth>>(
+        "get",
+        baseUrlApi("route/auth/all"),
         {
           data
         }
       );
     }
-  }
+  },
+  RouteAccess: {}
 };
