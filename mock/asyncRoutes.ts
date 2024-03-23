@@ -53,6 +53,17 @@ const systemManagementRouter = {
         title: "menus.hsDept",
         roles: ["admin"]
       }
+    },
+    {
+      path: "/system/routeAccessControl/index",
+      name: "SystemAccessControl",
+      meta: {
+        icon: "ri:git-branch-line",
+        title: "menus.hsAccessControl",
+        roles: ["admin"]
+        // hiddenTag:true,
+        // showLink: false
+      }
     }
   ]
 };

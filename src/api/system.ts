@@ -5,7 +5,9 @@ import type {
   Attribute,
   Category,
   Route,
-  RouteAuth
+  RouteAuth,
+  User,
+  RouteAccess
 } from "@/store/modules/types";
 
 import { baseUrlApi } from "./utils";
@@ -356,5 +358,68 @@ export const RouteAPI = {
       );
     }
   },
-  RouteAccess: {}
+  RouteAccess: {
+    getPListWithFilter: (data?: object) => {
+      return http.request<ListResultWithPage<RouteAccess>>(
+        "post",
+        baseUrlApi("route/access/paged-filters"),
+        { data }
+      );
+    },
+    create: (data?: object) => {
+      return http.request<OneResult<RouteAccess>>(
+        "post",
+        baseUrlApi("route/access"),
+        {
+          data
+        }
+      );
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<RouteAccess>>(
+        "put",
+        baseUrlApi("route/access"),
+        {
+          data
+        }
+      );
+    },
+    delete: (data: object) => {
+      return http.request<OneResult<RouteAccess>>(
+        "post",
+        baseUrlApi("route/access/delete"),
+        {
+          data
+        }
+      );
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<RouteAccess>>(
+          "post",
+          baseUrlApi("route/access/enable"),
+          {
+            data
+          }
+        );
+      } else {
+        return http.request<OneResult<RouteAccess>>(
+          "post",
+          baseUrlApi("route/access/disable"),
+          {
+            data
+          }
+        );
+      }
+    }
+  }
+};
+
+export const UserAPI = {
+  getList: () => {
+    return http.request<ListResult<User>>(
+      "get",
+      baseUrlApi("users/get-user-list")
+    );
+  }
 };

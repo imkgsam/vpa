@@ -55,6 +55,7 @@ menus:
   hsRole: Role Manage
   hsSystemMenu: Menu Manage
   hsDept: Dept Manage
+  hsAccessControl: Access Control
   hssysMonitor: System Monitor
   hsOnlineUser: Online User
   hsLoginLog: Login Log

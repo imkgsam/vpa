@@ -24,7 +24,6 @@ export const useEntityStore = defineStore({
       if (refresh || this.employees.length === 0) {
         const req = await getAllEmployees();
         this.SET_EMPLOYEES(req.data);
-      } else {
       }
       return this.employees;
     },
@@ -32,7 +31,6 @@ export const useEntityStore = defineStore({
       if (refresh || this.roles.length === 0) {
         const req = await RoleAPI.getPublicList();
         this.SET_ROLES(req.data);
-      } else {
       }
       return this.roles;
     }

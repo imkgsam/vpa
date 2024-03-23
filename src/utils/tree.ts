@@ -140,7 +140,6 @@ export const handleTree = (
   parentId?: string,
   children?: string
 ): any => {
-  console.log("===== level 2 ----- handleTree");
   if (!Array.isArray(data)) {
     console.warn("data must be an array");
     return [];

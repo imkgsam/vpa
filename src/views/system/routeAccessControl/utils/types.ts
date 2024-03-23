@@ -1,45 +1,24 @@
-interface RouteAuth {
-  _id?: string;
-  name: string;
-}
+import type { User, Route, Role, RouteAuth } from "@/store/modules/types";
 
 interface FormItemProps {
-  /** 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）*/
-  menuType: number;
-  higherOptions: Record<string, unknown>[];
-  authsOptions?: Array<RouteAuth>;
+  userList: User[];
+  roleList: Role[];
+  routeTree: Route[];
+
+  auths_options: RouteAuth[];
 
   _id?: string;
-  path: string;
-  name?: string;
-  component?: string;
-  redirect?: string;
-  meta: {
-    title: string;
-    icon?: string;
-    extraIcon?: string;
-    showLink?: boolean;
-    showParent?: boolean;
-    roles?: Array<string>;
-    auths?: Array<string>;
-    auths_options?: Array<string>;
-    keepAlive?: boolean;
-    frameSrc?: string;
-    frameLoading?: boolean;
-    transition?: {
-      name?: string;
-      enterTransition?: string;
-      leaveTransition?: string;
-    };
-    hiddenTag?: boolean;
-    dynamicLevel?: number;
-    activePath?: string;
-    rank?: number;
+  /** 角色名称 */
+  user?: string;
+  /** 角色编号 */
+  role?: string;
+  /** 备注 */
+  route: string;
+  // 按钮权限选择
+  auths: string[];
+  meta?: {
     enabled: boolean;
   };
-  parent?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 interface FormProps {
   formInline: FormItemProps;

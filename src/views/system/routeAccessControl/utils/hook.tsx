@@ -1,99 +1,67 @@
+import dayjs from "dayjs";
 import editForm from "../form.vue";
-import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { RouteAPI } from "@/api/system";
-import { transformI18n } from "@/plugins/i18n";
-import { addDialog } from "@/components/ReDialog";
+import { RouteAPI, UserAPI } from "@/api/system";
+// import { ElMessageBox } from "element-plus";
 import { usePublicHooks } from "../../hooks";
-import { reactive, ref, onMounted, h } from "vue";
+import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
-import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import type { PaginationProps } from "@pureadmin/table";
+import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
+import { useEntityStoreHook } from "@/store/modules/entity";
+import { cloneDeep } from "@pureadmin/utils";
+import { transformI18n } from "@/plugins/i18n";
+import { handleTree } from "@/utils/tree";
 
-export function useMenu() {
+const { tagStyleByBool } = usePublicHooks();
+
+export function useHook() {
   const form = reactive({
-    title: ""
+    user: null,
+    role: null,
+    route: null,
+    meta: {
+      enabled: undefined
+    }
   });
-  const { tagStyleByBool } = usePublicHooks();
-
   const formRef = ref();
   const dataList = ref([]);
-  const dataList_routeAuth = ref([]);
   const loading = ref(true);
 
-  // const getMenuType = (type, text = false) => {
-  //   switch (type) {
-  //     case 0:
-  //       return text ? "菜单" : "primary";
-  //     case 1:
-  //       return text ? "iframe" : "warning";
-  //     case 2:
-  //       return text ? "外链" : "danger";
-  //     case 3:
-  //       return text ? "按钮" : "info";
-  //   }
-  // };
+  const userList = ref([]);
+  const roleList = ref([]);
+  const routeList = ref([]);
+  const authList = ref([]);
 
+  // const switchLoadMap = ref({});
+  // const { switchStyle } = usePublicHooks();
+  const pagination = reactive<PaginationProps>({
+    total: 0,
+    pageSize: 10,
+    currentPage: 1,
+    background: true
+  });
   const columns: TableColumnList = [
     {
-      label: "菜单名称",
-      prop: "meta.title",
-      align: "left",
-      cellRenderer: ({ row }) => (
-        <>
-          <span class="inline-block mr-1">
-            {h(useRenderIcon(row.meta.icon), {
-              style: { paddingTop: "1px" }
-            })}
-          </span>
-          <span>{transformI18n(row.meta.title)}</span>
-        </>
-      )
-    },
-    // {
-    //   label: "菜单类型",
-    //   prop: "menuType",
-    //   width: 100,
-    //   cellRenderer: ({ row, props }) => (
-    //     <el-tag
-    //       size={props.size}
-    //       type={getMenuType(row.menuType)}
-    //       effect="plain"
-    //     >
-    //       {getMenuType(row.menuType, true)}
-    //     </el-tag>
-    //   )
-    // },
-    {
-      label: "路由路径",
-      prop: "path"
+      label: "用户",
+      prop: "user",
+      formatter: ({ user }) => (user ? user.email : "-")
     },
     {
-      label: "组件路径",
-      prop: "component",
-      formatter: ({ path, component }) =>
-        isAllEmpty(component) ? path : component
-    },
-    // {
-    //   label: "组件权限",
-    //   prop: "meta.auths"
-    // },
-    // {
-    //   label: "页面权限",
-    //   prop: "meta.roles",
-    //   // formatter:({ meta }) =>
-    //   //   meta.roles
-    // },
-    {
-      label: "排序",
-      prop: "meta.rank",
-      width: 100
+      label: "角色",
+      prop: "role",
+      formatter: ({ role }) => (role ? role.code : "-")
     },
     {
-      label: "隐藏",
-      prop: "meta.showLink",
-      width: 100
+      label: "路由",
+      prop: "route.title"
+    },
+    {
+      label: "Auth",
+      prop: "auths",
+      formatter: ({ auths }) =>
+        auths.length > 0 ? auths.map(each => each.name) : "-"
     },
     {
       label: "状态",
@@ -109,111 +77,128 @@ export function useMenu() {
       )
     },
     {
+      label: "创建时间",
+      minWidth: 120,
+      prop: "createdAt",
+      formatter: ({ createdAt }) =>
+        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
+    },
+    {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 100,
       slot: "operation"
     }
   ];
+
+  function myHandleDelete(row) {
+    ElMessageBox.confirm(`请确认是否删除: ${row.name} `, {
+      type: "warning"
+    })
+      .then(async () => {
+        let rt = await RouteAPI.RouteAccess.delete({ id: row._id });
+        console.log(rt);
+        message(`已成功删除了一条权限`, { type: "success" });
+        onSearch();
+      })
+      .catch(() => {});
+  }
+
+  function handleSizeChange(val: number) {
+    console.log(`${val} items per page`);
+    onSearch();
+  }
+
+  function handleCurrentChange(val: number) {
+    console.log(`current page: ${val}`);
+    onSearch();
+  }
 
   function handleSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
 
-  function resetForm(formEl) {
-    if (!formEl) return;
-    formEl.resetFields();
-    onSearch();
-  }
+  async function requestAllOptions() {
+    const [rt, rt1, rt2] = await Promise.all([
+      UserAPI.getList(),
+      RouteAPI.Route.getList(),
+      RouteAPI.RouteAuth.getList()
+    ]);
+    if (rt && rt.data) userList.value = rt.data;
 
-  async function updateAuthsOptions() {
-    const req = await RouteAPI.RouteAuth.getList();
-    dataList_routeAuth.value = req.data;
+    if (rt1 && rt1.data) {
+      let newData = rt1.data.filter(item => transformI18n(item.meta.title));
+      newData = newData.map(each => {
+        each.title = transformI18n(each.meta.title);
+        return each;
+      });
+      routeList.value = handleTree(newData, "_id", "parent");
+    }
+
+    if (rt2 && rt2.data) authList.value = rt2.data;
   }
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await RouteAPI.Route.getList(); // getMenuList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
-    console.log(data);
-    let newData = data;
-    if (!isAllEmpty(form.title)) {
-      // 前端搜索菜单名称
-      newData = newData.filter(item =>
-        transformI18n(item.meta.title).includes(form.title)
-      );
+    let filters = {};
+    if (form.user) {
+      filters["user"] = form.user;
     }
-    dataList.value = handleTree(newData, "_id", "parent"); // 处理成树结构
+    if (form.role) {
+      filters["role"] = form.role;
+    }
+    if (form.route) {
+      filters["route"] = form.route;
+    }
+    if (form.meta.enabled !== undefined) {
+      filters["meta"] = form.meta;
+    }
+    const ops = {
+      filters,
+      currentPage: pagination.currentPage,
+      pageSize: pagination.pageSize
+    };
+    const { data } = await RouteAPI.RouteAccess.getPListWithFilter(ops);
+    dataList.value = data.list.map(each => {
+      each.route.title = transformI18n(each.route.meta.title);
+      return each;
+    });
+    pagination.total = data.total;
+    pagination.pageSize = data.pageSize;
+    pagination.currentPage = data.currentPage;
     setTimeout(() => {
       loading.value = false;
     }, 500);
   }
 
-  function formatHigherMenuOptions(treeList) {
-    if (!treeList || !treeList.length) return;
-    const newTreeList = [];
-    for (let i = 0; i < treeList.length; i++) {
-      treeList[i].title = transformI18n(treeList[i].meta.title);
-      formatHigherMenuOptions(treeList[i].children);
-      newTreeList.push(treeList[i]);
-    }
-    return newTreeList;
-  }
+  const resetForm = formEl => {
+    if (!formEl) return;
+    formEl.resetFields();
+    onSearch();
+  };
 
-  // function formatHigherDeptOptions(treeList) {
-  //   // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
-  //   if (!treeList || !treeList.length) return;
-  //   const newTreeList = [];
-  //   for (let i = 0; i < treeList.length; i++) {
-  //     treeList[i].disabled = !treeList[i].meta.enabled;
-  //     formatHigherDeptOptions(treeList[i].children);
-  //     newTreeList.push(treeList[i]);
-  //   }
-  //   return newTreeList;
-  // }
-
-  function openDialog(title = "新增", row?: FormItemProps) {
+  function openDialog(title = "新增", row?) {
     addDialog({
-      title: `${title}菜单`,
+      title: `${title}`,
       props: {
         formInline: {
-          higherOptions: formatHigherMenuOptions(
-            cloneDeep(dataList.value.filter(each => each._id !== row?._id))
-          ),
-          authsOptions: cloneDeep(dataList_routeAuth.value),
+          roleList: cloneDeep(roleList.value),
+          userList: cloneDeep(userList.value),
+          routeTree: cloneDeep(routeList.value),
 
-          menuType: 0,
-          _id: row?._id,
-          path: row?.path,
-          name: row?.name,
-          component: row?.component,
-          redirect: row?.redirect,
+          auths_options: cloneDeep(row?.route?.meta?.auths_options),
+
+          _id: row?._id ?? null,
+          user: row?.user?._id ?? null,
+          role: row?.role?._id ?? null,
+          route: row?.route?._id ?? null,
+          auths: row?.auths.length ? row?.auths.map(each => each._id) : [],
           meta: {
-            title: row?.meta?.title,
-            icon: row?.meta?.icon,
-            extraIcon: row?.meta?.extraIcon,
-            showLink: row?.meta?.showLink,
-            showParent: row?.meta?.showParent,
-            roles: row?.meta?.roles,
-            auths: row?.meta?.auths,
-            auths_options: row?.meta?.auths_options || [],
-            keepAlive: row?.meta?.keepAlive,
-            frameSrc: row?.meta?.frameSrc,
-            frameLoading: row?.meta?.frameLoading,
-            transition: {
-              name: row?.meta?.transition?.name,
-              enterTransition: row?.meta?.transition?.enterTransition,
-              leaveTransition: row?.meta?.transition?.leaveTransition
-            },
-            hiddenTag: row?.meta?.hiddenTag,
-            dynamicLevel: row?.meta?.dynamicLevel,
-            activePath: row?.meta?.activePath,
-            rank: row?.meta?.rank,
-            enabled: row?.meta?.enabled
-          },
-          parent: row?.parent
+            enabled: row?.meta?.enabled || false
+          }
         }
       },
-      width: "45%",
+      width: "40%",
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -222,30 +207,27 @@ export function useMenu() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(
-            `您${title}了菜单名称为${transformI18n(curData.name)}的这条数据`,
-            {
-              type: "success"
-            }
-          );
+          message(`您${title}了一条数据`, {
+            type: "success"
+          });
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
-          updateAuthsOptions(); // 刷新auth选项
         }
         FormRef.validate(async valid => {
           if (valid) {
-            delete curData.higherOptions;
-            delete curData.menuType;
-            delete curData.authsOptions;
+            delete curData.userList;
+            delete curData.roleList;
+            delete curData.routeTree;
+            delete curData.auths_options;
             console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
-              await RouteAPI.Route.create({
+              await RouteAPI.RouteAccess.create({
                 ...curData
               });
               chores();
             } else {
-              await RouteAPI.Route.update({
+              await RouteAPI.RouteAccess.update({
                 ...curData
               });
               chores();
@@ -257,46 +239,41 @@ export function useMenu() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    await RouteAPI.Route.toggleStatus({ id }, newValue);
+    let rt = await RouteAPI.RouteAccess.toggleStatus({ id: id }, newValue);
+    console.log(rt);
     await onSearch();
   }
 
-  function myHandleDelete(row) {
-    console.log(row);
-    ElMessageBox.confirm(
-      `请确认是否删除菜单: ${transformI18n(row.meta.title)} `,
-      {
-        type: "warning"
-      }
-    )
-      .then(async () => {
-        await RouteAPI.Route.delete({ id: row._id });
-        message(`已成功删除了部门: ${transformI18n(row.meta.title)} `, {
-          type: "success"
-        });
-        await onSearch();
-      })
-      .catch(() => {});
-  }
+  /** 数据权限 可自行开发 */
+  // function handleDatabase() {}
 
   onMounted(async () => {
-    await Promise.all([onSearch(), updateAuthsOptions()]);
+    console.log(" in onmounted");
+    onSearch();
+    requestAllOptions();
+    roleList.value = await useEntityStoreHook().getAllRoles_public(false);
+    console.log(roleList);
   });
 
   return {
+    userList,
+    roleList,
+    routeList,
+
     form,
     loading,
     columns,
     dataList,
-    /** 搜索 */
+    pagination,
+    // buttonClass,
     onSearch,
-    /** 重置 */
     resetForm,
-    /** 新增、修改菜单 */
     openDialog,
-    /** 删除菜单 */
-    myHandleDelete,
+    // handleDatabase,
+    handleSizeChange,
+    handleCurrentChange,
     handleSelectionChange,
-    toggleStatus
+    toggleStatus,
+    myHandleDelete
   };
 }

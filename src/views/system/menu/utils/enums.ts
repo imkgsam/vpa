@@ -71,6 +71,19 @@ const showParentOptions: Array<OptionsType> = [
   }
 ];
 
+const enabledOptions: Array<OptionsType> = [
+  {
+    label: "启用",
+    tip: "启用",
+    value: true
+  },
+  {
+    label: "停用",
+    tip: "停用",
+    value: false
+  }
+];
+
 const frameLoadingOptions: Array<OptionsType> = [
   {
     label: "开启",
@@ -90,5 +103,6 @@ export {
   keepAliveOptions,
   hiddenTagOptions,
   showParentOptions,
-  frameLoadingOptions
+  frameLoadingOptions,
+  enabledOptions
 };

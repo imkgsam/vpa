@@ -66,8 +66,8 @@ export type Department = {
 };
 
 export type Role = {
-  _id: string;
-  code: string;
+  _id?: string;
+  code?: string;
 };
 
 export type Entity = {
@@ -160,9 +160,10 @@ export type Employee = {
 };
 
 export type User = {
-  accountName: string;
-  email: string;
-  roles: string[];
+  _id?: string;
+  accountName?: string;
+  email?: string;
+  roles?: string[];
   entity?: string;
 };
 
@@ -211,10 +212,12 @@ export type Category = {
 
 export type Route = {
   _id?: string;
-  path: string;
+  path?: string;
   name?: string;
   component?: string;
   redirect?: string;
+  //将meta.title 翻译成中文
+  title?: string;
   meta?: {
     title: string;
     icon?: string;
@@ -223,6 +226,7 @@ export type Route = {
     showParent?: boolean;
     roles?: Array<string>;
     auths?: Array<string>;
+    auths_options?: Array<string>;
     keepAlive?: boolean;
     frameSrc?: string;
     frameLoading?: boolean;
@@ -245,4 +249,17 @@ export type Route = {
 export type RouteAuth = {
   _id?: string;
   name: string;
+};
+
+export type RouteAccess = {
+  _id?: string;
+  user?: User;
+  role?: Role;
+  route?: Route;
+  auths: Array<RouteAuth>;
+  meta?: {
+    enabled: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
 };

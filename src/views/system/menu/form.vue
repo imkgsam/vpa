@@ -14,7 +14,8 @@ import {
   keepAliveOptions,
   hiddenTagOptions,
   showParentOptions,
-  frameLoadingOptions
+  frameLoadingOptions,
+  enabledOptions
 } from "./utils/enums";
 
 onBeforeMount(() => {
@@ -312,7 +313,6 @@ defineExpose({ getRef });
           />
         </el-form-item>
       </re-col>
-
       <re-col
         v-show="newFormInline.menuType !== 3"
         :value="12"
@@ -333,7 +333,7 @@ defineExpose({ getRef });
       </re-col>
       <re-col
         v-show="newFormInline.menuType !== 3"
-        :value="8"
+        :value="12"
         :xs="24"
         :sm="24"
       >
@@ -344,6 +344,24 @@ defineExpose({ getRef });
             @change="
               ({ option: { value } }) => {
                 newFormInline.meta.showParent = value;
+              }
+            "
+          />
+        </el-form-item>
+      </re-col>
+      <re-col
+        v-show="newFormInline.menuType !== 3"
+        :value="12"
+        :xs="24"
+        :sm="24"
+      >
+        <el-form-item label="启用状态">
+          <Segmented
+            :modelValue="newFormInline.meta.enabled ? 0 : 1"
+            :options="enabledOptions"
+            @change="
+              ({ option: { value } }) => {
+                newFormInline.meta.enabled = value;
               }
             "
           />
