@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useMenu } from "./utils/hook";
+import { useHook } from "./utils/hook";
+import { useLinkHook } from "../routeAccessControl/utils/hook";
 import { transformI18n } from "@/plugins/i18n";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -28,7 +29,9 @@ const {
   openDialog,
   myHandleDelete,
   handleSelectionChange
-} = useMenu();
+} = useHook();
+
+const { toDetail, router } = useLinkHook();
 </script>
 
 <template>
@@ -138,6 +141,18 @@ const {
                       @click="toggleStatus(row._id, !row.meta.enabled)"
                     >
                       {{ row?.meta.enabled ? "停用" : "启用" }}
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="danger"
+                      :size="size"
+                      :icon="useRenderIcon(Delete)"
+                      @click="toDetail({ route: row?._id }, 'query')"
+                    >
+                      权限
                     </el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>

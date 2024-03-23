@@ -345,6 +345,18 @@ export const RouteAPI = {
           }
         );
       }
+    },
+    detail: (id: string) => {
+      return http.request<OneResult<Route>>(
+        "get",
+        baseUrlApi(`route/detail?id=${id}`)
+      );
+    },
+    get_auths_options: (id: string) => {
+      return http.request<OneResult<RouteAuth[]>>(
+        "get",
+        baseUrlApi(`route/get-auths_options?id=${id}`)
+      );
     }
   },
   RouteAuth: {
@@ -352,6 +364,15 @@ export const RouteAPI = {
       return http.request<ListResult<RouteAuth>>(
         "get",
         baseUrlApi("route/auth/all"),
+        {
+          data
+        }
+      );
+    },
+    filters: (data?: object) => {
+      return http.request<ListResult<RouteAuth>>(
+        "post",
+        baseUrlApi("route/auth/filters"),
         {
           data
         }

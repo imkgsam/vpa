@@ -11,7 +11,7 @@ import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { ElMessageBox } from "element-plus";
 
-export function useMenu() {
+export function useHook() {
   const form = reactive({
     title: ""
   });

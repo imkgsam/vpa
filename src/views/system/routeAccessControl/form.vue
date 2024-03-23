@@ -4,6 +4,7 @@ import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
 import { transformI18n } from "@/plugins/i18n";
 import { RouteAPI } from "@/api/system";
+import { RouteAuth } from "@/store/modules/types";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
@@ -32,6 +33,14 @@ onMounted(async () => {
 const ruleFormRef = ref();
 const newFormInline = ref(props.formInline);
 
+async function handleRouteSelect(value) {
+  console.log("in handleRouteSelect ", value);
+  if (value) {
+    let rt = await RouteAPI.Route.get_auths_options(value);
+    if (rt && rt.data) newFormInline.value.auths_options = rt.data;
+  }
+}
+
 function getRef() {
   return ruleFormRef.value;
 }
@@ -51,6 +60,7 @@ defineExpose({ getRef });
         v-model="newFormInline.route"
         class="w-full"
         :options="newFormInline.routeTree"
+        :disabled="!!newFormInline._id"
         :props="{
           value: '_id',
           label: 'title',
@@ -60,6 +70,7 @@ defineExpose({ getRef });
         clearable
         filterable
         placeholder="请选择上级菜单"
+        @change="handleRouteSelect"
       >
         <template #default="{ node, data }">
           <span>{{ transformI18n(data.meta.title) }}</span>
@@ -115,6 +126,14 @@ defineExpose({ getRef });
           :value="item._id"
         />
       </el-select>
+    </el-form-item>
+    <el-form-item label="状态" prop="meta.enabled">
+      <el-switch
+        v-model="newFormInline.meta.enabled"
+        size="large"
+        active-text="启用"
+        inactive-text="停用"
+      />
     </el-form-item>
   </el-form>
 </template>

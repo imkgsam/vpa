@@ -14,9 +14,18 @@ import { cloneDeep } from "@pureadmin/utils";
 import { transformI18n } from "@/plugins/i18n";
 import { handleTree } from "@/utils/tree";
 
+import { isString, isEmpty } from "@pureadmin/utils";
+// import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
+import {
+  useRouter,
+  useRoute,
+  type LocationQueryRaw,
+  type RouteParamsRaw
+} from "vue-router";
+
 const { tagStyleByBool } = usePublicHooks();
 
-export function useHook() {
+export function useLinkHook() {
   const form = reactive({
     user: null,
     role: null,
@@ -139,6 +148,7 @@ export function useHook() {
   }
 
   async function onSearch() {
+    console.log("in onSearch");
     loading.value = true;
     let filters = {};
     if (form.user) {
@@ -222,6 +232,7 @@ export function useHook() {
             console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
+              delete curData._id;
               await RouteAPI.RouteAccess.create({
                 ...curData
               });
@@ -244,9 +255,6 @@ export function useHook() {
     await onSearch();
   }
 
-  /** 数据权限 可自行开发 */
-  // function handleDatabase() {}
-
   onMounted(async () => {
     console.log(" in onmounted");
     onSearch();
@@ -254,6 +262,43 @@ export function useHook() {
     roleList.value = await useEntityStoreHook().getAllRoles_public(false);
     console.log(roleList);
   });
+
+  // --------------------- link ----------------------
+  const route = useRoute();
+  const router = useRouter();
+  const getParameter = isEmpty(route.params) ? route.query : route.params;
+
+  function toDetail(
+    parameter: LocationQueryRaw | RouteParamsRaw,
+    model: "query" | "params"
+  ) {
+    console.log("in toDetail", parameter, model);
+    // ⚠️ 这里要特别注意下，因为vue-router在解析路由参数的时候会自动转化成字符串类型，比如在使用useRoute().route.query或useRoute().route.params时，得到的参数都是字符串类型
+    // 所以在传参的时候，如果参数是数字类型，就需要在此处 toString() 一下，保证传参跟路由参数类型一致都是字符串，这是必不可少的环节！！！
+    Object.keys(parameter).forEach(param => {
+      if (!isString(parameter[param])) {
+        parameter[param] = parameter[param].toString();
+      }
+    });
+    if (model === "query") {
+      // 路由跳转
+      router.push({ name: "SystemAccessControl", query: parameter });
+    } else if (model === "params") {
+      router.push({ name: "SystemAccessControl", params: parameter });
+    }
+  }
+
+  // 用于页面刷新，重新获取浏览器地址栏参数并保存到标签页
+  const initToDetail = (model: "query" | "params") => {
+    console.log("in initToDetail");
+    if (getParameter) {
+      toDetail(getParameter, model);
+      const { user, role, route } = getParameter;
+      if (user) form.user = user;
+      if (role) form.role = role;
+      if (route) form.route = route;
+    }
+  };
 
   return {
     userList,
@@ -274,6 +319,11 @@ export function useHook() {
     handleCurrentChange,
     handleSelectionChange,
     toggleStatus,
-    myHandleDelete
+    myHandleDelete,
+
+    toDetail,
+    initToDetail,
+    getParameter,
+    router
   };
 }

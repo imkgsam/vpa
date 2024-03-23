@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useHook } from "./utils/hook";
+import { useLinkHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import MenuLine from "@iconify-icons/ri/menu-line";
@@ -38,12 +38,17 @@ const {
   handleCurrentChange,
   handleSelectionChange,
   toggleStatus,
-  myHandleDelete
-} = useHook();
+  myHandleDelete,
 
-// onMounted(()=>{
-//   console.log('in onMounted', routeList.value)
-// })
+  initToDetail,
+  getParameter
+} = useLinkHook();
+
+initToDetail("query");
+
+onMounted(() => {
+  // console.log('in onMounted', getParameter)
+});
 </script>
 
 <template>
