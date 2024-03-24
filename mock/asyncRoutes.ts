@@ -42,7 +42,8 @@ const systemManagementRouter = {
       meta: {
         icon: "ep:menu",
         title: "menus.hsSystemMenu",
-        roles: ["admin"]
+        roles: ["admin"],
+        keepAlive: true
       }
     },
     {
@@ -70,6 +71,7 @@ const systemManagementRouter = {
 
 const itemManagementRouter = {
   path: "/item",
+  name: "Item",
   meta: {
     icon: "ri:settings-3-line",
     title: "menus.hsitemManagement",
@@ -192,6 +194,7 @@ const permissionRouter = {
 //已经创建至后端路由 数据库中
 const frameRouter = {
   path: "/iframe",
+  name: "Iframe",
   meta: {
     icon: "ri:links-fill",
     title: "menus.hsExternalPage",
@@ -200,6 +203,7 @@ const frameRouter = {
   children: [
     {
       path: "/iframe/external",
+      name: "IframeExternal",
       meta: {
         title: "menus.hsExternalDoc"
       },
@@ -224,6 +228,7 @@ const frameRouter = {
     },
     {
       path: "/iframe/embedded",
+      name: "IframeEmbedded",
       meta: {
         title: "menus.hsEmbeddedDoc"
       },
