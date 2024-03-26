@@ -51,14 +51,16 @@ const {
 
 <template>
   <div class="flex justify-between">
-    <tree
+    <!-- 左边部门filter -->
+    <!-- <tree
       ref="treeRef"
       class="min-w-[200px] mr-2"
       :treeData="treeData"
       :treeLoading="treeLoading"
       @tree-select="onTreeSelect"
-    />
+    /> -->
     <div class="w-[calc(100%-200px)]">
+      <!-- 顶部搜索form  -->
       <el-form
         ref="formRef"
         :inline="true"
@@ -106,7 +108,7 @@ const {
           </el-button>
         </el-form-item>
       </el-form>
-
+      <!-- 数据列表 -->
       <PureTableBar
         title="用户管理（仅演示，操作后不生效）"
         :columns="columns"

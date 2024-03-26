@@ -108,88 +108,88 @@ const itemManagementRouter = {
   ]
 };
 
-const systemMonitorRouter = {
-  path: "/monitor",
-  meta: {
-    icon: "ep:monitor",
-    title: "menus.hssysMonitor",
-    rank: routeRank.monitor
-  },
-  children: [
-    {
-      path: "/monitor/online-user",
-      component: "monitor/online/index",
-      name: "OnlineUser",
-      meta: {
-        icon: "ri:user-voice-line",
-        title: "menus.hsOnlineUser",
-        roles: ["admin"]
-      }
-    },
-    {
-      path: "/monitor/login-logs",
-      component: "monitor/logs/login/index",
-      name: "LoginLog",
-      meta: {
-        icon: "ri:window-line",
-        title: "menus.hsLoginLog",
-        roles: ["admin"]
-      }
-    },
-    {
-      path: "/monitor/operation-logs",
-      component: "monitor/logs/operation/index",
-      name: "OperationLog",
-      meta: {
-        icon: "ri:history-fill",
-        title: "menus.hsOperationLog",
-        roles: ["admin"]
-      }
-    },
-    {
-      path: "/monitor/system-logs",
-      component: "monitor/logs/system/index",
-      name: "SystemLog",
-      meta: {
-        icon: "ri:file-search-line",
-        title: "menus.hsSystemLog",
-        roles: ["admin"]
-      }
-    }
-  ]
-};
+// const systemMonitorRouter = {
+//   path: "/monitor",
+//   meta: {
+//     icon: "ep:monitor",
+//     title: "menus.hssysMonitor",
+//     rank: routeRank.monitor
+//   },
+//   children: [
+//     {
+//       path: "/monitor/online-user",
+//       component: "monitor/online/index",
+//       name: "OnlineUser",
+//       meta: {
+//         icon: "ri:user-voice-line",
+//         title: "menus.hsOnlineUser",
+//         roles: ["admin"]
+//       }
+//     },
+//     {
+//       path: "/monitor/login-logs",
+//       component: "monitor/logs/login/index",
+//       name: "LoginLog",
+//       meta: {
+//         icon: "ri:window-line",
+//         title: "menus.hsLoginLog",
+//         roles: ["admin"]
+//       }
+//     },
+//     {
+//       path: "/monitor/operation-logs",
+//       component: "monitor/logs/operation/index",
+//       name: "OperationLog",
+//       meta: {
+//         icon: "ri:history-fill",
+//         title: "menus.hsOperationLog",
+//         roles: ["admin"]
+//       }
+//     },
+//     {
+//       path: "/monitor/system-logs",
+//       component: "monitor/logs/system/index",
+//       name: "SystemLog",
+//       meta: {
+//         icon: "ri:file-search-line",
+//         title: "menus.hsSystemLog",
+//         roles: ["admin"]
+//       }
+//     }
+//   ]
+// };
 
-const permissionRouter = {
-  path: "/permission",
-  meta: {
-    title: "menus.permission",
-    rank: routeRank.permission,
-    icon: "ep:lollipop"
-  },
-  children: [
-    {
-      path: "/permission/page/index",
-      name: "PermissionPage",
-      meta: {
-        title: "menus.permissionPage",
-        roles: ["admin", "common"]
-      }
-    },
-    {
-      path: "/permission/button/index",
-      name: "PermissionButton",
-      meta: {
-        title: "menus.permissionButton",
-        roles: ["admin", "common"],
-        auths: [
-          "permission:btn:add",
-          "permission:btn:edit",
-          "permission:btn:delete"
-        ]
-      }
-    }
-  ]
-};
+// const permissionRouter = {
+//   path: "/permission",
+//   meta: {
+//     title: "menus.permission",
+//     rank: routeRank.permission,
+//     icon: "ep:lollipop"
+//   },
+//   children: [
+//     {
+//       path: "/permission/page/index",
+//       name: "PermissionPage",
+//       meta: {
+//         title: "menus.permissionPage",
+//         roles: ["admin", "common"]
+//       }
+//     },
+//     {
+//       path: "/permission/button/index",
+//       name: "PermissionButton",
+//       meta: {
+//         title: "menus.permissionButton",
+//         roles: ["admin", "common"],
+//         auths: [
+//           "permission:btn:add",
+//           "permission:btn:edit",
+//           "permission:btn:delete"
+//         ]
+//       }
+//     }
+//   ]
+// };
 
 //已经创建至后端路由 数据库中
 const frameRouter = {
@@ -299,47 +299,47 @@ const frameRouter = {
 };
 
 //已经创建至后端路由 数据库中
-const tabsRouter = {
-  path: "/tabs",
-  meta: {
-    icon: "ri:bookmark-2-line",
-    title: "menus.hstabs",
-    rank: routeRank.tabs
-  },
-  children: [
-    {
-      path: "/tabs/index",
-      name: "Tabs",
-      meta: {
-        title: "menus.hstabs",
-        roles: ["admin", "common"]
-      }
-    },
-    // query 传参模式
-    {
-      path: "/tabs/query-detail",
-      name: "TabQueryDetail",
-      meta: {
-        // 不在menu菜单中显示
-        showLink: false,
-        activePath: "/tabs/index",
-        roles: ["admin", "common"]
-      }
-    },
-    // params 传参模式
-    {
-      path: "/tabs/params-detail/:id",
-      component: "params-detail",
-      name: "TabParamsDetail",
-      meta: {
-        // 不在menu菜单中显示
-        showLink: false,
-        activePath: "/tabs/index",
-        roles: ["admin", "common"]
-      }
-    }
-  ]
-};
+// const tabsRouter = {
+//   path: "/tabs",
+//   meta: {
+//     icon: "ri:bookmark-2-line",
+//     title: "menus.hstabs",
+//     rank: routeRank.tabs
+//   },
+//   children: [
+//     {
+//       path: "/tabs/index",
+//       name: "Tabs",
+//       meta: {
+//         title: "menus.hstabs",
+//         roles: ["admin", "common"]
+//       }
+//     },
+//     // query 传参模式
+//     {
+//       path: "/tabs/query-detail",
+//       name: "TabQueryDetail",
+//       meta: {
+//         // 不在menu菜单中显示
+//         showLink: false,
+//         activePath: "/tabs/index",
+//         roles: ["admin", "common"]
+//       }
+//     },
+//     // params 传参模式
+//     {
+//       path: "/tabs/params-detail/:id",
+//       component: "params-detail",
+//       name: "TabParamsDetail",
+//       meta: {
+//         // 不在menu菜单中显示
+//         showLink: false,
+//         activePath: "/tabs/index",
+//         roles: ["admin", "common"]
+//       }
+//     }
+//   ]
+// };
 
 const asyncRouter = {
   path: "/asyncroutes",
@@ -351,10 +351,10 @@ const asyncRouter = {
   children: [
     itemManagementRouter,
     systemManagementRouter,
-    systemMonitorRouter,
-    permissionRouter,
-    frameRouter,
-    tabsRouter
+    // systemMonitorRouter,
+    // permissionRouter,
+    frameRouter
+    // tabsRouter
   ]
 };
 

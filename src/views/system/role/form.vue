@@ -2,12 +2,16 @@
 import { ref } from "vue";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
+import { usePublicHooks } from "../hooks";
+
+const { switchStyle } = usePublicHooks();
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
-    name: "",
     code: "",
-    remark: ""
+    meta: {
+      enabled: false
+    }
   })
 });
 
@@ -26,30 +30,31 @@ defineExpose({ getRef });
     ref="ruleFormRef"
     :model="newFormInline"
     :rules="formRules"
-    label-width="82px"
+    label-width="100px"
   >
-    <el-form-item label="角色名称" prop="name">
-      <el-input
-        v-model="newFormInline.name"
-        clearable
-        placeholder="请输入角色名称"
-      />
-    </el-form-item>
-
-    <el-form-item label="角色标识" prop="code">
-      <el-input
-        v-model="newFormInline.code"
-        clearable
-        placeholder="请输入角色标识"
-      />
-    </el-form-item>
-
-    <el-form-item label="备注">
-      <el-input
-        v-model="newFormInline.remark"
-        placeholder="请输入备注信息"
-        type="textarea"
-      />
-    </el-form-item>
+    <el-row :gutter="30">
+      <el-col>
+        <el-form-item label="角色code" prop="code">
+          <el-input
+            v-model="newFormInline.code"
+            clearable
+            placeholder="请输入角色code"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col>
+        <el-form-item label="部门状态">
+          <el-switch
+            v-model="newFormInline.meta.enabled"
+            inline-prompt
+            :active-value="true"
+            :inactive-value="false"
+            active-text="启用"
+            inactive-text="停用"
+            :style="switchStyle"
+          />
+        </el-form-item>
+      </el-col>
+    </el-row>
   </el-form>
 </template>

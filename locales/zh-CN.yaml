@@ -1,3 +1,4 @@
+
 buttons:
   hsOverview: 简述
   hsLoginOut: 退出系统
@@ -524,3 +525,9 @@ common:
     South Africa: 南非
     Zambia: 赞比亚
     Zimbabwe: 津巴布韦
+constant:
+  roles:
+    admin: 管理员
+    common: 普通用户
+    sales-manager: 销售经理
+    mold-bookkeeper: 模具记账员

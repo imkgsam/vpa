@@ -68,6 +68,7 @@ export type Department = {
 export type Role = {
   _id?: string;
   code?: string;
+  title?: string;
 };
 
 export type Entity = {

@@ -200,6 +200,14 @@ export const RoleAPI = {
         }
       );
     }
+  },
+  create: (data?: object) => {
+    return http.request<OneResult<Role>>("post", baseUrlApi("roles/"), {
+      data
+    });
+  },
+  update: (data?: object) => {
+    return http.request<OneResult<Role>>("put", baseUrlApi("roles/"), { data });
   }
 };
 

@@ -259,7 +259,8 @@ export function useLinkHook() {
     console.log(" in onmounted");
     onSearch();
     requestAllOptions();
-    roleList.value = await useEntityStoreHook().getAllRoles_public(false);
+    const rt = await useEntityStoreHook().getAllRoles_public(false);
+    roleList.value = rt;
     console.log(roleList);
   });
 

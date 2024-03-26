@@ -93,6 +93,7 @@ const { toDetail, router } = useLinkHook();
           :loading="loading"
           :size="size"
           :data="dataList"
+          default-expand-all
           :columns="dynamicColumns"
           :header-cell-style="{
             background: 'var(--el-fill-color-light)',

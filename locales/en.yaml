@@ -524,3 +524,9 @@ common:
     South Africa: South Africa
     Zambia: Zambia
     Zimbabwe: Zimbabwe
+constant:
+  roles:
+    admin: Admin
+    common: Common User
+    sales-manager: Sales Manager
+    mold-bookkeeper: Mold Bookkeeper

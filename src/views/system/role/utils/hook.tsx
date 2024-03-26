@@ -9,6 +9,7 @@ import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
+import { transformI18n } from "@/plugins/i18n";
 
 const { tagStyleByBool } = usePublicHooks();
 
@@ -33,6 +34,11 @@ export function useRole() {
   const columns: TableColumnList = [
     {
       label: "角色名称",
+      prop: "title",
+      minWidth: 120
+    },
+    {
+      label: "角色代码",
       prop: "code",
       minWidth: 120
     },
@@ -106,7 +112,11 @@ export function useRole() {
       pageSize: pagination.pageSize
     };
     const { data } = await RoleAPI.getPListWithFilter(ops);
-    dataList.value = data.list;
+
+    dataList.value = data.list.map(each => {
+      each.title = transformI18n(`constant.roles.${each.code}`);
+      return each;
+    });
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;
@@ -126,7 +136,10 @@ export function useRole() {
       title: `${title}角色`,
       props: {
         formInline: {
-          code: row?.code ?? ""
+          code: row?.code ?? "",
+          meta: {
+            enabled: row?.meta.enabled || false
+          }
         }
       },
       width: "40%",
@@ -144,15 +157,22 @@ export function useRole() {
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
+            console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
+              await RoleAPI.create({
+                code: curData.code,
+                meta: { enabled: curData.meta.enabled }
+              });
               chores();
             } else {
-              // 实际开发先调用修改接口，再进行下面操作
+              await RoleAPI.update({
+                code: curData.code,
+                _id: curData._id,
+                meta: { enabled: curData.meta.enabled }
+              });
               chores();
             }
           }
