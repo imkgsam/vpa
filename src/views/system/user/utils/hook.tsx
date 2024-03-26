@@ -35,7 +35,10 @@ import {
   onMounted
 } from "vue";
 
-export function useUser(tableRef: Ref, treeRef: Ref) {
+export function useUser(
+  tableRef: Ref
+  // , treeRef: Ref
+) {
   const form = reactive({
     // 左侧部门树的id
     deptId: "",
@@ -281,7 +284,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     if (!formEl) return;
     formEl.resetFields();
     form.deptId = "";
-    treeRef.value.onTreeReset();
+    // treeRef.value.onTreeReset();
     onSearch();
   };
 

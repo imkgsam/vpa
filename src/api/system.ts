@@ -452,3 +452,18 @@ export const UserAPI = {
     );
   }
 };
+
+export const EntityAPI = {
+  getListPerson: () => {
+    return http.request<ListResult<User>>(
+      "get",
+      baseUrlApi("entity/person/all")
+    );
+  },
+  getListCompany: () => {
+    return http.request<ListResult<User>>(
+      "get",
+      baseUrlApi("entity/company/all")
+    );
+  }
+};

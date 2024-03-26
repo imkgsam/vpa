@@ -48,12 +48,13 @@ menus:
   hsAttribute: Attribute Manage
   hsItem: Item Manage
   hssysManagement: System Manage
-  hsUser: User Manage
+  hsUser: Person Entity Manage
   hsTabQurtyDetail: Tab Query Detail
   hsTabParamDetail: Tab Param Detail 
   hsRoute: Route Manage
   hsRole: Role Manage
   hsSystemMenu: Menu Manage
+  hsMoldGroup: Mold Group Manage
   hsDept: Dept Manage
   hsAccessControl: Access Control
   hssysMonitor: System Monitor

@@ -49,12 +49,13 @@ menus:
   hsAttribute: 属性管理
   hsItem: Item管理
   hssysManagement: 系统管理
-  hsUser: 用户管理
+  hsUser: 个体管理
   hsTabQurtyDetail: Query传参测试页
   hsTabParamDetail: Param传参测试页
   hsRoute: 路由管理
   hsRole: 角色管理
   hsSystemMenu: 菜单管理
+  hsMoldGroup: 生产模组管理
   hsDept: 部门管理
   hsAccessControl: 权限控制
   hssysMonitor: 系统监控

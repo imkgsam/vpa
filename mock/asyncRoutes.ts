@@ -108,6 +108,27 @@ const itemManagementRouter = {
   ]
 };
 
+const manufactureRouter = {
+  path: "/manufacture",
+  name: "Manufacture",
+  meta: {
+    icon: "ri:settings-3-line",
+    title: "menus.hsManufactureManagement",
+    rank: routeRank.item
+  },
+  children: [
+    {
+      path: "/manufacture/moldgroup/index",
+      name: "manufactureMoldGroup",
+      meta: {
+        icon: "ri:admin-line",
+        title: "menus.hsMoldGroup",
+        roles: ["admin", "mold-bookkeeper"]
+      }
+    }
+  ]
+};
+
 // const systemMonitorRouter = {
 //   path: "/monitor",
 //   meta: {
@@ -351,6 +372,7 @@ const asyncRouter = {
   children: [
     itemManagementRouter,
     systemManagementRouter,
+    manufactureRouter,
     // systemMonitorRouter,
     // permissionRouter,
     frameRouter
