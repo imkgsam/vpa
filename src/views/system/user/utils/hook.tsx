@@ -42,8 +42,10 @@ export function useUser(
 ) {
   const form = reactive({
     meta: {
-      enabled: true,
-      verified: true
+      enabled: undefined,
+      verified: undefined,
+      isSupplier: undefined,
+      isCustomer: undefined
     }
   });
   const formRef = ref();
@@ -76,18 +78,15 @@ export function useUser(
     },
     {
       label: "用户编号",
-      prop: "_id",
-      width: 90
+      prop: "_id"
     },
     {
       label: "个体名称",
-      prop: "name",
-      minWidth: 130
+      prop: "name"
     },
     {
       label: "性别",
       prop: "personal.sex",
-      minWidth: 130,
       formatter: ({ personal }) => personal.sex || "N/A"
     },
     // {
@@ -132,21 +131,18 @@ export function useUser(
     {
       label: "手机号码",
       prop: "common.mobilePhone",
-      minWidth: 90,
       formatter: ({ common }) =>
         hideTextAtIndex(common.mobilePhone, { start: 7, end: 10 })
     },
     {
       label: "邮箱账号",
       prop: "common.email",
-      minWidth: 90,
       formatter: ({ common }) =>
         hideTextAtIndex(common.email, { start: 3, end: 6 })
     },
     {
       label: "账户",
       prop: "account",
-      minWidth: 130,
       cellRenderer: ({ row, props }) => (
         <div>
           <ul v-show={row.account}>
@@ -166,7 +162,6 @@ export function useUser(
     {
       label: "类别",
       prop: "meta.type",
-      width: 100,
       cellRenderer: ({ row, props }) => (
         <div>
           <el-tag
@@ -383,15 +378,14 @@ export function useUser(
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
-    form.deptId = "";
     // treeRef.value.onTreeReset();
     onSearch();
   };
 
-  function onTreeSelect({ id, selected }) {
-    form.deptId = selected ? id : "";
-    onSearch();
-  }
+  // function onTreeSelect({ id, selected }) {
+  //   form.deptId = selected ? id : "";
+  //   onSearch();
+  // }
 
   function formatHigherDeptOptions(treeList) {
     // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
@@ -614,7 +608,7 @@ export function useUser(
     resetForm,
     onbatchDel,
     openDialog,
-    onTreeSelect,
+    // onTreeSelect,
     handleUpdate,
     handleDelete,
     handleUpload,
