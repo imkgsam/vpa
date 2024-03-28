@@ -90,7 +90,8 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         })
         .finally(() => (loading.value = false))
         .catch(err => {
-          message(err?.response.data.message, { type: "error" });
+          console.log(err);
+          message(err?.response?.data?.message, { type: "error" });
         });
     } else {
       return fields;

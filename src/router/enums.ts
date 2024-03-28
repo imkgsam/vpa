@@ -26,7 +26,8 @@ export const routeRank = {
   settings: 22,
   board: 23,
   monitor: 24,
-  item: 25
+  item: 25,
+  manufacture: 26
 };
 
 export const newRouteRank = {

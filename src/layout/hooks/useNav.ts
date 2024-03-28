@@ -35,7 +35,7 @@ export function useNav() {
 
   /** 用户名 */
   const accountName = computed(() => {
-    return useUserStoreHook()?.user.accountName;
+    return useUserStoreHook()?.account.accountName;
   });
 
   /** 设置国际化选中后的样式 */

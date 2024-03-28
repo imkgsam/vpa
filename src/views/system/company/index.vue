@@ -4,7 +4,6 @@ import tree from "./tree.vue";
 import { useUser } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import MenuLine from "@iconify-icons/ri/menu-line";
 
 import Upload from "@iconify-icons/ri/upload-line";
 import Role from "@iconify-icons/ri/admin-line";
@@ -46,11 +45,8 @@ const {
   handleSizeChange,
   onSelectionCancel,
   handleCurrentChange,
-  handleSelectionChange,
-
-  toggleStatus,
-  myHandleDelete
-} = useUser(tableRef);
+  handleSelectionChange
+} = useUser(tableRef, treeRef);
 </script>
 
 <template>
@@ -89,24 +85,13 @@ const {
         </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-select
-            v-model="form.meta.enabled"
+            v-model="form.status"
             placeholder="请选择"
             clearable
             class="!w-[180px]"
           >
-            <el-option label="已启用" value="true" />
-            <el-option label="已停用" value="false" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态：" prop="status">
-          <el-select
-            v-model="form.meta.verified"
-            placeholder="请选择"
-            clearable
-            class="!w-[180px]"
-          >
-            <el-option label="已认证" value="1" />
-            <el-option label="未认证" value="0" />
+            <el-option label="已开启" value="1" />
+            <el-option label="已关闭" value="0" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -181,46 +166,77 @@ const {
             @page-current-change="handleCurrentChange"
           >
             <template #operation="{ row }">
-              <el-dropdown trigger="click" class="!align-middle">
-                <el-icon>
-                  <IconifyIconOffline :icon="MenuLine" />
-                </el-icon>
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="openDialog('修改', row)"
+              >
+                修改
+              </el-button>
+              <el-popconfirm
+                :title="`是否确认删除用户编号为${row.id}的这条数据`"
+                @confirm="handleDelete(row)"
+              >
+                <template #reference>
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Delete)"
+                  >
+                    删除
+                  </el-button>
+                </template>
+              </el-popconfirm>
+              <el-dropdown>
+                <el-button
+                  class="ml-3 mt-[2px]"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(More)"
+                  @click="handleUpdate(row)"
+                />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
                       <el-button
-                        class="reset-margin"
+                        :class="buttonClass"
                         link
-                        type="warning"
+                        type="primary"
                         :size="size"
-                        :icon="useRenderIcon(EditPen)"
-                        @click="openDialog('修改', row)"
+                        :icon="useRenderIcon(Upload)"
+                        @click="handleUpload(row)"
                       >
-                        修改
+                        上传头像
                       </el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>
                       <el-button
-                        class="reset-margin"
+                        :class="buttonClass"
                         link
-                        :type="row?.meta.enabled ? 'danger' : 'success'"
+                        type="primary"
                         :size="size"
-                        :icon="useRenderIcon(EditPen)"
-                        @click="toggleStatus(row._id, !row.meta.enabled)"
+                        :icon="useRenderIcon(Password)"
+                        @click="handleReset(row)"
                       >
-                        {{ row?.meta.enabled ? "停用" : "启用" }}
+                        重置密码
                       </el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>
                       <el-button
-                        class="reset-margin"
+                        :class="buttonClass"
                         link
-                        type="danger"
+                        type="primary"
                         :size="size"
-                        :icon="useRenderIcon(Delete)"
-                        @click="myHandleDelete(row)"
+                        :icon="useRenderIcon(Role)"
+                        @click="handleRole(row)"
                       >
-                        删除
+                        分配角色
                       </el-button>
                     </el-dropdown-item>
                   </el-dropdown-menu>

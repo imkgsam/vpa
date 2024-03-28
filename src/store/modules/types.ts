@@ -160,7 +160,7 @@ export type Employee = {
   };
 };
 
-export type User = {
+export type UserAccount = {
   _id?: string;
   accountName?: string;
   email?: string;
@@ -177,7 +177,7 @@ export type Customer = {
 };
 
 export type Account = {
-  user: User;
+  account: UserAccount;
   entity: Entity;
   employee?: Employee;
   customer?: Customer;
@@ -254,7 +254,7 @@ export type RouteAuth = {
 
 export type RouteAccess = {
   _id?: string;
-  user?: User;
+  user?: UserAccount;
   role?: Role;
   route?: Route;
   auths: Array<RouteAuth>;

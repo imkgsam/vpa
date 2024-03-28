@@ -114,7 +114,7 @@ const manufactureRouter = {
   meta: {
     icon: "ri:settings-3-line",
     title: "menus.hsManufactureManagement",
-    rank: routeRank.item
+    rank: routeRank.manufacture
   },
   children: [
     {
@@ -123,7 +123,8 @@ const manufactureRouter = {
       meta: {
         icon: "ri:admin-line",
         title: "menus.hsMoldGroup",
-        roles: ["admin", "mold-bookkeeper"]
+        roles: ["admin", "mold-bookkeeper"],
+        showParent: true
       }
     }
   ]

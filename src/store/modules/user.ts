@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { store } from "@/store";
 // import { EntityTypeEnum, Entity } from "./types";
-import type { Account, User } from "./types";
+import type { Account, UserAccount } from "./types";
 import { routerArrays } from "@/layout/types";
 import { router, resetRouter } from "@/router";
 import { storageLocal } from "@pureadmin/utils";
@@ -26,19 +26,21 @@ import { merge } from "lodash";
 export const useUserStore = defineStore({
   id: "pure-user",
   state: (): Account => ({
-    user: {
+    account: {
       // 用户名
       accountName:
-        storageLocal().getItem<DataInfo<number>>(userKey)?.user.accountName ??
-        "",
+        storageLocal().getItem<DataInfo<number>>(userKey)?.account
+          .accountName ?? "",
       //邮箱
       email:
-        storageLocal().getItem<DataInfo<number>>(userKey)?.user.email ?? "",
+        storageLocal().getItem<DataInfo<number>>(userKey)?.account.email ?? "",
       // 页面级别权限
-      roles: storageLocal().getItem<DataInfo<number>>(userKey)?.user.roles ?? []
+      roles:
+        storageLocal().getItem<DataInfo<number>>(userKey)?.account.roles ?? []
     },
     entity: {
-      _id: storageLocal().getItem<DataInfo<number>>(userKey)?.user.entity ?? "",
+      _id:
+        storageLocal().getItem<DataInfo<number>>(userKey)?.account.entity ?? "",
       name: "",
       etype: "Person",
       personal: {
@@ -92,8 +94,8 @@ export const useUserStore = defineStore({
     loginDay: 7
   }),
   actions: {
-    SET_USER(user: User) {
-      this.user = user;
+    SET_ACCOUNT(account: UserAccount) {
+      this.account = account;
     },
     /** 存储entity ID */
     SET_ENTITYID(entityId: string) {

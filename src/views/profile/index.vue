@@ -32,8 +32,8 @@ onBeforeMount(async () => {
 var userStore = useUserStoreHook();
 
 const userInfo = {
-  avatarText: genAvatarText(userStore.user.accountName),
-  user: userStore.user,
+  avatarText: genAvatarText(userStore.account.accountName),
+  account: userStore.account,
   entity: userStore.entity,
   employee: userStore.employee,
   supplier: userStore.supplier,
@@ -69,13 +69,13 @@ function hangleTagBtnClick(newTag: string) {
           <!-- <h4 class="text-left my-2">DETAILS:</h4> -->
           <el-descriptions class="" :column="1" size="small" border>
             <el-descriptions-item :label="t('label.accountName')">
-              <DescriptionTooltip :value="userInfo.user.accountName" />
+              <DescriptionTooltip :value="userInfo.account.accountName" />
             </el-descriptions-item>
             <el-descriptions-item :label="t('label.email')">
-              <DescriptionTooltip :value="userInfo.user.email" />
+              <DescriptionTooltip :value="userInfo.account.email" />
             </el-descriptions-item>
             <el-descriptions-item :label="t('label.roles')">
-              <el-tag v-for="role in userInfo.user.roles" :key="role">
+              <el-tag v-for="role in userInfo.account.roles" :key="role">
                 {{ role }}
               </el-tag>
             </el-descriptions-item>
@@ -176,7 +176,7 @@ function hangleTagBtnClick(newTag: string) {
           <SupplierBlock :supplier="userInfo.customer" />
         </div>
         <div v-if="tag === 'security'">
-          <SecurityBlock :userEmail="userInfo.user.email" />
+          <SecurityBlock :userEmail="userInfo.account.email" />
         </div>
         <div v-if="tag === 'activity'">activity</div>
         <div v-if="tag === 'system config'">

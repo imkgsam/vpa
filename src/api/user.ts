@@ -1,11 +1,11 @@
 import { http } from "@/utils/http";
 import { baseUrlApi } from "./utils";
-import type { Entity, User } from "@/store/modules/types";
+import type { Entity, UserAccount } from "@/store/modules/types";
 
 export type UserResult = {
   statusCode: boolean;
   data: {
-    user: User;
+    user: UserAccount;
     entity: string;
     /** `token` */
     accessToken: string;

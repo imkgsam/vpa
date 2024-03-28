@@ -1,15 +1,20 @@
 import { http } from "@/utils/http";
 import { baseUrlApi } from "./utils";
-import type { Entity, User, Employee, Customer } from "@/store/modules/types";
+import type {
+  Entity,
+  UserAccount,
+  Employee,
+  Customer
+} from "@/store/modules/types";
 
 export type Result = {
   statusCode: boolean;
-  data: Entity | User | Employee | Customer;
+  data: Entity | UserAccount | Employee | Customer;
 };
 
 export type ArrayResult = {
   statusCode: boolean;
-  data: Array<Entity | User | Employee | Customer>;
+  data: Array<Entity | UserAccount | Employee | Customer>;
 };
 
 export type OperationResult = {

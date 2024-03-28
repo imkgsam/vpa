@@ -152,7 +152,10 @@ router.beforeEach((to: ToRouteType, _from, next) => {
   }
   if (Cookies.get(multipleTabsKey) && userInfo) {
     // 无权限跳转403页面
-    if (to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.user.roles)) {
+    if (
+      to.meta?.roles &&
+      !isOneOfArray(to.meta?.roles, userInfo?.account.roles)
+    ) {
       next({ path: "/error/403" });
     }
     // 开启隐藏首页后在浏览器地址栏手动输入首页welcome路由则跳转到404页面

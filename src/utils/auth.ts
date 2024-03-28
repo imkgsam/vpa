@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { storageLocal } from "@pureadmin/utils";
 import { useUserStoreHook } from "@/store/modules/user";
-import type { User } from "@/store/modules/types";
+import type { UserAccount } from "@/store/modules/types";
 
 export interface DataInfo<T> {
   /** token */
@@ -11,7 +11,7 @@ export interface DataInfo<T> {
   /** 用于调用刷新accessToken的接口时所需的token */
   refreshToken: string;
   /** 登录账户信息 */
-  user?: {
+  account?: {
     accountName: string;
     /** 当前登陆用户的角色 */
     roles: Array<string>;
@@ -70,24 +70,25 @@ export function setToken(data: DataInfo<Date>) {
       : {}
   );
 
-  function setUserKey(user: User) {
-    useUserStoreHook().SET_USER(user);
-    useUserStoreHook().SET_ENTITYID(user.entity);
+  function setUserKey(account: UserAccount) {
+    useUserStoreHook().SET_ACCOUNT(account);
+    useUserStoreHook().SET_ENTITYID(account.entity);
     storageLocal().setItem(userKey, {
       refreshToken,
       expires,
-      user,
+      account,
       accessToken
     });
   }
+  console.log("data", data);
 
-  if (data.user) {
-    const { user } = data;
-    setUserKey(user);
+  if (data.account) {
+    const { account } = data;
+    setUserKey(account);
   } else {
-    const user =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.user ?? null;
-    setUserKey(user);
+    const account =
+      storageLocal().getItem<DataInfo<number>>(userKey)?.account ?? null;
+    setUserKey(account);
   }
 }
 

@@ -55,6 +55,7 @@ menus:
   hsRoute: 路由管理
   hsRole: 角色管理
   hsSystemMenu: 菜单管理
+  hsManufactureManagement: 生产管理
   hsMoldGroup: 生产模组管理
   hsDept: 部门管理
   hsAccessControl: 权限控制

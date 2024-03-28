@@ -54,6 +54,7 @@ menus:
   hsRoute: Route Manage
   hsRole: Role Manage
   hsSystemMenu: Menu Manage
+  hsManufactureManagement: Manufacture
   hsMoldGroup: Mold Group Manage
   hsDept: Dept Manage
   hsAccessControl: Access Control

@@ -6,8 +6,9 @@ import type {
   Category,
   Route,
   RouteAuth,
-  User,
-  RouteAccess
+  UserAccount,
+  RouteAccess,
+  Entity
 } from "@/store/modules/types";
 
 import { baseUrlApi } from "./utils";
@@ -446,7 +447,7 @@ export const RouteAPI = {
 
 export const UserAPI = {
   getList: () => {
-    return http.request<ListResult<User>>(
+    return http.request<ListResult<UserAccount>>(
       "get",
       baseUrlApi("users/get-user-list")
     );
@@ -454,16 +455,56 @@ export const UserAPI = {
 };
 
 export const EntityAPI = {
-  getListPerson: () => {
-    return http.request<ListResult<User>>(
-      "get",
-      baseUrlApi("entity/person/all")
-    );
+  getAllEntities: () => {
+    return http.request<ListResult<Entity>>("get", baseUrlApi("entity/all"));
   },
-  getListCompany: () => {
-    return http.request<ListResult<User>>(
-      "get",
-      baseUrlApi("entity/company/all")
-    );
+  Person: {
+    getAll: () => {
+      return http.request<ListResult<Entity>>(
+        "get",
+        baseUrlApi("entity/person/all")
+      );
+    },
+    getPAll: (data?: object) => {
+      return http.request<ListResultWithPage<Entity>>(
+        "post",
+        baseUrlApi("entity/person/filters"),
+        { data }
+      );
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<Entity>>(
+          "post",
+          baseUrlApi("entity/enable"),
+          {
+            data
+          }
+        );
+      } else {
+        return http.request<OneResult<Entity>>(
+          "post",
+          baseUrlApi("entity/disable"),
+          {
+            data
+          }
+        );
+      }
+    }
+  },
+  Company: {
+    getPAll: () => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/company/filters")
+      );
+    },
+    getAll: (data?: object) => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/company/filters"),
+        { data }
+      );
+    }
   }
 };

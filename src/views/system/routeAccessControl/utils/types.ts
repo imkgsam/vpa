@@ -1,7 +1,12 @@
-import type { User, Route, Role, RouteAuth } from "@/store/modules/types";
+import type {
+  UserAccount,
+  Route,
+  Role,
+  RouteAuth
+} from "@/store/modules/types";
 
 interface FormItemProps {
-  userList: User[];
+  userList: UserAccount[];
   roleList: Role[];
   routeTree: Route[];
 

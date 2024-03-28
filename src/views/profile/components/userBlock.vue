@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onBeforeMount, toRaw, onMounted } from "vue";
-import { Entity, User } from "@/store/modules/types";
+import { Entity, UserAccount } from "@/store/modules/types";
 import { useI18n } from "vue-i18n";
 import { FormInstance } from "element-plus";
 import { merge } from "lodash";
@@ -14,7 +14,7 @@ defineOptions({
 const props = defineProps(["user"]);
 const editing = ref(false);
 const loading = ref(false);
-var dataForm = reactive<User>({
+var dataForm = reactive<UserAccount>({
   accountName: "",
   email: "",
   roles: []
