@@ -40,7 +40,7 @@ export type RefreshTokenResult = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.request<UserResult>("post", baseUrlApi("user/login/email"), {
+  return http.request<UserResult>("post", baseUrlApi("public/login/email"), {
     data
   });
 };

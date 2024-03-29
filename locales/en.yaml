@@ -48,7 +48,7 @@ menus:
   hsAttribute: Attribute Manage
   hsItem: Item Manage
   hssysManagement: System Manage
-  hsUser: Person Entity Manage
+  hsEmployee: Employee Manage
   hsTabQurtyDetail: Tab Query Detail
   hsTabParamDetail: Tab Param Detail 
   hsRoute: Route Manage

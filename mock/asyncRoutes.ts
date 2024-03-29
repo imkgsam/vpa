@@ -17,11 +17,11 @@ const systemManagementRouter = {
   },
   children: [
     {
-      path: "/system/user/index",
-      name: "SystemUser",
+      path: "/system/employee/index",
+      name: "SystemEmployee",
       meta: {
         icon: "ri:admin-line",
-        title: "menus.hsUser",
+        title: "menus.hsEmployee",
         roles: ["admin"],
         auths: ["btn_add"]
       }

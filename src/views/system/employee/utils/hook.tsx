@@ -77,11 +77,7 @@ export function useUser(
       reserveSelection: true // 数据刷新后保留选项
     },
     {
-      label: "用户编号",
-      prop: "_id"
-    },
-    {
-      label: "个体名称",
+      label: "成员名称",
       prop: "name"
     },
     {
@@ -145,9 +141,9 @@ export function useUser(
       prop: "account",
       cellRenderer: ({ row, props }) => (
         <div>
-          <ul v-show={row.account}>
-            <li>{row.account.accountName}</li>
-            <li>{row.account.email}</li>
+          <ul v-show={row.account !== null}>
+            <li>{row?.account?.accountName}</li>
+            <li>{row?.account?.email}</li>
           </ul>
           <el-tag
             v-show={!row.account}

@@ -8,7 +8,8 @@ import type {
   RouteAuth,
   UserAccount,
   RouteAccess,
-  Entity
+  Entity,
+  Employee
 } from "@/store/modules/types";
 
 import { baseUrlApi } from "./utils";
@@ -445,11 +446,11 @@ export const RouteAPI = {
   }
 };
 
-export const UserAPI = {
+export const AccountAPI = {
   getList: () => {
     return http.request<ListResult<UserAccount>>(
       "get",
-      baseUrlApi("users/get-user-list")
+      baseUrlApi("entity/account/all")
     );
   }
 };
@@ -504,6 +505,41 @@ export const EntityAPI = {
         "get",
         baseUrlApi("entity/company/filters"),
         { data }
+      );
+    }
+  }
+};
+
+export const EmployeeAPI = {
+  getAll: () => {
+    return http.request<ListResult<Employee>>(
+      "get",
+      baseUrlApi("employee/all")
+    );
+  },
+  getPAll: (data?: object) => {
+    return http.request<ListResultWithPage<Employee>>(
+      "post",
+      baseUrlApi("employee/pfilters"),
+      { data }
+    );
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Employee>>(
+        "post",
+        baseUrlApi("employee/enable"),
+        {
+          data
+        }
+      );
+    } else {
+      return http.request<OneResult<Employee>>(
+        "post",
+        baseUrlApi("employee/disable"),
+        {
+          data
+        }
       );
     }
   }

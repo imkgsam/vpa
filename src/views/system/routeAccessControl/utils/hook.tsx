@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { RouteAPI, UserAPI } from "@/api/system";
+import { RouteAPI, AccountAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
@@ -129,7 +129,7 @@ export function useLinkHook() {
 
   async function requestAllOptions() {
     const [rt, rt1, rt2] = await Promise.all([
-      UserAPI.getList(),
+      AccountAPI.getList(),
       RouteAPI.Route.getList(),
       RouteAPI.RouteAuth.getList()
     ]);

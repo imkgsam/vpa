@@ -107,6 +107,7 @@ export type Entity = {
 
 export type Employee = {
   _id: string;
+  entity?: Entity;
   etype: string;
   departments?: [];
   manager?: Entity;

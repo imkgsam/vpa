@@ -114,6 +114,7 @@ defineExpose({ getRef });
     <el-form-item label="按钮权限" prop="auths">
       <el-select
         v-model="newFormInline.auths"
+        :disabled="!newFormInline.route"
         clearable
         multiple
         placeholder="请选择按钮权限"
