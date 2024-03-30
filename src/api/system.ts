@@ -452,6 +452,11 @@ export const AccountAPI = {
       "get",
       baseUrlApi("entity/account/all")
     );
+  },
+  update: (data: object) => {
+    return http.request<OneResult<UserAccount>>("put", baseUrlApi("account/"), {
+      data
+    });
   }
 };
 
@@ -504,6 +509,15 @@ export const EntityAPI = {
       return http.request<ListResultWithPage<Entity>>(
         "get",
         baseUrlApi("entity/company/filters"),
+        { data }
+      );
+    }
+  },
+  Employee: {
+    getPAll: (data?: object) => {
+      return http.request<ListResultWithPage<Entity>>(
+        "post",
+        baseUrlApi("entity/employee/pfilters"),
         { data }
       );
     }

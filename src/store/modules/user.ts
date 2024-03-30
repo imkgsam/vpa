@@ -27,6 +27,7 @@ export const useUserStore = defineStore({
   id: "pure-user",
   state: (): Account => ({
     account: {
+      _id: storageLocal().getItem<DataInfo<number>>(userKey)?.account._id ?? "",
       // 用户名
       accountName:
         storageLocal().getItem<DataInfo<number>>(userKey)?.account

@@ -22,6 +22,7 @@ defineOptions({
 const treeRef = ref();
 const formRef = ref();
 const tableRef = ref();
+const drawerOpened = ref(false);
 
 const {
   form,
@@ -51,10 +52,33 @@ const {
   toggleStatus,
   myHandleDelete
 } = useUser(tableRef);
+
+function handleDrawerCancle() {
+  drawerOpened.value = false;
+}
+function handleDetailClicked() {
+  drawerOpened.value = true;
+}
 </script>
 
 <template>
   <div class="main">
+    <!-- 左边drawer -->
+    <el-drawer v-model="drawerOpened" direction="rtl">
+      <template #header>
+        <h4>set title by slot</h4>
+      </template>
+      <template #default>
+        <div>content</div>
+      </template>
+      <template #footer>
+        <div style="flex: auto">
+          <el-button @click="handleDrawerCancle">cancel</el-button>
+          <!-- <el-button type="primary" @click="handleDrawer">confirm</el-button> -->
+        </div>
+      </template>
+    </el-drawer>
+
     <!-- 顶部搜索form  -->
     <el-form
       ref="formRef"
@@ -170,6 +194,7 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #operation="{ row }">
+            <el-button text @click="handleDetailClicked"> 详情 </el-button>
             <el-dropdown trigger="click" class="!align-middle">
               <el-icon>
                 <IconifyIconOffline :icon="MenuLine" />

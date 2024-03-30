@@ -527,6 +527,9 @@ common:
     Zambia: Zambia
     Zimbabwe: Zimbabwe
 constant:
+  gender:
+    Male: Male
+    Female: Female
   roles:
     admin: Admin
     common: Common User

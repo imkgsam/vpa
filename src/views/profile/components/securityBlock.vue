@@ -133,6 +133,11 @@ const onChangePassword = async (formEl: FormInstance | undefined) => {
         </el-row>
         <el-form-item>
           <el-button
+            v-show="
+              ruleForm.oldPassword &&
+              ruleForm.newPassword &&
+              ruleForm.newPasswordV
+            "
             class="mt-3"
             size="default"
             type="primary"

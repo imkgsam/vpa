@@ -16,6 +16,7 @@ import EmployeeBlock from "./components/employeeBlock.vue";
 import CustomerBlock from "./components/customerBlock.vue";
 import SupplierBlock from "./components/supplierBlock.vue";
 import SecurityBlock from "./components/securityBlock.vue";
+import AccountBlock from "./components/accountBlock.vue";
 import SystemSettingsBlock from "./components/systemSettingsBlock.vue";
 import EntityBlock from "./components/entityBlock.vue";
 
@@ -94,11 +95,6 @@ function hangleTagBtnClick(newTag: string) {
           <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
           {{ t("buttons.defaultInfo") }}
         </el-button>
-        <!-- <el-button :class="tag === 'user' ? 'el-button--primary' : 'is-text btn-border'"
-          @click="hangleTagBtnClick('user')">
-          <IconifyIconOffline :icon="AccountCircleLine" style="margin: 5px" />
-          {{ t("buttons.account") }}
-        </el-button> -->
         <el-button
           v-if="userInfo.employee._id"
           :class="
@@ -131,12 +127,12 @@ function hangleTagBtnClick(newTag: string) {
         </el-button>
         <el-button
           :class="
-            tag === 'security' ? 'el-button--primary' : 'is-text btn-border'
+            tag === 'account' ? 'el-button--primary' : 'is-text btn-border'
           "
-          @click="hangleTagBtnClick('security')"
+          @click="hangleTagBtnClick('account')"
         >
           <IconifyIconOffline :icon="LockPasswordLine" style="margin: 5px" />
-          {{ t("buttons.security") }}
+          {{ t("buttons.account") }}
         </el-button>
         <el-button
           :class="
@@ -175,7 +171,8 @@ function hangleTagBtnClick(newTag: string) {
         <div v-if="tag === 'supplier'">
           <SupplierBlock :supplier="userInfo.customer" />
         </div>
-        <div v-if="tag === 'security'">
+        <div v-if="tag === 'account'">
+          <AccountBlock :account="userInfo.account" />
           <SecurityBlock :userEmail="userInfo.account.email" />
         </div>
         <div v-if="tag === 'activity'">activity</div>

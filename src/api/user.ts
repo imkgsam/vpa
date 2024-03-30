@@ -59,10 +59,7 @@ export const refreshTokenApi = (data?: object) => {
 
 /**获取entity讯息 */
 export const requestDetailedAccountInfoByEntity = () => {
-  return http.request<EntityResult>(
-    "get",
-    baseUrlApi("entity/detailedinfo4currentuser")
-  );
+  return http.request<EntityResult>("get", baseUrlApi("user/detail"));
 };
 
 /** 修改密码 */

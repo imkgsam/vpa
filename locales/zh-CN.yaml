@@ -528,6 +528,9 @@ common:
     Zambia: 赞比亚
     Zimbabwe: 津巴布韦
 constant:
+  gender:
+    Male: 男
+    Female: 女
   roles:
     admin: 管理员
     common: 普通用户

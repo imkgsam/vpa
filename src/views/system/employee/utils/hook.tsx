@@ -9,8 +9,13 @@ import croppingUpload from "../upload.vue";
 import { addDialog } from "@/components/ReDialog";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormItemProps, RoleFormItemProps } from "../utils/types";
-import { hideTextAtIndex, getKeyList, isAllEmpty } from "@pureadmin/utils";
+import {
+  // hideTextAtIndex,
+  getKeyList,
+  isAllEmpty
+} from "@pureadmin/utils";
 import { usePublicHooks } from "../../hooks";
+import { transformI18n } from "@/plugins/i18n";
 
 import {
   getRoleIds,
@@ -83,7 +88,8 @@ export function useUser(
     {
       label: "性别",
       prop: "personal.sex",
-      formatter: ({ personal }) => personal.sex || "N/A"
+      formatter: ({ personal }) =>
+        transformI18n(`constant.gender.${personal.sex}`) || "N/A"
     },
     // {
     //   label: "用户头像",
@@ -126,67 +132,19 @@ export function useUser(
     // },
     {
       label: "手机号码",
-      prop: "common.mobilePhone",
-      formatter: ({ common }) =>
-        hideTextAtIndex(common.mobilePhone, { start: 7, end: 10 })
+      prop: "common.mobilePhone"
+      // formatter: ({ common }) =>
+      //   hideTextAtIndex(common.mobilePhone, { start: 7, end: 10 })
     },
     {
       label: "邮箱账号",
-      prop: "common.email",
-      formatter: ({ common }) =>
-        hideTextAtIndex(common.email, { start: 3, end: 6 })
-    },
-    {
-      label: "账户",
-      prop: "account",
-      cellRenderer: ({ row, props }) => (
-        <div>
-          <ul v-show={row.account !== null}>
-            <li>{row?.account?.accountName}</li>
-            <li>{row?.account?.email}</li>
-          </ul>
-          <el-tag
-            v-show={!row.account}
-            size={props.size}
-            style={tagStyleByBool.value(false)}
-          >
-            不可登录
-          </el-tag>
-        </div>
-      )
-    },
-    {
-      label: "类别",
-      prop: "meta.type",
-      cellRenderer: ({ row, props }) => (
-        <div>
-          <el-tag
-            v-show={row.employee}
-            size={props.size}
-            style={tagStyleByBool.value(true)}
-          >
-            员工
-          </el-tag>
-          <el-tag
-            v-show={row.supplier}
-            size={props.size}
-            style={tagStyleByBool.value(true)}
-          >
-            供应商
-          </el-tag>
-          <el-tag
-            v-show={row.supplier}
-            size={props.size}
-            style={tagStyleByBool.value(true)}
-          >
-            客户
-          </el-tag>
-        </div>
-      )
+      prop: "common.email"
+      // formatter: ({ common }) =>
+      //   hideTextAtIndex(common.email, { start: 3, end: 6 })
     },
     {
       label: "状态",
-      prop: "meta.verified",
+      prop: "status",
       width: 100,
       cellRenderer: ({ row, props }) => (
         <div>
@@ -206,17 +164,21 @@ export function useUser(
             size={props.size}
             style={tagStyleByBool.value(row.account ? true : false)}
           >
-            {row?.account ? "有登录权限" : "未登录权限"}
+            {row?.account ? "可登录账户" : "不可登录账户"}
           </el-tag>
         </div>
       )
     },
     {
+      label: "所属部门",
+      minWidth: 90,
+      prop: "departments"
+    },
+    {
       label: "创建时间",
       minWidth: 90,
       prop: "createdAt",
-      formatter: ({ createdAt }) =>
-        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createdAt }) => dayjs(createdAt).format("YYYY-MM-DD")
     },
     {
       label: "操作",
@@ -360,7 +322,7 @@ export function useUser(
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await EntityAPI.Person.getPAll(ops);
+    const { data } = await EntityAPI.Employee.getPAll(ops);
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;

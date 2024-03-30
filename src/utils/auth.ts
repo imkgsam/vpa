@@ -12,6 +12,8 @@ export interface DataInfo<T> {
   refreshToken: string;
   /** 登录账户信息 */
   account?: {
+    //账户id
+    _id?: string;
     accountName: string;
     /** 当前登陆用户的角色 */
     roles: Array<string>;
