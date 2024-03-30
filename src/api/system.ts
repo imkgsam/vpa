@@ -464,6 +464,25 @@ export const EntityAPI = {
   getAllEntities: () => {
     return http.request<ListResult<Entity>>("get", baseUrlApi("entity/all"));
   },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Entity>>(
+        "post",
+        baseUrlApi("entity/enable"),
+        {
+          data
+        }
+      );
+    } else {
+      return http.request<OneResult<Entity>>(
+        "post",
+        baseUrlApi("entity/disable"),
+        {
+          data
+        }
+      );
+    }
+  },
   Person: {
     getAll: () => {
       return http.request<ListResult<Entity>>(
@@ -477,25 +496,6 @@ export const EntityAPI = {
         baseUrlApi("entity/person/filters"),
         { data }
       );
-    },
-    toggleStatus: (data: object, newValue: boolean) => {
-      if (newValue) {
-        return http.request<OneResult<Entity>>(
-          "post",
-          baseUrlApi("entity/enable"),
-          {
-            data
-          }
-        );
-      } else {
-        return http.request<OneResult<Entity>>(
-          "post",
-          baseUrlApi("entity/disable"),
-          {
-            data
-          }
-        );
-      }
     }
   },
   Company: {

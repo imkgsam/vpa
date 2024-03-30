@@ -22,6 +22,7 @@ import {
   getDeptList,
   getAllRoleList,
   EntityAPI
+  // AccountAPI
 } from "@/api/system";
 import {
   ElForm,
@@ -53,8 +54,182 @@ export function useUser(
       isCustomer: undefined
     }
   });
+
+  // const entityForm = reactive({
+  //   _id: null,
+  //   name: '',
+  //   alias: '',
+  //   //种类，个人还是公司 EntityTypeEnum;
+  //   etype: 'Person',
+  //   //对于个人是所属的公司，对于公司就是所属的母公司，可选
+  //   scompany: null,
+  //   personal:{
+  //     //职位
+  //     jobTitle: '',
+  //     //性别
+  //     sex: '',
+  //     //生日
+  //     birth: null,
+  //   },
+  //   common:{
+  //     website: '',
+  //     //邮箱地址，个人-个人邮箱，公司-默认邮箱
+  //     email: '',
+  //     //固话
+  //     landline: '',
+  //     //手机
+  //     mobilePhone: '',
+  //     //所在国家
+  //     country: '',
+  //     //所在城市
+  //     city: '',
+  //     //行业
+  //     industry: '',
+  //     //内部备注
+  //     internalNote: '',
+  //   },
+  //   //所有社交方式
+  //   socialMedias:[],
+  //   //关联的登录账户 可选
+  //   account: null,
+  //   //关联的员工账户 可选
+  //   employee: null,
+  //   meta:{
+  //     //是否开启
+  //     enabled: undefined,
+  //     //是否已通过认证
+  //     verified: undefined,
+  //     //是否为我司供应商
+  //     isSupplier: undefined,
+  //     //是否为我司客户
+  //     isCustomer: undefined,
+  //     //是否为我司员工
+  //     isEmployee: undefined,
+  //   }
+  // })
+
+  // const accountForm = reactive({
+  //   _id: null,
+  //   accountName:"",
+  //   email: "",
+  //   phone: "",
+  //   password: "",
+  //   roles: [],
+  //   entity: null,
+  //   meta:{
+  //     verified: undefined,
+  //     enabled: undefined
+  //   },
+  //   security:{
+  //     questions:{
+  //       one: {
+  //         question: "",
+  //         answer: ""
+  //       },
+  //       two: {
+  //         question: "",
+  //         answer: ""
+  //       },
+  //       three: {
+  //         question: "",
+  //         answer: ""
+  //       }
+  //     }
+  //   },
+  // })
+
+  // const employeeForm = reactive({
+  //   _id: null,
+  //   entity: null,
+  //   //种类，EmployeeTypeEnum;
+  //   etype: "",
+  //   //部门s,可隶属多个部门
+  //   departments:[],
+  //   //直系管理员，
+  //   manager: null,
+  //   //工作座机
+  //   workPhone: '',
+  //   //工作手机
+  //   workMobile: '',
+  //   //工作邮箱
+  //   workEmail: '',
+  //   //员工编号-(唯一识别号, [年]-[h3/1]-[月]-[h3/2]-[日]-[h3/3]-[性别] md5-hash后三位975 陈双鹏2024年01月01日入职男 2490170151 )
+  //   //入职日期 = 试用期起始日期 = 进入公司的日期
+  //   inauguratiionDate: null,
+  //   //试用期
+  //   probation:{
+  //     //试用期开始时间
+  //     startDate: new Date(),
+  //     //计划试用时间 按天算
+  //     period: 90,
+  //     //试用期实际结束日期：提前转正，延期试用
+  //     // actualEndDate: Date;
+  //     //试用期结果
+  //     // result?: EmployeeTypeEnum;
+  //     //试用期结果备注
+  //     // note?: string;
+  //   },
+  //   //个人隐私
+  //   privacy:{
+  //     //家庭情况
+  //     family:{
+  //       //婚姻情况 MaritalStatusTypeEnum,
+  //       status: '',
+  //       //需抚养子女数量
+  //       dependentChildrenCount: 0
+  //     },
+  //     //国籍
+  //     nationality:{
+  //       //出生国家
+  //       country: '',
+  //       //出生城市
+  //       city: '',
+  //       //出生日期
+  //       birth: null,
+  //       //身份证
+  //       ID: '',
+  //       //护照
+  //       passport: '',
+  //       //税号
+  //       taxNo: '',
+  //       //驾照号
+  //       driverLicense: '',
+  //     },
+  //     //紧急联系
+  //     emergency:{
+  //       //联系人
+  //       contact: '',
+  //       //联系电话
+  //       phone: ''
+  //     }
+  //   },
+  //   //教育
+  //   education:{
+  //     //最高学历 EducationTypeEnum,
+  //     qulification: null,
+  //     //毕业院校
+  //     school: '',
+  //     //毕业日期
+  //     graduatedAt: null,
+  //     //专业
+  //     major: ''
+  //   },
+  //   meta:{
+  //     //是否有效，当试用期结束时，1.如果通过则开启，如果不通过则关闭
+  //     enabled: undefined
+  //   }
+  // })
+
   const formRef = ref();
+  // const entityFormRef = ref()
+  // const accountFormRef = ref()
+  // const employeeFormRef= ref()
+
   const ruleFormRef = ref();
+  // const ruleEntityFormRef = ref()
+  // const ruleAccountFormRef = ref()
+  // const ruleEmployeeFormRef = ref()
+
   const dataList = ref([]);
   const loading = ref(true);
   // 上传头像信息
@@ -105,7 +280,6 @@ export function useUser(
     //   ),
     //   width: 90
     // },
-
     // {
     //   label: "用户昵称",
     //   prop: "nickname",
@@ -130,17 +304,16 @@ export function useUser(
     //   prop: "dept.name",
     //   minWidth: 90
     // },
+    // {
+    //   label: "手机号码",
+    //   prop: "common.mobilePhone"
+    //   // formatter: ({ common }) =>
+    //   //   hideTextAtIndex(common.mobilePhone, { start: 7, end: 10 })
+    // },
     {
-      label: "手机号码",
-      prop: "common.mobilePhone"
-      // formatter: ({ common }) =>
-      //   hideTextAtIndex(common.mobilePhone, { start: 7, end: 10 })
-    },
-    {
-      label: "邮箱账号",
-      prop: "common.email"
-      // formatter: ({ common }) =>
-      //   hideTextAtIndex(common.email, { start: 3, end: 6 })
+      label: "企业邮箱",
+      prop: "employee.workEmail",
+      formatter: ({ employee }) => employee?.workEmail || "无"
     },
     {
       label: "状态",
@@ -152,7 +325,7 @@ export function useUser(
             size={props.size}
             style={tagStyleByBool.value(row.meta.enabled || false)}
           >
-            {row?.meta.enabled ? "启用" : "停用"}
+            {row?.meta.enabled ? "E启用" : "E停用"}
           </el-tag>
           <el-tag
             size={props.size}
@@ -164,7 +337,15 @@ export function useUser(
             size={props.size}
             style={tagStyleByBool.value(row.account ? true : false)}
           >
-            {row?.account ? "可登录账户" : "不可登录账户"}
+            {row?.account ? "可登录账户" : "无登录账户"}
+          </el-tag>
+          <el-tag
+            size={props.size}
+            style={tagStyleByBool.value(
+              row.meta.isEmployee && row.employee ? true : false
+            )}
+          >
+            {row.meta.isEmployee && row.employee ? "员工" : "非员工"}
           </el-tag>
         </div>
       )
@@ -271,7 +452,7 @@ export function useUser(
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await EntityAPI.Person.toggleStatus({ id: id }, newValue);
+    let rt = await EntityAPI.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
   }
@@ -333,6 +514,11 @@ export function useUser(
     }, 500);
   }
 
+  // async function handleAccountCreateBtnClicked(id: string){
+  //   accountForm._id = id
+  //   accountFormVisiable.value = true
+  // }
+
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
@@ -345,34 +531,27 @@ export function useUser(
   //   onSearch();
   // }
 
-  function formatHigherDeptOptions(treeList) {
-    // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
-    if (!treeList || !treeList.length) return;
-    const newTreeList = [];
-    for (let i = 0; i < treeList.length; i++) {
-      treeList[i].disabled = treeList[i].status === 0 ? true : false;
-      formatHigherDeptOptions(treeList[i].children);
-      newTreeList.push(treeList[i]);
-    }
-    return newTreeList;
-  }
+  // function formatHigherDeptOptions(treeList) {
+  //   // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
+  //   if (!treeList || !treeList.length) return;
+  //   const newTreeList = [];
+  //   for (let i = 0; i < treeList.length; i++) {
+  //     treeList[i].disabled = treeList[i].status === 0 ? true : false;
+  //     formatHigherDeptOptions(treeList[i].children);
+  //     newTreeList.push(treeList[i]);
+  //   }
+  //   return newTreeList;
+  // }
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}用户`,
+      title: `${title}成员`,
       props: {
         formInline: {
           title,
-          higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
-          parentId: row?.dept.id ?? 0,
-          nickname: row?.nickname ?? "",
-          accountName: row?.accountName ?? "",
-          password: row?.password ?? "",
-          phone: row?.phone ?? "",
-          email: row?.email ?? "",
-          sex: row?.sex ?? "",
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          entity: row?.entity || {},
+          account: row?.account || {},
+          employee: row?.employee || {}
         }
       },
       width: "46%",
@@ -578,6 +757,8 @@ export function useUser(
     handleSelectionChange,
 
     myHandleDelete,
-    toggleStatus
+    toggleStatus,
+
+    accountForm
   };
 }

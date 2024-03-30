@@ -22,7 +22,14 @@ defineOptions({
 const treeRef = ref();
 const formRef = ref();
 const tableRef = ref();
-const drawerOpened = ref(false);
+
+const detailContent = ref();
+const detailDrawerVisiable = ref(false);
+
+function detailClicked(row) {
+  detailDrawerVisiable.value = true;
+  detailContent.value = row;
+}
 
 const {
   form,
@@ -50,32 +57,19 @@ const {
   handleSelectionChange,
 
   toggleStatus,
-  myHandleDelete
+  accountForm
 } = useUser(tableRef);
-
-function handleDrawerCancle() {
-  drawerOpened.value = false;
-}
-function handleDetailClicked() {
-  drawerOpened.value = true;
-}
 </script>
 
 <template>
   <div class="main">
     <!-- 左边drawer -->
-    <el-drawer v-model="drawerOpened" direction="rtl">
+    <el-drawer v-model="detailDrawerVisiable" direction="rtl">
       <template #header>
-        <h4>set title by slot</h4>
+        <h4>成员详情信息</h4>
       </template>
       <template #default>
-        <div>content</div>
-      </template>
-      <template #footer>
-        <div style="flex: auto">
-          <el-button @click="handleDrawerCancle">cancel</el-button>
-          <!-- <el-button type="primary" @click="handleDrawer">confirm</el-button> -->
-        </div>
+        <div>{{ detailContent }}</div>
       </template>
     </el-drawer>
 
@@ -86,7 +80,7 @@ function handleDetailClicked() {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
-      <el-form-item label="用户名称：" prop="accountName">
+      <!-- <el-form-item label="用户名称：" prop="accountName">
         <el-input
           v-model="form.accountName"
           placeholder="请输入用户名称"
@@ -101,7 +95,7 @@ function handleDetailClicked() {
           clearable
           class="!w-[180px]"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="启用状态" prop="meta.enabled">
         <el-select
           v-model="form.meta.enabled"
@@ -138,6 +132,7 @@ function handleDetailClicked() {
         </el-button>
       </el-form-item>
     </el-form>
+
     <!-- 数据列表 -->
     <PureTableBar title="成员管理" :columns="columns" @refresh="onSearch">
       <template #buttons>
@@ -194,7 +189,7 @@ function handleDetailClicked() {
           @page-current-change="handleCurrentChange"
         >
           <template #operation="{ row }">
-            <el-button text @click="handleDetailClicked"> 详情 </el-button>
+            <el-button text @click="detailClicked(row)"> 详情 </el-button>
             <el-dropdown trigger="click" class="!align-middle">
               <el-icon>
                 <IconifyIconOffline :icon="MenuLine" />
@@ -225,7 +220,7 @@ function handleDetailClicked() {
                       {{ row?.meta.enabled ? "停用" : "启用" }}
                     </el-button>
                   </el-dropdown-item>
-                  <el-dropdown-item>
+                  <!-- <el-dropdown-item>
                     <el-button
                       class="reset-margin"
                       link
@@ -236,7 +231,7 @@ function handleDetailClicked() {
                     >
                       删除
                     </el-button>
-                  </el-dropdown-item>
+                  </el-dropdown-item> -->
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
