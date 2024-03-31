@@ -4,7 +4,6 @@ import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { CategoryAPI } from "@/api/system";
 
-// import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
@@ -20,7 +19,6 @@ export function useHook() {
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-  // const { tagStyleByBool } = usePublicHooks();
 
   const columns: TableColumnList = [
     {

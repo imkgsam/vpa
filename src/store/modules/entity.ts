@@ -29,7 +29,7 @@ export const useEntityStore = defineStore({
     },
     async getAllRoles_public(refresh: boolean) {
       if (refresh || this.roles.length === 0) {
-        const req = await RoleAPI.getPublicList();
+        const req = await RoleAPI.getAllPublic();
         this.SET_ROLES(req.data);
       }
       return this.roles;

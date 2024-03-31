@@ -56,8 +56,7 @@ const {
   handleCurrentChange,
   handleSelectionChange,
 
-  toggleStatus,
-  accountForm
+  toggleStatus
 } = useUser(tableRef);
 </script>
 

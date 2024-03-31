@@ -8,8 +8,8 @@ import type {
   RouteAuth,
   UserAccount,
   RouteAccess,
-  Entity,
-  Employee
+  Entity
+  // Employee
 } from "@/store/modules/types";
 
 import { baseUrlApi } from "./utils";
@@ -161,6 +161,12 @@ export const DepartmentAPI = {
         data
       }
     );
+  },
+  getAllPublic: () => {
+    return http.request<ListResult<Department>>(
+      "get",
+      baseUrlApi("department/allpublic")
+    );
   }
 };
 
@@ -179,14 +185,8 @@ export const RoleAPI = {
       }
     );
   },
-  getPublicList: (data?: object) => {
-    return http.request<ListResult<Role>>(
-      "get",
-      baseUrlApi("roles/all-public"),
-      {
-        data
-      }
-    );
+  getAllPublic: () => {
+    return http.request<ListResult<Role>>("get", baseUrlApi("roles/allpublic"));
   },
   toggleStatus: (data: object, newValue: boolean) => {
     if (newValue) {
@@ -511,49 +511,44 @@ export const EntityAPI = {
         baseUrlApi("entity/company/filters"),
         { data }
       );
+    },
+    getAllPublic: () => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/company/allpublic")
+      );
     }
   },
   Employee: {
+    create: (data?: object) => {
+      return http.request<OneResult<Entity>>(
+        "post",
+        baseUrlApi("entity/employee/"),
+        {
+          data
+        }
+      );
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<Entity>>(
+        "put",
+        baseUrlApi("entity/employee/"),
+        {
+          data
+        }
+      );
+    },
     getPAll: (data?: object) => {
       return http.request<ListResultWithPage<Entity>>(
         "post",
         baseUrlApi("entity/employee/pfilters"),
         { data }
       );
-    }
-  }
-};
-
-export const EmployeeAPI = {
-  getAll: () => {
-    return http.request<ListResult<Employee>>(
-      "get",
-      baseUrlApi("employee/all")
-    );
-  },
-  getPAll: (data?: object) => {
-    return http.request<ListResultWithPage<Employee>>(
-      "post",
-      baseUrlApi("employee/pfilters"),
-      { data }
-    );
-  },
-  toggleStatus: (data: object, newValue: boolean) => {
-    if (newValue) {
-      return http.request<OneResult<Employee>>(
-        "post",
-        baseUrlApi("employee/enable"),
-        {
-          data
-        }
-      );
-    } else {
-      return http.request<OneResult<Employee>>(
-        "post",
-        baseUrlApi("employee/disable"),
-        {
-          data
-        }
+    },
+    getAllPublic: () => {
+      return http.request<ListResult<Entity>>(
+        "get",
+        baseUrlApi("entity/employee/allpublic")
       );
     }
   }

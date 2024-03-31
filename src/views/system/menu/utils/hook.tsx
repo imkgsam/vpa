@@ -4,36 +4,26 @@ import { message } from "@/utils/message";
 import { RouteAPI } from "@/api/system";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
-import { usePublicHooks } from "../../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
 import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { ElMessageBox } from "element-plus";
+import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 
 export function useHook() {
   const form = reactive({
     title: ""
   });
-  const { tagStyleByBool } = usePublicHooks();
+  const { tagStyleByBool } = usePublicThemeHooks();
 
   const formRef = ref();
   const dataList = ref([]);
   const dataList_routeAuth = ref([]);
   const loading = ref(true);
 
-  // const getMenuType = (type, text = false) => {
-  //   switch (type) {
-  //     case 0:
-  //       return text ? "菜单" : "primary";
-  //     case 1:
-  //       return text ? "iframe" : "warning";
-  //     case 2:
-  //       return text ? "外链" : "danger";
-  //     case 3:
-  //       return text ? "按钮" : "info";
-  //   }
-  // };
+  const { formatHigherMenuOptions } = usePublicSharedFunctionsHooks();
 
   const columns: TableColumnList = [
     {
@@ -147,29 +137,6 @@ export function useHook() {
       loading.value = false;
     }, 500);
   }
-
-  function formatHigherMenuOptions(treeList) {
-    if (!treeList || !treeList.length) return;
-    const newTreeList = [];
-    for (let i = 0; i < treeList.length; i++) {
-      treeList[i].title = transformI18n(treeList[i].meta.title);
-      formatHigherMenuOptions(treeList[i].children);
-      newTreeList.push(treeList[i]);
-    }
-    return newTreeList;
-  }
-
-  // function formatHigherDeptOptions(treeList) {
-  //   // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
-  //   if (!treeList || !treeList.length) return;
-  //   const newTreeList = [];
-  //   for (let i = 0; i < treeList.length; i++) {
-  //     treeList[i].disabled = !treeList[i].meta.enabled;
-  //     formatHigherDeptOptions(treeList[i].children);
-  //     newTreeList.push(treeList[i]);
-  //   }
-  //   return newTreeList;
-  // }
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({

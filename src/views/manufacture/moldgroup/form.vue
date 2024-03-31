@@ -3,7 +3,7 @@ import { ref, onBeforeMount, reactive } from "vue";
 import ReCol from "@/components/ReCol";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
-import { usePublicHooks } from "../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { useEntityStoreHook } from "@/store/modules/entity";
 
 const state = reactive({
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<FormProps>(), {
 });
 
 const ruleFormRef = ref();
-const { switchStyle } = usePublicHooks();
+const { switchStyle } = usePublicThemeHooks();
 const newFormInline = ref(props.formInline);
 
 function getRef() {

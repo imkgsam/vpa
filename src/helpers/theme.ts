@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useDark } from "@pureadmin/utils";
 
-export function usePublicHooks() {
+export function usePublicThemeHooks() {
   const { isDark } = useDark();
 
   const switchStyle = computed(() => {

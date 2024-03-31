@@ -3,13 +3,13 @@ import editForm from "../form.vue";
 import { message } from "@/utils/message";
 import { AttributeAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
-import { usePublicHooks } from "../../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 
-const { tagStyleByBool } = usePublicHooks();
+const { tagStyleByBool } = usePublicThemeHooks();
 
 export function useHook() {
   const form = reactive({
@@ -24,7 +24,6 @@ export function useHook() {
   const dataList = ref([]);
   const loading = ref(true);
   // const switchLoadMap = ref({});
-  // const { switchStyle } = usePublicHooks();
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,

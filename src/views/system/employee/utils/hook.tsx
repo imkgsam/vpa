@@ -14,7 +14,7 @@ import {
   getKeyList,
   isAllEmpty
 } from "@pureadmin/utils";
-import { usePublicHooks } from "../../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { transformI18n } from "@/plugins/i18n";
 
 import {
@@ -55,190 +55,16 @@ export function useUser(
     }
   });
 
-  // const entityForm = reactive({
-  //   _id: null,
-  //   name: '',
-  //   alias: '',
-  //   //种类，个人还是公司 EntityTypeEnum;
-  //   etype: 'Person',
-  //   //对于个人是所属的公司，对于公司就是所属的母公司，可选
-  //   scompany: null,
-  //   personal:{
-  //     //职位
-  //     jobTitle: '',
-  //     //性别
-  //     sex: '',
-  //     //生日
-  //     birth: null,
-  //   },
-  //   common:{
-  //     website: '',
-  //     //邮箱地址，个人-个人邮箱，公司-默认邮箱
-  //     email: '',
-  //     //固话
-  //     landline: '',
-  //     //手机
-  //     mobilePhone: '',
-  //     //所在国家
-  //     country: '',
-  //     //所在城市
-  //     city: '',
-  //     //行业
-  //     industry: '',
-  //     //内部备注
-  //     internalNote: '',
-  //   },
-  //   //所有社交方式
-  //   socialMedias:[],
-  //   //关联的登录账户 可选
-  //   account: null,
-  //   //关联的员工账户 可选
-  //   employee: null,
-  //   meta:{
-  //     //是否开启
-  //     enabled: undefined,
-  //     //是否已通过认证
-  //     verified: undefined,
-  //     //是否为我司供应商
-  //     isSupplier: undefined,
-  //     //是否为我司客户
-  //     isCustomer: undefined,
-  //     //是否为我司员工
-  //     isEmployee: undefined,
-  //   }
-  // })
-
-  // const accountForm = reactive({
-  //   _id: null,
-  //   accountName:"",
-  //   email: "",
-  //   phone: "",
-  //   password: "",
-  //   roles: [],
-  //   entity: null,
-  //   meta:{
-  //     verified: undefined,
-  //     enabled: undefined
-  //   },
-  //   security:{
-  //     questions:{
-  //       one: {
-  //         question: "",
-  //         answer: ""
-  //       },
-  //       two: {
-  //         question: "",
-  //         answer: ""
-  //       },
-  //       three: {
-  //         question: "",
-  //         answer: ""
-  //       }
-  //     }
-  //   },
-  // })
-
-  // const employeeForm = reactive({
-  //   _id: null,
-  //   entity: null,
-  //   //种类，EmployeeTypeEnum;
-  //   etype: "",
-  //   //部门s,可隶属多个部门
-  //   departments:[],
-  //   //直系管理员，
-  //   manager: null,
-  //   //工作座机
-  //   workPhone: '',
-  //   //工作手机
-  //   workMobile: '',
-  //   //工作邮箱
-  //   workEmail: '',
-  //   //员工编号-(唯一识别号, [年]-[h3/1]-[月]-[h3/2]-[日]-[h3/3]-[性别] md5-hash后三位975 陈双鹏2024年01月01日入职男 2490170151 )
-  //   //入职日期 = 试用期起始日期 = 进入公司的日期
-  //   inauguratiionDate: null,
-  //   //试用期
-  //   probation:{
-  //     //试用期开始时间
-  //     startDate: new Date(),
-  //     //计划试用时间 按天算
-  //     period: 90,
-  //     //试用期实际结束日期：提前转正，延期试用
-  //     // actualEndDate: Date;
-  //     //试用期结果
-  //     // result?: EmployeeTypeEnum;
-  //     //试用期结果备注
-  //     // note?: string;
-  //   },
-  //   //个人隐私
-  //   privacy:{
-  //     //家庭情况
-  //     family:{
-  //       //婚姻情况 MaritalStatusTypeEnum,
-  //       status: '',
-  //       //需抚养子女数量
-  //       dependentChildrenCount: 0
-  //     },
-  //     //国籍
-  //     nationality:{
-  //       //出生国家
-  //       country: '',
-  //       //出生城市
-  //       city: '',
-  //       //出生日期
-  //       birth: null,
-  //       //身份证
-  //       ID: '',
-  //       //护照
-  //       passport: '',
-  //       //税号
-  //       taxNo: '',
-  //       //驾照号
-  //       driverLicense: '',
-  //     },
-  //     //紧急联系
-  //     emergency:{
-  //       //联系人
-  //       contact: '',
-  //       //联系电话
-  //       phone: ''
-  //     }
-  //   },
-  //   //教育
-  //   education:{
-  //     //最高学历 EducationTypeEnum,
-  //     qulification: null,
-  //     //毕业院校
-  //     school: '',
-  //     //毕业日期
-  //     graduatedAt: null,
-  //     //专业
-  //     major: ''
-  //   },
-  //   meta:{
-  //     //是否有效，当试用期结束时，1.如果通过则开启，如果不通过则关闭
-  //     enabled: undefined
-  //   }
-  // })
-
   const formRef = ref();
-  // const entityFormRef = ref()
-  // const accountFormRef = ref()
-  // const employeeFormRef= ref()
 
   const ruleFormRef = ref();
-  // const ruleEntityFormRef = ref()
-  // const ruleAccountFormRef = ref()
-  // const ruleEmployeeFormRef = ref()
 
   const dataList = ref([]);
   const loading = ref(true);
   // 上传头像信息
   const avatarInfo = ref();
   // const switchLoadMap = ref({});
-  const {
-    // switchStyle,
-    tagStyleByBool
-  } = usePublicHooks();
+  const { tagStyleByBool } = usePublicThemeHooks();
   const higherDeptOptions = ref();
   const treeData = ref([]);
   const treeLoading = ref(true);
@@ -531,27 +357,109 @@ export function useUser(
   //   onSearch();
   // }
 
-  // function formatHigherDeptOptions(treeList) {
-  //   // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
-  //   if (!treeList || !treeList.length) return;
-  //   const newTreeList = [];
-  //   for (let i = 0; i < treeList.length; i++) {
-  //     treeList[i].disabled = treeList[i].status === 0 ? true : false;
-  //     formatHigherDeptOptions(treeList[i].children);
-  //     newTreeList.push(treeList[i]);
-  //   }
-  //   return newTreeList;
-  // }
-
   function openDialog(title = "新增", row?: FormItemProps) {
+    console.log("entity ", row);
     addDialog({
       title: `${title}成员`,
       props: {
+        title,
         formInline: {
-          title,
-          entity: row?.entity || {},
-          account: row?.account || {},
-          employee: row?.employee || {}
+          _id: row?._id,
+          name: row?.name,
+          alias: row?.alias,
+          etype: "Person",
+          //对于个人是所属的公司，对于公司就是所属的母公司，可选
+          scompany: row?.scompany,
+          personal: {
+            //职位
+            jobTitle: row?.personal?.jobTitle,
+            //性别
+            sex: row?.personal?.sex,
+            //生日
+            birth: row?.personal?.birth
+          },
+          common: {
+            website: row?.common?.website,
+            //邮箱地址，个人-个人邮箱，公司-默认邮箱
+            email: row?.common?.email,
+            //固话
+            landline: row?.common?.landline,
+            //手机
+            mobilePhone: row?.common?.mobilePhone,
+            //所在国家
+            country: row?.common?.country,
+            //所在城市
+            city: row?.common?.city,
+            //行业
+            industry: row?.common?.industry,
+            //内部备注
+            internalNote: row?.common?.internalNote
+          },
+          socialMedias: row?.socialMedias,
+          meta: {
+            enabled: row?.meta.enabled,
+            verified: row?.meta.verified,
+            isSupplier: row?.meta.isSupplier,
+            isCustomer: row?.meta.isCustomer,
+            isEmployee: true,
+            isUser: row?.meta.isUser
+          },
+          account: {
+            _id: row?.account?._id,
+            accountName: row?.account?.accountName,
+            email: row?.account?.email,
+            phone: row?.account?.phone,
+            password: row?.account?.password,
+            roles: row?.account?.roles,
+            meta: {
+              verified: row?.account?.meta?.verified,
+              enabled: row?.account?.meta?.enabled
+            }
+          },
+          employee: {
+            _id: row?.employee?._id,
+            etype: row?.employee?.etype,
+            departments: row?.employee?.departments,
+            manager: row?.employee?.manager,
+            workPhone: row?.employee?.workPhone,
+            workMobile: row?.employee?.workMobile,
+            workEmail: row?.employee?.workEmail,
+            inaugurationDate: row?.employee?.inaugurationDate,
+            privacy: {
+              family: {
+                status: row?.employee?.privacy?.family?.status,
+                dependentChildrenCount:
+                  row?.employee?.privacy?.family?.dependentChildrenCount
+              },
+              //国籍
+              nationality: {
+                country: row?.employee?.privacy?.nationality?.country,
+                city: row?.employee?.privacy?.nationality?.city,
+                birth: row?.employee?.privacy?.nationality?.birth,
+                ID: row?.employee?.privacy?.nationality?.ID,
+                passport: row?.employee?.privacy?.nationality?.passport,
+                taxNo: row?.employee?.privacy?.nationality?.taxNo,
+                driverLicense:
+                  row?.employee?.privacy?.nationality?.driverLicense
+              },
+              //紧急联系
+              emergency: {
+                //联系人
+                contact: row?.employee?.privacy?.emergency?.contact,
+                //联系电话
+                phone: row?.employee?.privacy?.emergency?.phone
+              }
+            },
+            education: {
+              qulification: row?.employee?.education?.qulification,
+              school: row?.employee?.education?.school,
+              graduatedAt: row?.employee?.education?.graduatedAt,
+              major: row?.employee?.education?.major
+            },
+            meta: {
+              enabled: row?.employee?.meta?.enabled
+            }
+          }
         }
       },
       width: "46%",
@@ -562,24 +470,23 @@ export function useUser(
       beforeSure: (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
+        console.log("curData", curData);
         function chores() {
-          message(`您${title}了用户名称为${curData.accountName}的这条数据`, {
+          message(`您${title}了用户名称为${curData.name}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
-              chores();
+              await EntityAPI.Employee.create(curData);
+              onSearch();
             } else {
-              // 实际开发先调用修改接口，再进行下面操作
-              chores();
             }
+            chores();
           }
         });
       }
@@ -757,8 +664,6 @@ export function useUser(
     handleSelectionChange,
 
     myHandleDelete,
-    toggleStatus,
-
-    accountForm
+    toggleStatus
   };
 }

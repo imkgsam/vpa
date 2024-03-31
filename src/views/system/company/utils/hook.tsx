@@ -6,11 +6,13 @@ import { zxcvbn } from "@zxcvbn-ts/core";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import croppingUpload from "../upload.vue";
-import { usePublicHooks } from "../../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormItemProps, RoleFormItemProps } from "../utils/types";
 import { hideTextAtIndex, getKeyList, isAllEmpty } from "@pureadmin/utils";
+import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
+
 import {
   getRoleIds,
   getDeptList,
@@ -46,6 +48,8 @@ export function useUser(
     phone: "",
     status: ""
   });
+  const { formatHigherDeptOptions } = usePublicSharedFunctionsHooks();
+
   const formRef = ref();
   const ruleFormRef = ref();
   const dataList = ref([]);
@@ -53,7 +57,7 @@ export function useUser(
   // 上传头像信息
   const avatarInfo = ref();
   const switchLoadMap = ref({});
-  const { switchStyle } = usePublicHooks();
+  const { switchStyle } = usePublicThemeHooks();
   const higherDeptOptions = ref();
   const treeData = ref([]);
   const treeLoading = ref(true);
@@ -291,18 +295,6 @@ export function useUser(
   function onTreeSelect({ id, selected }) {
     form.deptId = selected ? id : "";
     onSearch();
-  }
-
-  function formatHigherDeptOptions(treeList) {
-    // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
-    if (!treeList || !treeList.length) return;
-    const newTreeList = [];
-    for (let i = 0; i < treeList.length; i++) {
-      treeList[i].disabled = treeList[i].status === 0 ? true : false;
-      formatHigherDeptOptions(treeList[i].children);
-      newTreeList.push(treeList[i]);
-    }
-    return newTreeList;
   }
 
   function openDialog(title = "新增", row?: FormItemProps) {

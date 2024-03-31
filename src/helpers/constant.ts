@@ -1,0 +1,560 @@
+export function usePublicConstantHooks() {
+  const countryOptions = [
+    { en: "Afghanistan", cn: "阿富汗", l2: "AF", l3: "AFG", code: "004" },
+    { en: "Åland Islands", cn: "奥兰", l2: "AX", l3: "ALA", code: "248" },
+    { en: "Albania", cn: "阿尔巴尼亚", l2: "AL", l3: "ALB", code: "008" },
+    { en: "Algeria", cn: "阿尔及利亚", l2: "DZ", l3: "DZA", code: "012" },
+    {
+      en: "American Samoa",
+      cn: "美属萨摩亚",
+      l2: "AS",
+      l3: "ASM",
+      code: "016"
+    },
+    { en: "Andorra", cn: "安道尔", l2: "AD", l3: "AND", code: "020" },
+    { en: "Angola", cn: "安哥拉", l2: "AO", l3: "AGO", code: "024" },
+    { en: "Anguilla", cn: "安圭拉", l2: "AI", l3: "AIA", code: "660" },
+    { en: "Antarctica", cn: "南极洲", l2: "AQ", l3: "ATA", code: "010" },
+    {
+      en: "Antigua and Barbuda",
+      cn: "安提瓜和巴布达",
+      l2: "AG",
+      l3: "ATG",
+      code: "028"
+    },
+    { en: "Argentina", cn: "阿根廷", l2: "AR", l3: "ARG", code: "032" },
+    { en: "Armenia", cn: "亚美尼亚", l2: "AM", l3: "ARM", code: "051" },
+    { en: "Aruba", cn: "阿鲁巴", l2: "AW", l3: "ABW", code: "533" },
+    { en: "Australia", cn: "澳大利亚", l2: "AU", l3: "AUS", code: "036" },
+    { en: "Austria", cn: "奥地利", l2: "AT", l3: "AUT", code: "040" },
+    { en: "Azerbaijan", cn: "阿塞拜疆", l2: "AZ", l3: "AZE", code: "031" },
+    { en: "Bahamas", cn: "巴哈马", l2: "BS", l3: "BHS", code: "044" },
+    { en: "Bahrain", cn: "巴林", l2: "BH", l3: "BHR", code: "048" },
+    { en: "Bangladesh", cn: "孟加拉国", l2: "BD", l3: "BGD", code: "050" },
+    { en: "Barbados", cn: "巴巴多斯", l2: "BB", l3: "BRB", code: "052" },
+    { en: "Belarus", cn: "白俄罗斯", l2: "BY", l3: "BLR", code: "112" },
+    { en: "Belgium", cn: "比利时", l2: "BE", l3: "BEL", code: "056" },
+    { en: "Belize", cn: "伯利兹", l2: "BZ", l3: "BLZ", code: "084" },
+    { en: "Benin", cn: "贝宁", l2: "BJ", l3: "BEN", code: "204" },
+    { en: "Bermuda", cn: "百慕大", l2: "BM", l3: "BMU", code: "060" },
+    { en: "Bhutan", cn: "不丹", l2: "BT", l3: "BTN", code: "064" },
+    {
+      en: "Bolivia (Plurinational State of)",
+      cn: "玻利维亚",
+      l2: "BO",
+      l3: "BOL",
+      code: "068"
+    },
+    {
+      en: "Bonaire, Sint Eustatius and Saba",
+      cn: "荷兰加勒比区",
+      l2: "BQ",
+      l3: "BES",
+      code: "535"
+    },
+    {
+      en: "Bosnia and Herzegovina",
+      cn: "波黑",
+      l2: "BA",
+      l3: "BIH",
+      code: "070"
+    },
+    { en: "Botswana", cn: "博茨瓦纳", l2: "BW", l3: "BWA", code: "072" },
+    { en: "Bouvet Island", cn: "布韦岛", l2: "BV", l3: "BVT", code: "074" },
+    { en: "Brazil", cn: "巴西", l2: "BR", l3: "BRA", code: "076" },
+    {
+      en: "British Indian Ocean Territory",
+      cn: "英属印度洋领地",
+      l2: "IO",
+      l3: "IOT",
+      code: "086"
+    },
+    { en: "Brunei Darussalam", cn: "文莱", l2: "BN", l3: "BRN", code: "096" },
+    { en: "Bulgaria", cn: "保加利亚", l2: "BG", l3: "BGR", code: "100" },
+    { en: "Burkina Faso", cn: "布基纳法索", l2: "BF", l3: "BFA", code: "854" },
+    { en: "Burundi", cn: "布隆迪", l2: "BI", l3: "BDI", code: "108" },
+    { en: "Cabo Verde", cn: "佛得角", l2: "CV", l3: "CPV", code: "132" },
+    { en: "Cambodia", cn: "柬埔寨", l2: "KH", l3: "KHM", code: "116" },
+    { en: "Cameroon", cn: "喀麦隆", l2: "CM", l3: "CMR", code: "120" },
+    { en: "Canada", cn: "加拿大", l2: "CA", l3: "CAN", code: "124" },
+    { en: "Cayman Islands", cn: "开曼群岛", l2: "KY", l3: "CYM", code: "136" },
+    {
+      en: "Central African Republic",
+      cn: "中非",
+      l2: "CF",
+      l3: "CAF",
+      code: "140"
+    },
+    { en: "Chad", cn: "乍得", l2: "TD", l3: "TCD", code: "148" },
+    { en: "Chile", cn: "智利", l2: "CL", l3: "CHL", code: "152" },
+    { en: "China", cn: "中国", l2: "CN", l3: "CHN", code: "156" },
+    { en: "Christmas Island", cn: "圣诞岛", l2: "CX", l3: "CXR", code: "162" },
+    {
+      en: "Cocos (Keeling) Islands",
+      cn: "科科斯（基林）群岛",
+      l2: "CC",
+      l3: "CCK",
+      code: "166"
+    },
+    { en: "Colombia", cn: "哥伦比亚", l2: "CO", l3: "COL", code: "170" },
+    { en: "Comoros", cn: "科摩罗", l2: "KM", l3: "COM", code: "174" },
+    { en: "Congo", cn: "刚果共和国", l2: "CG", l3: "COG", code: "178" },
+    {
+      en: "Congo (Democratic Republic of the)",
+      cn: "刚果民主共和国",
+      l2: "CD",
+      l3: "COD",
+      code: "180"
+    },
+    { en: "Cook Islands", cn: "库克群岛", l2: "CK", l3: "COK", code: "184" },
+    { en: "Costa Rica", cn: "哥斯达黎加", l2: "CR", l3: "CRI", code: "188" },
+    { en: "Côte d'Ivoire", cn: "科特迪瓦", l2: "CI", l3: "CIV", code: "384" },
+    { en: "Croatia", cn: "克罗地亚", l2: "HR", l3: "HRV", code: "191" },
+    { en: "Cuba", cn: "古巴", l2: "CU", l3: "CUB", code: "192" },
+    { en: "Curaçao", cn: "库拉索", l2: "CW", l3: "CUW", code: "531" },
+    { en: "Cyprus", cn: "塞浦路斯", l2: "CY", l3: "CYP", code: "196" },
+    { en: "Czechia", cn: "捷克", l2: "CZ", l3: "CZE", code: "203" },
+    { en: "Denmark", cn: "丹麦", l2: "DK", l3: "DNK", code: "208" },
+    { en: "Djibouti", cn: "吉布提", l2: "DJ", l3: "DJI", code: "262" },
+    { en: "Dominica", cn: "多米尼克", l2: "DM", l3: "DMA", code: "212" },
+    {
+      en: "Dominican Republic",
+      cn: "多米尼加",
+      l2: "DO",
+      l3: "DOM",
+      code: "214"
+    },
+    { en: "Ecuador", cn: "厄瓜多尔", l2: "EC", l3: "ECU", code: "218" },
+    { en: "Egypt", cn: "埃及", l2: "EG", l3: "EGY", code: "818" },
+    { en: "El Salvador", cn: "萨尔瓦多", l2: "SV", l3: "SLV", code: "222" },
+    {
+      en: "Equatorial Guinea",
+      cn: "赤道几内亚",
+      l2: "GQ",
+      l3: "GNQ",
+      code: "226"
+    },
+    { en: "Eritrea", cn: "厄立特里亚", l2: "ER", l3: "ERI", code: "232" },
+    { en: "Estonia", cn: "爱沙尼亚", l2: "EE", l3: "EST", code: "233" },
+    { en: "Eswatini", cn: "斯威士兰", l2: "SZ", l3: "SWZ", code: "748" },
+    { en: "Ethiopia", cn: "埃塞俄比亚", l2: "ET", l3: "ETH", code: "231" },
+    {
+      en: "Falkland Islands (Malvinas)",
+      cn: "福克兰群岛",
+      l2: "FK",
+      l3: "FLK",
+      code: "238"
+    },
+    { en: "Faroe Islands", cn: "法罗群岛", l2: "FO", l3: "FRO", code: "234" },
+    { en: "Fiji", cn: "斐济", l2: "FJ", l3: "FJI", code: "242" },
+    { en: "Finland", cn: "芬兰", l2: "FI", l3: "FIN", code: "246" },
+    { en: "France", cn: "法国", l2: "FR", l3: "FRA", code: "250" },
+    { en: "French Guiana", cn: "法属圭亚那", l2: "GF", l3: "GUF", code: "254" },
+    {
+      en: "French Polynesia",
+      cn: "法属波利尼西亚",
+      l2: "PF",
+      l3: "PYF",
+      code: "258"
+    },
+    {
+      en: "French Southern Territories",
+      cn: "法属南部和南极领地",
+      l2: "TF",
+      l3: "ATF",
+      code: "260"
+    },
+    { en: "Gabon", cn: "加蓬", l2: "GA", l3: "GAB", code: "266" },
+    { en: "Gambia", cn: "冈比亚", l2: "GM", l3: "GMB", code: "270" },
+    { en: "Georgia", cn: "格鲁吉亚", l2: "GE", l3: "GEO", code: "268" },
+    { en: "Germany", cn: "德国", l2: "DE", l3: "DEU", code: "276" },
+    { en: "Ghana", cn: "加纳", l2: "GH", l3: "GHA", code: "288" },
+    { en: "Gibraltar", cn: "直布罗陀", l2: "GI", l3: "GIB", code: "292" },
+    { en: "Greece", cn: "希腊", l2: "GR", l3: "GRC", code: "300" },
+    { en: "Greenland", cn: "格陵兰", l2: "GL", l3: "GRL", code: "304" },
+    { en: "Grenada", cn: "格林纳达", l2: "GD", l3: "GRD", code: "308" },
+    { en: "Guadeloupe", cn: "瓜德罗普", l2: "GP", l3: "GLP", code: "312" },
+    { en: "Guam", cn: "关岛", l2: "GU", l3: "GUM", code: "316" },
+    { en: "Guatemala", cn: "危地马拉", l2: "GT", l3: "GTM", code: "320" },
+    { en: "Guernsey", cn: "根西", l2: "GG", l3: "GGY", code: "831" },
+    { en: "Guinea", cn: "几内亚", l2: "GN", l3: "GIN", code: "324" },
+    { en: "Guinea-Bissau", cn: "几内亚比绍", l2: "GW", l3: "GNB", code: "624" },
+    { en: "Guyana", cn: "圭亚那", l2: "GY", l3: "GUY", code: "328" },
+    { en: "Haiti", cn: "海地", l2: "HT", l3: "HTI", code: "332" },
+    {
+      en: "Heard Island and McDonald Islands",
+      cn: "赫德岛和麦克唐纳群岛",
+      l2: "HM",
+      l3: "HMD",
+      code: "334"
+    },
+    { en: "Holy See", cn: "梵蒂冈", l2: "VA", l3: "VAT", code: "336" },
+    { en: "Honduras", cn: "洪都拉斯", l2: "HN", l3: "HND", code: "340" },
+    { en: "Hong Kong", cn: "香港", l2: "HK", l3: "HKG", code: "344" },
+    { en: "Hungary", cn: "匈牙利", l2: "HU", l3: "HUN", code: "348" },
+    { en: "Iceland", cn: "冰岛", l2: "IS", l3: "ISL", code: "352" },
+    { en: "India", cn: "印度", l2: "IN", l3: "IND", code: "356" },
+    { en: "Indonesia", cn: "印度尼西亚", l2: "ID", l3: "IDN", code: "360" },
+    {
+      en: "Iran (Islamic Republic of)",
+      cn: "伊朗",
+      l2: "IR",
+      l3: "IRN",
+      code: "364"
+    },
+    { en: "Iraq", cn: "伊拉克", l2: "IQ", l3: "IRQ", code: "368" },
+    { en: "Ireland", cn: "爱尔兰", l2: "IE", l3: "IRL", code: "372" },
+    { en: "Isle of Man", cn: "马恩岛", l2: "IM", l3: "IMN", code: "833" },
+    { en: "Israel", cn: "以色列", l2: "IL", l3: "ISR", code: "376" },
+    { en: "Italy", cn: "意大利", l2: "IT", l3: "ITA", code: "380" },
+    { en: "Jamaica", cn: "牙买加", l2: "JM", l3: "JAM", code: "388" },
+    { en: "Japan", cn: "日本", l2: "JP", l3: "JPN", code: "392" },
+    { en: "Jersey", cn: "泽西", l2: "JE", l3: "JEY", code: "832" },
+    { en: "Jordan", cn: "约旦", l2: "JO", l3: "JOR", code: "400" },
+    { en: "Kazakhstan", cn: "哈萨克斯坦", l2: "KZ", l3: "KAZ", code: "398" },
+    { en: "Kenya", cn: "肯尼亚", l2: "KE", l3: "KEN", code: "404" },
+    { en: "Kiribati", cn: "基里巴斯", l2: "KI", l3: "KIR", code: "296" },
+    {
+      en: "Korea (Democratic People's Republic of)",
+      cn: "朝鲜",
+      l2: "KP",
+      l3: "PRK",
+      code: "408"
+    },
+    { en: "Korea (Republic of)", cn: "韩国", l2: "KR", l3: "KOR", code: "410" },
+    { en: "Kuwait", cn: "科威特", l2: "KW", l3: "KWT", code: "414" },
+    { en: "Kyrgyzstan", cn: "吉尔吉斯斯坦", l2: "KG", l3: "KGZ", code: "417" },
+    {
+      en: "Lao People's Democratic Republic",
+      cn: "老挝",
+      l2: "LA",
+      l3: "LAO",
+      code: "418"
+    },
+    { en: "Latvia", cn: "拉脱维亚", l2: "LV", l3: "LVA", code: "428" },
+    { en: "Lebanon", cn: "黎巴嫩", l2: "LB", l3: "LBN", code: "422" },
+    { en: "Lesotho", cn: "莱索托", l2: "LS", l3: "LSO", code: "426" },
+    { en: "Liberia", cn: "利比里亚", l2: "LR", l3: "LBR", code: "430" },
+    { en: "Libya", cn: "利比亚", l2: "LY", l3: "LBY", code: "434" },
+    { en: "Liechtenstein", cn: "列支敦士登", l2: "LI", l3: "LIE", code: "438" },
+    { en: "Lithuania", cn: "立陶宛", l2: "LT", l3: "LTU", code: "440" },
+    { en: "Luxembourg", cn: "卢森堡", l2: "LU", l3: "LUX", code: "442" },
+    { en: "Macao", cn: "澳门", l2: "MO", l3: "MAC", code: "446" },
+    { en: "Madagascar", cn: "马达加斯加", l2: "MG", l3: "MDG", code: "450" },
+    { en: "Malawi", cn: "马拉维", l2: "MW", l3: "MWI", code: "454" },
+    { en: "Malaysia", cn: "马来西亚", l2: "MY", l3: "MYS", code: "458" },
+    { en: "Maldives", cn: "马尔代夫", l2: "MV", l3: "MDV", code: "462" },
+    { en: "Mali", cn: "马里", l2: "ML", l3: "MLI", code: "466" },
+    { en: "Malta", cn: "马耳他", l2: "MT", l3: "MLT", code: "470" },
+    {
+      en: "Marshall Islands",
+      cn: "马绍尔群岛",
+      l2: "MH",
+      l3: "MHL",
+      code: "584"
+    },
+    { en: "Martinique", cn: "马提尼克", l2: "MQ", l3: "MTQ", code: "474" },
+    { en: "Mauritania", cn: "毛里塔尼亚", l2: "MR", l3: "MRT", code: "478" },
+    { en: "Mauritius", cn: "毛里求斯", l2: "MU", l3: "MUS", code: "480" },
+    { en: "Mayotte", cn: "马约特", l2: "YT", l3: "MYT", code: "175" },
+    { en: "Mexico", cn: "墨西哥", l2: "MX", l3: "MEX", code: "484" },
+    {
+      en: "Micronesia (Federated States of)",
+      cn: "密克罗尼西亚联邦",
+      l2: "FM",
+      l3: "FSM",
+      code: "583"
+    },
+    {
+      en: "Moldova (Republic of)",
+      cn: "摩尔多瓦",
+      l2: "MD",
+      l3: "MDA",
+      code: "498"
+    },
+    { en: "Monaco", cn: "摩纳哥", l2: "MC", l3: "MCO", code: "492" },
+    { en: "Mongolia", cn: "蒙古", l2: "MN", l3: "MNG", code: "496" },
+    { en: "Montenegro", cn: "黑山", l2: "ME", l3: "MNE", code: "499" },
+    { en: "Montserrat", cn: "蒙特塞拉特", l2: "MS", l3: "MSR", code: "500" },
+    { en: "Morocco", cn: "摩洛哥", l2: "MA", l3: "MAR", code: "504" },
+    { en: "Mozambique", cn: "莫桑比克", l2: "MZ", l3: "MOZ", code: "508" },
+    { en: "Myanmar", cn: "缅甸", l2: "MM", l3: "MMR", code: "104" },
+    { en: "Namibia", cn: "纳米比亚", l2: "NA", l3: "NAM", code: "516" },
+    { en: "Nauru", cn: "瑙鲁", l2: "NR", l3: "NRU", code: "520" },
+    { en: "Nepal", cn: "尼泊尔", l2: "NP", l3: "NPL", code: "524" },
+    { en: "Netherlands", cn: "荷兰", l2: "NL", l3: "NLD", code: "528" },
+    {
+      en: "New Caledonia",
+      cn: "新喀里多尼亚",
+      l2: "NC",
+      l3: "NCL",
+      code: "540"
+    },
+    { en: "New Zealand", cn: "新西兰", l2: "NZ", l3: "NZL", code: "554" },
+    { en: "Nicaragua", cn: "尼加拉瓜", l2: "NI", l3: "NIC", code: "558" },
+    { en: "Niger", cn: "尼日尔", l2: "NE", l3: "NER", code: "562" },
+    { en: "Nigeria", cn: "尼日利亚", l2: "NG", l3: "NGA", code: "566" },
+    { en: "Niue", cn: "纽埃", l2: "NU", l3: "NIU", code: "570" },
+    { en: "Norfolk Island", cn: "诺福克岛", l2: "NF", l3: "NFK", code: "574" },
+    { en: "North Macedonia", cn: "北马其顿", l2: "MK", l3: "MKD", code: "807" },
+    {
+      en: "Northern Mariana Islands",
+      cn: "北马里亚纳群岛",
+      l2: "MP",
+      l3: "MNP",
+      code: "580"
+    },
+    { en: "Norway", cn: "挪威", l2: "NO", l3: "NOR", code: "578" },
+    { en: "Oman", cn: "阿曼", l2: "OM", l3: "OMN", code: "512" },
+    { en: "Pakistan", cn: "巴基斯坦", l2: "PK", l3: "PAK", code: "586" },
+    { en: "Palau", cn: "帕劳", l2: "PW", l3: "PLW", code: "585" },
+    {
+      en: "Palestine, State of",
+      cn: "巴勒斯坦",
+      l2: "PS",
+      l3: "PSE",
+      code: "275"
+    },
+    { en: "Panama", cn: "巴拿马", l2: "PA", l3: "PAN", code: "591" },
+    {
+      en: "Papua New Guinea",
+      cn: "巴布亚新几内亚",
+      l2: "PG",
+      l3: "PNG",
+      code: "598"
+    },
+    { en: "Paraguay", cn: "巴拉圭", l2: "PY", l3: "PRY", code: "600" },
+    { en: "Peru", cn: "秘鲁", l2: "PE", l3: "PER", code: "604" },
+    { en: "Philippines", cn: "菲律宾", l2: "PH", l3: "PHL", code: "608" },
+    { en: "Pitcairn", cn: "皮特凯恩群岛", l2: "PN", l3: "PCN", code: "612" },
+    { en: "Poland", cn: "波兰", l2: "PL", l3: "POL", code: "616" },
+    { en: "Portugal", cn: "葡萄牙", l2: "PT", l3: "PRT", code: "620" },
+    { en: "Puerto Rico", cn: "波多黎各", l2: "PR", l3: "PRI", code: "630" },
+    { en: "Qatar", cn: "卡塔尔", l2: "QA", l3: "QAT", code: "634" },
+    { en: "Réunion", cn: "留尼汪", l2: "RE", l3: "REU", code: "638" },
+    { en: "Romania", cn: "罗马尼亚", l2: "RO", l3: "ROU", code: "642" },
+    {
+      en: "Russian Federation",
+      cn: "俄罗斯",
+      l2: "RU",
+      l3: "RUS",
+      code: "643"
+    },
+    { en: "Rwanda", cn: "卢旺达", l2: "RW", l3: "RWA", code: "646" },
+    {
+      en: "Saint Barthélemy",
+      cn: "圣巴泰勒米",
+      l2: "BL",
+      l3: "BLM",
+      code: "652"
+    },
+    {
+      en: "Saint Helena, Ascension and Tristan da Cunha",
+      cn: "圣赫勒拿、阿森松和特里斯坦-达库尼亚",
+      l2: "SH",
+      l3: "SHN",
+      code: "654"
+    },
+    {
+      en: "Saint Kitts and Nevis",
+      cn: "圣基茨和尼维斯",
+      l2: "KN",
+      l3: "KNA",
+      code: "659"
+    },
+    { en: "Saint Lucia", cn: "圣卢西亚", l2: "LC", l3: "LCA", code: "662" },
+    {
+      en: "Saint Martin (French part)",
+      cn: "法属圣马丁",
+      l2: "MF",
+      l3: "MAF",
+      code: "663"
+    },
+    {
+      en: "Saint Pierre and Miquelon",
+      cn: "圣皮埃尔和密克隆",
+      l2: "PM",
+      l3: "SPM",
+      code: "666"
+    },
+    {
+      en: "Saint Vincent and the Grenadines",
+      cn: "圣文森特和格林纳丁斯",
+      l2: "VC",
+      l3: "VCT",
+      code: "670"
+    },
+    { en: "Samoa", cn: "萨摩亚", l2: "WS", l3: "WSM", code: "882" },
+    { en: "San Marino", cn: "圣马力诺", l2: "SM", l3: "SMR", code: "674" },
+    {
+      en: "Sao Tome and Principe",
+      cn: "圣多美和普林西比",
+      l2: "ST",
+      l3: "STP",
+      code: "678"
+    },
+    { en: "Saudi Arabia", cn: "沙特阿拉伯", l2: "SA", l3: "SAU", code: "682" },
+    { en: "Senegal", cn: "塞内加尔", l2: "SN", l3: "SEN", code: "686" },
+    { en: "Serbia", cn: "塞尔维亚", l2: "RS", l3: "SRB", code: "688" },
+    { en: "Seychelles", cn: "塞舌尔", l2: "SC", l3: "SYC", code: "690" },
+    { en: "Sierra Leone", cn: "塞拉利昂", l2: "SL", l3: "SLE", code: "694" },
+    { en: "Singapore", cn: "新加坡", l2: "SG", l3: "SGP", code: "702" },
+    {
+      en: "Sint Maarten (Dutch part)",
+      cn: "荷属圣马丁",
+      l2: "SX",
+      l3: "SXM",
+      code: "534"
+    },
+    { en: "Slovakia", cn: "斯洛伐克", l2: "SK", l3: "SVK", code: "703" },
+    { en: "Slovenia", cn: "斯洛文尼亚", l2: "SI", l3: "SVN", code: "705" },
+    {
+      en: "Solomon Islands",
+      cn: "所罗门群岛",
+      l2: "SB",
+      l3: "SLB",
+      code: "090"
+    },
+    { en: "Somalia", cn: "索马里", l2: "SO", l3: "SOM", code: "706" },
+    { en: "South Africa", cn: "南非", l2: "ZA", l3: "ZAF", code: "710" },
+    {
+      en: "South Georgia and the South Sandwich Islands",
+      cn: "南乔治亚和南桑威奇群岛",
+      l2: "GS",
+      l3: "SGS",
+      code: "239"
+    },
+    { en: "South Sudan", cn: "南苏丹", l2: "SS", l3: "SSD", code: "728" },
+    { en: "Spain", cn: "西班牙", l2: "ES", l3: "ESP", code: "724" },
+    { en: "Sri Lanka", cn: "斯里兰卡", l2: "LK", l3: "LKA", code: "144" },
+    { en: "Sudan", cn: "苏丹", l2: "SD", l3: "SDN", code: "729" },
+    { en: "Suriname", cn: "苏里南", l2: "SR", l3: "SUR", code: "740" },
+    {
+      en: "Svalbard and Jan Mayen",
+      cn: "斯瓦尔巴和扬马延",
+      l2: "SJ",
+      l3: "SJM",
+      code: "744"
+    },
+    { en: "Sweden", cn: "瑞典", l2: "SE", l3: "SWE", code: "752" },
+    { en: "Switzerland", cn: "瑞士", l2: "CH", l3: "CHE", code: "756" },
+    {
+      en: "Syrian Arab Republic",
+      cn: "叙利亚",
+      l2: "SY",
+      l3: "SYR",
+      code: "760"
+    },
+    {
+      en: "Taiwan, Province of China[note 1]",
+      cn: "华民国 中国台湾省",
+      l2: "TW",
+      l3: "TWN",
+      code: "158"
+    },
+    { en: "Tajikistan", cn: "塔吉克斯坦", l2: "TJ", l3: "TJK", code: "762" },
+    {
+      en: "Tanzania, United Republic of",
+      cn: "坦桑尼亚",
+      l2: "TZ",
+      l3: "TZA",
+      code: "834"
+    },
+    { en: "Thailand", cn: "泰国", l2: "TH", l3: "THA", code: "764" },
+    { en: "Timor-Leste", cn: "东帝汶", l2: "TL", l3: "TLS", code: "626" },
+    { en: "Togo", cn: "多哥", l2: "TG", l3: "TGO", code: "768" },
+    { en: "Tokelau", cn: "托克劳", l2: "TK", l3: "TKL", code: "772" },
+    { en: "Tonga", cn: "汤加", l2: "TO", l3: "TON", code: "776" },
+    {
+      en: "Trinidad and Tobago",
+      cn: "特立尼达和多巴哥",
+      l2: "TT",
+      l3: "TTO",
+      code: "780"
+    },
+    { en: "Tunisia", cn: "突尼斯", l2: "TN", l3: "TUN", code: "788" },
+    { en: "Türkiye", cn: "土耳其", l2: "TR", l3: "TUR", code: "792" },
+    { en: "Turkmenistan", cn: "土库曼斯坦", l2: "TM", l3: "TKM", code: "795" },
+    {
+      en: "Turks and Caicos Islands",
+      cn: "特克斯和凯科斯群岛",
+      l2: "TC",
+      l3: "TCA",
+      code: "796"
+    },
+    { en: "Tuvalu", cn: "图瓦卢", l2: "TV", l3: "TUV", code: "798" },
+    { en: "Uganda", cn: "乌干达", l2: "UG", l3: "UGA", code: "800" },
+    { en: "Ukraine", cn: "乌克兰", l2: "UA", l3: "UKR", code: "804" },
+    {
+      en: "United Arab Emirates",
+      cn: "阿联酋",
+      l2: "AE",
+      l3: "ARE",
+      code: "784"
+    },
+    {
+      en: "United Kingdom of Great Britain and Northern Ireland",
+      cn: "英国",
+      l2: "GB",
+      l3: "GBR",
+      code: "826"
+    },
+    {
+      en: "United States of America",
+      cn: "美国",
+      l2: "US",
+      l3: "USA",
+      code: "840"
+    },
+    {
+      en: "United States Minor Outlying Islands",
+      cn: "美国本土外小岛屿",
+      l2: "UM",
+      l3: "UMI",
+      code: "581"
+    },
+    { en: "Uruguay", cn: "乌拉圭", l2: "UY", l3: "URY", code: "858" },
+    { en: "Uzbekistan", cn: "乌兹别克斯坦", l2: "UZ", l3: "UZB", code: "860" },
+    { en: "Vanuatu", cn: "瓦努阿图", l2: "VU", l3: "VUT", code: "548" },
+    {
+      en: "Venezuela (Bolivarian Republic of)",
+      cn: "委内瑞拉",
+      l2: "VE",
+      l3: "VEN",
+      code: "862"
+    },
+    { en: "Viet Nam", cn: "越南", l2: "VN", l3: "VNM", code: "704" },
+    {
+      en: "Virgin Islands (British)",
+      cn: "英属维尔京群岛",
+      l2: "VG",
+      l3: "VGB",
+      code: "092"
+    },
+    {
+      en: "Virgin Islands (U.S.)",
+      cn: "美属维尔京群岛",
+      l2: "VI",
+      l3: "VIR",
+      code: "850"
+    },
+    {
+      en: "Wallis and Futuna",
+      cn: "瓦利斯和富图纳",
+      l2: "WF",
+      l3: "WLF",
+      code: "876"
+    },
+    { en: "Western Sahara", cn: "西撒哈拉", l2: "EH", l3: "ESH", code: "732" },
+    { en: "Yemen", cn: "也门", l2: "YE", l3: "YEM", code: "887" },
+    { en: "Zambia", cn: "赞比亚", l2: "ZM", l3: "ZMB", code: "894" },
+    { en: "Zimbabwe", cn: "津巴布韦", l2: "ZW", l3: "ZWE", code: "716" }
+  ];
+
+  const sexOptions = ["Male", "Female", "Others"];
+
+  return {
+    countryOptions,
+    sexOptions
+  };
+}

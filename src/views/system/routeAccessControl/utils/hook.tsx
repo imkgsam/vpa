@@ -3,7 +3,7 @@ import editForm from "../form.vue";
 import { message } from "@/utils/message";
 import { RouteAPI, AccountAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
-import { usePublicHooks } from "../../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
@@ -23,7 +23,7 @@ import {
   type RouteParamsRaw
 } from "vue-router";
 
-const { tagStyleByBool } = usePublicHooks();
+const { tagStyleByBool } = usePublicThemeHooks();
 
 export function useLinkHook() {
   const form = reactive({
@@ -44,7 +44,6 @@ export function useLinkHook() {
   const authList = ref([]);
 
   // const switchLoadMap = ref({});
-  // const { switchStyle } = usePublicHooks();
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,

@@ -2,9 +2,9 @@
 import { ref } from "vue";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
-import { usePublicHooks } from "../hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 
-const { switchStyle } = usePublicHooks();
+const { switchStyle } = usePublicThemeHooks();
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({

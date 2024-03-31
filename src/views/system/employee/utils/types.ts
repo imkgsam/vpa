@@ -1,68 +1,63 @@
 interface FormItemProps {
-  entity: {
-    _id: string;
-    //主体名称 唯一 必填
-    name: string;
-    //别称 用于公司内部识别 唯一 可选
-    alias?: string;
-    //种类，个人还是公司
-    etype: string;
-    //对于个人是所属的公司，对于公司就是所属的母公司，可选
-    scompany?: string;
-    personal?: {
-      //职位
-      jobTitle?: string;
-      //性别
-      sex?: string;
-      //生日
-      birth?: Date;
-    };
-    enterprise?: {
-      //公司
-      manager?: string;
-      //成立行业
-      foundedAt?: Date;
-      // 公司税务代码 用于识别公司机构 唯一
-      taxNum?: string;
-    };
-    common?: {
-      website?: string;
-      //邮箱地址，个人-个人邮箱，公司-默认邮箱
-      email?: string;
-      //固话
-      landline?: string;
-      //手机
-      mobilePhone?: string;
-      //所在国家
-      country?: string;
-      //所在城市
-      city?: string;
-      //行业
-      industry?: string;
-      //内部备注
-      internalNote?: string;
-    };
-    //所有社交方式
-    socialMedias?: [];
-    //关联的登录账户 可选
-    account?: string;
-    //关联的员工账户 可选
-    employee?: string;
-    meta: {
-      //是否开启
-      enabled?: boolean;
-      //是否已通过认证
-      verified?: boolean;
-      //是否为我司供应商
-      isSupplier?: boolean;
-      //是否为我司客户
-      isCustomer?: boolean;
-      //是否为我司员工
-      isEmployee?: boolean;
-    };
-    createdAt?: Date;
-    updatedAt?: Date;
+  _id: string;
+  //主体名称 唯一 必填
+  name: string;
+  //别称 用于公司内部识别 唯一 可选
+  alias?: string;
+  //种类，个人还是公司
+  etype: string;
+  //对于个人是所属的公司，对于公司就是所属的母公司，可选
+  scompany?: string;
+  personal?: {
+    //职位
+    jobTitle?: string;
+    //性别
+    sex?: string;
+    //生日
+    birth?: Date;
   };
+  enterprise?: {
+    //公司
+    manager?: string;
+    //成立行业
+    foundedAt?: Date;
+    // 公司税务代码 用于识别公司机构 唯一
+    taxNum?: string;
+  };
+  common?: {
+    website?: string;
+    //邮箱地址，个人-个人邮箱，公司-默认邮箱
+    email?: string;
+    //固话
+    landline?: string;
+    //手机
+    mobilePhone?: string;
+    //所在国家
+    country?: string;
+    //所在城市
+    city?: string;
+    //行业
+    industry?: string;
+    //内部备注
+    internalNote?: string;
+  };
+  //所有社交方式
+  socialMedias?: [];
+  meta: {
+    //是否开启
+    enabled?: boolean;
+    //是否已通过认证
+    verified?: boolean;
+    //是否为我司供应商
+    isSupplier?: boolean;
+    //是否为我司客户
+    isCustomer?: boolean;
+    //是否为我司员工
+    isEmployee?: boolean;
+    isUser?: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
   account: {
     _id: string;
     accountName?: string;
@@ -108,7 +103,7 @@ interface FormItemProps {
     //ETL 员工职称等级(K为管理体系，P为普通员工体系 K1-9 P1-9 如有细分则为 K1.1 K3.2 P7.4 ...)
     ETL?: string;
     //入职日期 = 试用期起始日期 = 进入公司的日期
-    inauguratiionDate?: Date;
+    inaugurationDate?: Date;
     //试用期
     probation?: {
       //试用期开始时间

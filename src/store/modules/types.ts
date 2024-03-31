@@ -53,6 +53,7 @@ export type KVMap = {
 };
 
 export type Department = {
+  _id?: string;
   name: string;
   manager?: string;
   parent?: Department;

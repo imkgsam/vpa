@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { message } from "@/utils/message";
 import { getKeyList } from "@pureadmin/utils";
 import { getOperationLogsList } from "@/api/system";
-import { usePublicHooks } from "@/views/system/hooks";
+import { usePublicThemeHooks } from "@/helpers/theme";
 import type { PaginationProps } from "@pureadmin/table";
 import { type Ref, reactive, ref, onMounted, toRaw } from "vue";
 
@@ -15,7 +15,7 @@ export function useRole(tableRef: Ref) {
   const dataList = ref([]);
   const loading = ref(true);
   const selectedNum = ref(0);
-  const { tagStyle } = usePublicHooks();
+  const { tagStyle } = usePublicThemeHooks();
 
   const pagination = reactive<PaginationProps>({
     total: 0,
