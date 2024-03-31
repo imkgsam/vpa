@@ -52,6 +52,9 @@ export const formRules = reactive(<FormRules>{
     password: [
       { required: true, message: "用户密码为必填项", trigger: "blur" }
     ],
+    passwordReset: [
+      { required: false, message: "用户新密码为可选项", trigger: "blur" }
+    ],
     email: email
   },
   employee: {

@@ -1,4 +1,5 @@
 interface FormItemProps {
+  title: string;
   _id: string;
   //主体名称 唯一 必填
   name: string;
@@ -61,11 +62,11 @@ interface FormItemProps {
   account: {
     _id: string;
     accountName?: string;
-    //用于登录，或接收邮件验证码
+    entity?: string;
     email: string;
-    //可用于接收短信验证码
     phone?: string;
     password: string;
+    passwordReset?: string;
     roles: string[];
     meta: {
       verified?: boolean;
@@ -85,7 +86,7 @@ interface FormItemProps {
   employee: {
     _id: string;
     //关联主体 唯一 必填
-    entity: string;
+    entity?: string;
     //种类，
     etype: string;
     //部门s,可隶属多个部门

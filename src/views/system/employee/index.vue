@@ -55,6 +55,7 @@ const {
   onSelectionCancel,
   handleCurrentChange,
   handleSelectionChange,
+  myHandleDelete,
 
   toggleStatus
 } = useUser(tableRef);
@@ -219,7 +220,7 @@ const {
                       {{ row?.meta.enabled ? "停用" : "启用" }}
                     </el-button>
                   </el-dropdown-item>
-                  <!-- <el-dropdown-item>
+                  <el-dropdown-item>
                     <el-button
                       class="reset-margin"
                       link
@@ -230,7 +231,7 @@ const {
                     >
                       删除
                     </el-button>
-                  </el-dropdown-item> -->
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>

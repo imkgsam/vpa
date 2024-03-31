@@ -550,6 +550,15 @@ export const EntityAPI = {
         "get",
         baseUrlApi("entity/employee/allpublic")
       );
+    },
+    delete: (data: object) => {
+      return http.request<OneResult<Entity>>(
+        "post",
+        baseUrlApi("entity/employee/delete"),
+        {
+          data
+        }
+      );
     }
   }
 };

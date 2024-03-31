@@ -13,6 +13,7 @@ import { usePublicStoreHook } from "@/store/modules/public";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
+    title: "新增",
     _id: null,
     name: "",
     alias: "",
@@ -47,10 +48,6 @@ const props = withDefaults(defineProps<FormProps>(), {
     },
     //所有社交方式
     socialMedias: [],
-    //关联的登录账户 可选
-    account: null,
-    //关联的员工账户 可选
-    employee: null,
     meta: {
       //是否开启
       enabled: undefined,
@@ -70,6 +67,7 @@ const props = withDefaults(defineProps<FormProps>(), {
       email: "",
       phone: "",
       password: "",
+      passwordReset: "",
       roles: [],
       entity: null,
       meta: {
@@ -206,7 +204,6 @@ onBeforeMount(async () => {
   usePublicStoreHook().getAllPublicCompanies(false);
   usePublicStoreHook().getAllPublicEmployees(false);
   console.log(" in nBeforeMount");
-  console.log(props.formInline);
 });
 
 defineExpose({ getRef });
@@ -286,6 +283,7 @@ defineExpose({ getRef });
           <el-select
             v-model="newFormInline.personal.sex"
             placeholder="请选择用户性别"
+            filterable
             class="w-full"
             clearable
           >
@@ -306,10 +304,6 @@ defineExpose({ getRef });
             v-model="newFormInline.personal.birth"
             type="date"
             placeholder="请选择出生日期"
-            :popper-options="{
-              placement
-            }"
-            :size="dynamicSize"
           />
         </el-form-item>
       </re-col>
@@ -512,6 +506,7 @@ defineExpose({ getRef });
           <el-cascader
             v-model="newFormInline.employee.departments"
             class="w-full"
+            collapse-tags
             :options="departmentOptionsTree"
             :props="{
               value: '_id',
@@ -614,10 +609,6 @@ defineExpose({ getRef });
             v-model="newFormInline.employee.inaugurationDate"
             type="date"
             placeholder="请选择入职日期"
-            :popper-options="{
-              placement
-            }"
-            :size="dynamicSize"
           />
         </el-form-item>
       </re-col>
@@ -856,10 +847,6 @@ defineExpose({ getRef });
             v-model="newFormInline.employee.education.graduatedAt"
             type="date"
             placeholder="请选择毕业日期"
-            :popper-options="{
-              placement
-            }"
-            :size="dynamicSize"
           />
         </el-form-item>
       </re-col>
@@ -910,18 +897,39 @@ defineExpose({ getRef });
           />
         </el-form-item>
       </re-col>
-      <!-- 登录密码 -->
+      <!-- 创建密码 -->
       <re-col
         v-if="newFormInline.title === '新增' && newFormInline.meta.isUser"
         :value="12"
         :xs="24"
         :sm="24"
       >
-        <el-form-item label="用户密码" prop="account.password">
+        <el-form-item label="初始密码" prop="account.password">
           <el-input
-            v-model="newFormInline.account.password"
+            v-model.password="newFormInline.account.password"
             clearable
-            placeholder="请输入用户密码"
+            type="password"
+            autocomplete="new-password"
+            show-password
+            placeholder="请输入用户初始密码"
+          />
+        </el-form-item>
+      </re-col>
+      <!-- 重置密码 -->
+      <re-col
+        v-if="newFormInline.title === '修改' && newFormInline.meta.isUser"
+        :value="12"
+        :xs="24"
+        :sm="24"
+      >
+        <el-form-item label="重置密码" prop="account.passwordReset">
+          <el-input
+            v-model="newFormInline.account.passwordReset"
+            clearable
+            show-password
+            type="password"
+            autocomplete="new-password"
+            placeholder="请输入用户重置密码"
           />
         </el-form-item>
       </re-col>

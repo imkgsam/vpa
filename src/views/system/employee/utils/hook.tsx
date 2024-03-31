@@ -179,7 +179,20 @@ export function useUser(
     {
       label: "所属部门",
       minWidth: 90,
-      prop: "departments"
+      prop: "departments",
+      cellRenderer: ({ row }) => (
+        <div>
+          {row?.employee?.departments?.length > 0 ? (
+            <ul>
+              {row?.employee?.departments.map(each => {
+                return <li>{each.name}</li>;
+              })}
+            </ul>
+          ) : (
+            "无"
+          )}
+        </div>
+      )
     },
     {
       label: "创建时间",
@@ -265,13 +278,12 @@ export function useUser(
   }
 
   function myHandleDelete(row) {
-    ElMessageBox.confirm(`请确认是否删除角色: ${row.name} `, {
+    ElMessageBox.confirm(`请确认是否删除成员: ${row.name} `, {
       type: "warning"
     })
       .then(async () => {
-        // let rt = await EntityAPI.delete({ id: row._id });
-        // console.log(rt);
-        message(`已成功删除了角色: ${row.name} `, { type: "success" });
+        await EntityAPI.Employee.delete({ id: row._id });
+        message(`已成功删除了成员: ${row.name} `, { type: "success" });
         onSearch();
       })
       .catch(() => {});
@@ -362,8 +374,8 @@ export function useUser(
     addDialog({
       title: `${title}成员`,
       props: {
-        title,
         formInline: {
+          title,
           _id: row?._id,
           name: row?.name,
           alias: row?.alias,
@@ -409,7 +421,9 @@ export function useUser(
             accountName: row?.account?.accountName,
             email: row?.account?.email,
             phone: row?.account?.phone,
+            entity: row?.account?.entity,
             password: row?.account?.password,
+            passwordReset: "",
             roles: row?.account?.roles,
             meta: {
               verified: row?.account?.meta?.verified,
@@ -419,8 +433,12 @@ export function useUser(
           employee: {
             _id: row?.employee?._id,
             etype: row?.employee?.etype,
-            departments: row?.employee?.departments,
+            departments:
+              row?.employee?.departments.length > 0
+                ? row?.employee?.departments.map(each => each._id)
+                : [],
             manager: row?.employee?.manager,
+            entity: row?.employee?.entity,
             workPhone: row?.employee?.workPhone,
             workMobile: row?.employee?.workMobile,
             workEmail: row?.employee?.workEmail,
@@ -470,7 +488,6 @@ export function useUser(
       beforeSure: (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
-        console.log("curData", curData);
         function chores() {
           message(`您${title}了用户名称为${curData.name}的这条数据`, {
             type: "success"
@@ -478,14 +495,20 @@ export function useUser(
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
+        delete curData.title;
         FormRef.validate(async valid => {
           if (valid) {
             // 表单规则校验通过
             if (title === "新增") {
               await EntityAPI.Employee.create(curData);
-              onSearch();
             } else {
+              if (curData?.account?.passwordReset) {
+                curData.account.password = curData.account.passwordReset;
+                delete curData.account.passwordReset;
+              }
+              await EntityAPI.Employee.update(curData);
             }
+            onSearch();
             chores();
           }
         });
