@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { RoleAPI } from "@/api/system";
+import { BarcodeAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
@@ -9,7 +9,7 @@ import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
-import { transformI18n } from "@/plugins/i18n";
+// import { transformI18n } from "@/plugins/i18n";
 
 const { tagStyleByBool } = usePublicThemeHooks();
 
@@ -32,14 +32,33 @@ export function useRole() {
   });
   const columns: TableColumnList = [
     {
-      label: "角色名称",
-      prop: "title",
+      label: "条码类型名称",
+      prop: "code",
       minWidth: 120
     },
     {
-      label: "角色代码",
-      prop: "code",
+      label: "前缀",
+      prop: "startsWith",
       minWidth: 120
+    },
+    {
+      label: "类型长度",
+      prop: "length",
+      minWidth: 120
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      minWidth: 120
+    },
+    {
+      label: "条码类型样本",
+      prop: "sample",
+      minWidth: 120,
+      formatter: ({ length, startsWith }) =>
+        startsWith
+          ? `${startsWith}-${"X".repeat(length)}`
+          : `${"X".repeat(length)}`
     },
     {
       label: "状态",
@@ -70,13 +89,13 @@ export function useRole() {
   ];
 
   function myHandleDelete(row) {
-    ElMessageBox.confirm(`请确认是否删除角色: ${row.name} `, {
+    ElMessageBox.confirm(`请确认是否删除条码类型: ${row.code} `, {
       type: "warning"
     })
       .then(async () => {
-        let rt = await RoleAPI.delete({ id: row._id });
+        let rt = await BarcodeAPI.BarcodeType.delete({ id: row._id });
         console.log(rt);
-        message(`已成功删除了角色: ${row.name} `, { type: "success" });
+        message(`已成功删除了条码类型: ${row.code} `, { type: "success" });
         onSearch();
       })
       .catch(() => {});
@@ -110,12 +129,9 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await RoleAPI.getPListWithFilter(ops);
+    const { data } = await BarcodeAPI.BarcodeType.getPListWithFilter(ops);
 
-    dataList.value = data.list.map(each => {
-      each.title = transformI18n(`constant.roles.${each.code}`);
-      return each;
-    });
+    dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;
@@ -132,10 +148,14 @@ export function useRole() {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}角色`,
+      title: `${title}条码类型`,
       props: {
         formInline: {
+          _id: row?._id,
           code: row?.code,
+          startsWith: row?.startsWith,
+          remark: row?.remark,
+          length: row?.length || 10,
           meta: {
             enabled: row?.meta?.enabled
           }
@@ -150,7 +170,7 @@ export function useRole() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了角色名称为${curData.code}的这条数据`, {
+          message(`您${title}了条码类型名称为${curData.code}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -158,13 +178,12 @@ export function useRole() {
         }
         FormRef.validate(async valid => {
           if (valid) {
-            console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
-              await RoleAPI.create(curData);
+              await BarcodeAPI.BarcodeType.create(curData);
               chores();
             } else {
-              await RoleAPI.update(curData);
+              await BarcodeAPI.BarcodeType.update(curData);
               chores();
             }
           }
@@ -174,7 +193,7 @@ export function useRole() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await RoleAPI.toggleStatus({ id: id }, newValue);
+    let rt = await BarcodeAPI.BarcodeType.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
   }

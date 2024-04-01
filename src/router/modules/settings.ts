@@ -20,15 +20,6 @@ export default {
         title: $t("menus.profile"),
         showLink: false
       }
-    },
-    {
-      path: "/settings/account-setting",
-      name: "AccountSetting",
-      component: () => import("@/views/settings/index.vue"),
-      meta: {
-        title: $t("menus.accountSetting"),
-        showLink: false
-      }
     }
   ]
 } satisfies RouteConfigsTable;

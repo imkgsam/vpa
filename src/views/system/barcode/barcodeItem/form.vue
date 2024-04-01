@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     code: "",
     meta: {
-      enabled: undefined
+      enabled: false
     }
   })
 });
@@ -43,7 +43,7 @@ defineExpose({ getRef });
         </el-form-item>
       </el-col>
       <el-col>
-        <el-form-item label="部门状态" prop="meta.enabled">
+        <el-form-item label="部门状态">
           <el-switch
             v-model="newFormInline.meta.enabled"
             inline-prompt

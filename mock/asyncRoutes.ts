@@ -65,6 +65,24 @@ const systemManagementRouter = {
         // hiddenTag:true,
         // showLink: false
       }
+    },
+    {
+      path: "/system/barcode/barcodeType/index",
+      name: "SystemBarcodeType",
+      meta: {
+        icon: "ri:git-branch-line",
+        title: "menus.hsBarcodeType",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/system/barcode/barcodeItem/index",
+      name: "SystemBarcodeItem",
+      meta: {
+        icon: "ri:git-branch-line",
+        title: "menus.hsBarcodeItem",
+        roles: ["admin"]
+      }
     }
   ]
 };

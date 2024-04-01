@@ -14,7 +14,7 @@ import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemRole"
+  name: "SystemBarcodeType"
 });
 
 const formRef = ref();
@@ -45,10 +45,10 @@ const {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
-      <el-form-item label="角色标识：" prop="code">
+      <el-form-item label="条码类型名称" prop="code">
         <el-input
           v-model="form.code"
-          placeholder="请输入角色标识"
+          placeholder="请输入条码类型名称"
           clearable
           class="!w-[180px]"
         />
@@ -79,7 +79,7 @@ const {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="角色管理" :columns="columns" @refresh="onSearch">
+    <PureTableBar title="条码类型管理" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"

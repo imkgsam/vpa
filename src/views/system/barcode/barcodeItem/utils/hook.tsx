@@ -135,9 +135,9 @@ export function useRole() {
       title: `${title}角色`,
       props: {
         formInline: {
-          code: row?.code,
+          code: row?.code ?? "",
           meta: {
-            enabled: row?.meta?.enabled
+            enabled: row?.meta.enabled || false
           }
         }
       },
@@ -161,10 +161,17 @@ export function useRole() {
             console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
-              await RoleAPI.create(curData);
+              await RoleAPI.create({
+                code: curData.code,
+                meta: { enabled: curData.meta.enabled }
+              });
               chores();
             } else {
-              await RoleAPI.update(curData);
+              await RoleAPI.update({
+                code: curData.code,
+                _id: curData._id,
+                meta: { enabled: curData.meta.enabled }
+              });
               chores();
             }
           }

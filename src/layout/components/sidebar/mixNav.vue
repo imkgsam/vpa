@@ -148,10 +148,6 @@ watch(
               />
               {{ t("buttons.hsProfile") }}
             </el-dropdown-item>
-            <el-dropdown-item @click="router.push({ name: 'AccountSetting' })">
-              <IconifyIconOffline :icon="Setting" style="margin: 5px" />
-              {{ t("buttons.hsAccountSetting") }}
-            </el-dropdown-item>
             <el-dropdown-item divided @click="logout">
               <IconifyIconOffline
                 :icon="LogoutCircleRLine"

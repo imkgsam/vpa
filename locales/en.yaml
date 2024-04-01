@@ -36,7 +36,8 @@ buttons:
   systemConfig: System Config
 menus:
   hshome: Home
-  #ace,11.21
+  hsBarcodeType: Barcode Type Manage
+  hsBarcodeItem: Barcode Item Manage
   settings: Settings
   profile: Profile
   accountSetting: Account Settings

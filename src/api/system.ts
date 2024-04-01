@@ -8,7 +8,9 @@ import type {
   RouteAuth,
   UserAccount,
   RouteAccess,
-  Entity
+  Entity,
+  // BarcodeItem,
+  BarcodeType
   // Employee
 } from "@/store/modules/types";
 
@@ -179,7 +181,7 @@ export const RoleAPI = {
   getPListWithFilter: (data?: object) => {
     return http.request<ListResultWithPage<Role>>(
       "post",
-      baseUrlApi("roles/filters"),
+      baseUrlApi("roles/pfilters"),
       {
         data
       }
@@ -561,4 +563,61 @@ export const EntityAPI = {
       );
     }
   }
+};
+
+export const BarcodeAPI = {
+  BarcodeType: {
+    delete: (data: object) => {
+      return http.request<OneResult<BarcodeType>>(
+        "post",
+        baseUrlApi("barcode/type/delete"),
+        {
+          data
+        }
+      );
+    },
+    getPListWithFilter: (data?: object) => {
+      return http.request<ListResultWithPage<BarcodeType>>(
+        "post",
+        baseUrlApi("barcode/type/pfilters"),
+        { data }
+      );
+    },
+    getAllPublic: () => {
+      return http.request<ListResult<BarcodeType>>(
+        "get",
+        baseUrlApi("barcode/type/allpublic")
+      );
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<BarcodeType>>(
+          "post",
+          baseUrlApi("barcode/type/enable"),
+          { data }
+        );
+      } else {
+        return http.request<OneResult<BarcodeType>>(
+          "post",
+          baseUrlApi("barcode/type/disable"),
+          { data }
+        );
+      }
+    },
+    create: (data?: object) => {
+      return http.request<OneResult<BarcodeType>>(
+        "post",
+        baseUrlApi("barcode/type/"),
+        { data }
+      );
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<BarcodeType>>(
+        "put",
+        baseUrlApi("barcode/type/"),
+        { data }
+      );
+    }
+  },
+  BarcodeItem: {}
 };

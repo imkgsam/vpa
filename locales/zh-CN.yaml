@@ -37,7 +37,8 @@ buttons:
   systemConfig: 系统设置
 menus:
   hshome: 首页
-  #ace,11.21
+  hsBarcodeType: 条码类型管理
+  hsBarcodeItem: 条码管理
   settings: 设置
   profile: 个人资料
   accountSetting: 账户设置
