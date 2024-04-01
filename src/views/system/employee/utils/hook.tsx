@@ -92,50 +92,6 @@ export function useUser(
       formatter: ({ personal }) =>
         transformI18n(`constant.gender.${personal.sex}`) || "N/A"
     },
-    // {
-    //   label: "用户头像",
-    //   prop: "avatar",
-    //   cellRenderer: ({ row }) => (
-    //     <el-image
-    //       fit="cover"
-    //       preview-teleported={true}
-    //       src={row.avatar}
-    //       preview-src-list={Array.of(row.avatar)}
-    //       class="w-[24px] h-[24px] rounded-full align-middle"
-    //     />
-    //   ),
-    //   width: 90
-    // },
-    // {
-    //   label: "用户昵称",
-    //   prop: "nickname",
-    //   minWidth: 130
-    // },
-    // {
-    //   label: "性别",
-    //   prop: "sex",
-    //   minWidth: 90,
-    //   cellRenderer: ({ row, props }) => (
-    //     <el-tag
-    //       size={props.size}
-    //       type={row.sex === 1 ? "danger" : null}
-    //       effect="plain"
-    //     >
-    //       {row.sex === 1 ? "女" : "男"}
-    //     </el-tag>
-    //   )
-    // },
-    // {
-    //   label: "部门",
-    //   prop: "dept.name",
-    //   minWidth: 90
-    // },
-    // {
-    //   label: "手机号码",
-    //   prop: "common.mobilePhone"
-    //   // formatter: ({ common }) =>
-    //   //   hideTextAtIndex(common.mobilePhone, { start: 7, end: 10 })
-    // },
     {
       label: "企业邮箱",
       prop: "employee.workEmail",
@@ -151,19 +107,27 @@ export function useUser(
             size={props.size}
             style={tagStyleByBool.value(row.meta.enabled || false)}
           >
-            {row?.meta.enabled ? "E启用" : "E停用"}
+            {row?.meta.enabled ? "主体启用" : "主体停用"}
           </el-tag>
           <el-tag
             size={props.size}
             style={tagStyleByBool.value(row.meta.verified || false)}
           >
-            {row?.meta.verified ? "已认证" : "未认证"}
+            {row?.meta.verified ? "主体已认证" : "主体未认证"}
           </el-tag>
           <el-tag
             size={props.size}
-            style={tagStyleByBool.value(row.account ? true : false)}
+            style={tagStyleByBool.value(row.meta.isUser ? true : false)}
           >
-            {row?.account ? "可登录账户" : "无登录账户"}
+            {row.meta.isUser ? "系统用户" : "非系统用户"}
+          </el-tag>
+          <el-tag
+            size={props.size}
+            style={tagStyleByBool.value(
+              row.account && row.account.meta.enabled ? true : false
+            )}
+          >
+            {row?.account && row?.account?.meta.enabled ? "可登录" : "不可登录"}
           </el-tag>
           <el-tag
             size={props.size}
@@ -438,6 +402,8 @@ export function useUser(
                 ? row?.employee?.departments.map(each => each._id)
                 : [],
             manager: row?.employee?.manager,
+            EID: row?.employee?.EID,
+            ETL: row?.employee?.ETL,
             entity: row?.employee?.entity,
             workPhone: row?.employee?.workPhone,
             workMobile: row?.employee?.workMobile,
@@ -496,6 +462,9 @@ export function useUser(
           onSearch(); // 刷新表格数据
         }
         delete curData.title;
+        if (curData.employee?.EID) {
+          curData.employee.EID = curData.employee?.EID?._id;
+        }
         FormRef.validate(async valid => {
           if (valid) {
             // 表单规则校验通过
@@ -504,8 +473,8 @@ export function useUser(
             } else {
               if (curData?.account?.passwordReset) {
                 curData.account.password = curData.account.passwordReset;
-                delete curData.account.passwordReset;
               }
+              delete curData.account.passwordReset;
               await EntityAPI.Employee.update(curData);
             }
             onSearch();

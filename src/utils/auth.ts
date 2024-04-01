@@ -82,8 +82,6 @@ export function setToken(data: DataInfo<Date>) {
       accessToken
     });
   }
-  console.log("data", data);
-
   if (data.account) {
     const { account } = data;
     setUserKey(account);

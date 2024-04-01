@@ -85,7 +85,7 @@ onMounted(() => {
           <el-option
             v-for="item in roleList"
             :key="item._id"
-            :label="item.code"
+            :label="transformI18n(`constant.roles.${item.code}`)"
             :value="item._id"
           />
         </el-select>
@@ -192,7 +192,7 @@ onMounted(() => {
                     <el-button
                       class="reset-margin"
                       link
-                      :type="row?.meta.enabled ? 'danger' : 'success'"
+                      :type="row?.meta.enabled ? 'warning' : 'success'"
                       :size="size"
                       :icon="useRenderIcon(EditPen)"
                       @click="toggleStatus(row._id, !row.meta.enabled)"

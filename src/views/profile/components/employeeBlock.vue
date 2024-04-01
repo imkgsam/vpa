@@ -30,7 +30,7 @@ var dataForm = reactive<Employee>({
   workEmail: "",
   EID: "",
   ETL: "",
-  inauguratiionDate: null,
+  inaugurationDate: null,
   // probation: {
   //   startDate: boolean;
   //   period: number;
@@ -132,7 +132,7 @@ async function cancle(formEl: FormInstance | undefined) {
                   type="success"
                   size="small"
                 >
-                  {{ dpt }}
+                  {{ dpt.name }}
                 </el-tag>
               </div>
               <span v-else>无</span>
@@ -193,7 +193,7 @@ async function cancle(formEl: FormInstance | undefined) {
               }}</span>
             </el-form-item>
             <el-form-item :label="t('label.id')">
-              <span>{{ props.employee.privacy?.nationality.id || "无" }}</span>
+              <span>{{ props.employee.privacy?.nationality.ID || "无" }}</span>
             </el-form-item>
             <el-form-item :label="t('label.passport')">
               <span>{{

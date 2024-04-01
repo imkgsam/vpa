@@ -136,7 +136,7 @@ const { toDetail, router } = useLinkHook();
                     <el-button
                       class="reset-margin"
                       link
-                      :type="row?.meta.enabled ? 'danger' : 'success'"
+                      :type="row?.meta.enabled ? 'warning' : 'success'"
                       :size="size"
                       :icon="useRenderIcon(EditPen)"
                       @click="toggleStatus(row._id, !row.meta.enabled)"
@@ -148,7 +148,7 @@ const { toDetail, router } = useLinkHook();
                     <el-button
                       class="reset-margin"
                       link
-                      type="danger"
+                      type="primary"
                       :size="size"
                       :icon="useRenderIcon(Delete)"
                       @click="toDetail({ route: row?._id }, 'query')"

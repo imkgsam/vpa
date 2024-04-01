@@ -18,10 +18,7 @@ import {
 } from "@pureadmin/utils";
 import { getConfig } from "@/config";
 import type { menuType } from "@/layout/types";
-import {
-  buildHierarchyTree
-  // , handleTree
-} from "@/utils/tree";
+import { buildHierarchyTree, handleTree } from "@/utils/tree";
 import { userKey, type DataInfo } from "@/utils/auth";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { usePermissionStoreHook } from "@/store/modules/permission";
@@ -30,10 +27,7 @@ const IFrame = () => import("@/layout/frameView.vue");
 const modulesRoutes = import.meta.glob("/src/views/**/*.{vue,tsx}");
 
 // 动态路由
-import {
-  getAsyncRoutes
-  // , getAllAsyncRoutes
-} from "@/api/routes";
+import { getAsyncRoutes, getAllAsyncRoutes } from "@/api/routes";
 
 function handRank(routeInfo: any) {
   const { name, path, parentId, meta } = routeInfo;
@@ -211,18 +205,18 @@ function initRouter() {
     }
   } else {
     return new Promise(resolve => {
-      getAsyncRoutes().then(({ data }) => {
-        handleAsyncRoutes(cloneDeep(data));
-        resolve(router);
-      });
-
-      // getAllAsyncRoutes().then(({ data }) => {
-      //   console.log('route list ', data);
-      //   const routesTree = handleTree(data, "_id", "parent");
-      //   console.log("routetree", routesTree);
-      //   handleAsyncRoutes(cloneDeep(routesTree));
+      // getAsyncRoutes().then(({ data }) => {
+      //   handleAsyncRoutes(cloneDeep(data));
       //   resolve(router);
       // });
+
+      getAllAsyncRoutes().then(({ data }) => {
+        console.log("route list ", data);
+        const routesTree = handleTree(data, "_id", "parent");
+        console.log("routetree", routesTree);
+        handleAsyncRoutes(cloneDeep(routesTree));
+        resolve(router);
+      });
     });
   }
 }

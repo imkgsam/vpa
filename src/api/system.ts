@@ -450,7 +450,7 @@ export const AccountAPI = {
   getList: () => {
     return http.request<ListResult<UserAccount>>(
       "get",
-      baseUrlApi("entity/account/all")
+      baseUrlApi("account/allpublic")
     );
   },
   update: (data: object) => {

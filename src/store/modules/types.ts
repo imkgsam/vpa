@@ -121,7 +121,7 @@ export type Employee = {
   //ETL 员工职称等级(K为管理体系，P为普通员工体系 K1-9 P1-9 如有细分则为 K1.1 K3.2 P7.4 ...)
   ETL?: string;
   //入职日期 = 试用期起始日期 = 进入公司的日期
-  inauguratiionDate?: Date;
+  inaugurationDate?: Date;
   //试用期
   probation?: {
     //试用期开始时间
@@ -262,6 +262,32 @@ export type RouteAccess = {
   auths: Array<RouteAuth>;
   meta?: {
     enabled: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type BarcodeItem = {
+  _id?: string;
+  btype: BarcodeType;
+  ttype: string;
+  num: number;
+  item: string;
+  meta?: {
+    enabled?: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type BarcodeType = {
+  _id?: string;
+  code: string;
+  startsWith?: string;
+  remark?: string;
+  length: number;
+  meta?: {
+    enabled?: boolean;
   };
   createdAt?: Date;
   updatedAt?: Date;

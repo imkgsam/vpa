@@ -8,8 +8,11 @@ import { transformI18n } from "@/plugins/i18n";
 import { storeToRefs } from "pinia";
 import { usePublicConstantHooks } from "@/helpers/constant";
 import { usePublicAppVariableHooks } from "@/helpers/appVariables";
+import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 
 import { usePublicStoreHook } from "@/store/modules/public";
+
+const { formatBarcodeString } = usePublicSharedFunctionsHooks();
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
@@ -261,7 +264,7 @@ defineExpose({ getRef });
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="个人主页" prop="common.website">
           <el-input
-            v-model="newFormInline.common.email"
+            v-model="newFormInline.common.website"
             clearable
             placeholder="请输入个人主页"
           />
@@ -564,6 +567,28 @@ defineExpose({ getRef });
             clearable
             placeholder="请输入工作座机"
           />
+        </el-form-item>
+      </re-col>
+      <!-- EID -->
+      <re-col
+        v-if="newFormInline.meta.isEmployee && newFormInline.employee.EID"
+        :value="12"
+        :xs="24"
+        :sm="24"
+      >
+        <el-form-item label="EID" prop="employee.EID">
+          <span>{{ formatBarcodeString(newFormInline?.employee?.EID) }}</span>
+        </el-form-item>
+      </re-col>
+      <!-- ETL -->
+      <re-col
+        v-if="newFormInline.meta.isEmployee && newFormInline.employee.ETL"
+        :value="12"
+        :xs="24"
+        :sm="24"
+      >
+        <el-form-item label="ETL" prop="employee.ETL">
+          <span>{{ newFormInline.employee.ETL }}</span>
         </el-form-item>
       </re-col>
       <!-- employee: 工作手机 -->

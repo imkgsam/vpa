@@ -1,4 +1,5 @@
-// import { transformI18n } from "@/plugins/i18n";
+import { transformI18n } from "@/plugins/i18n";
+import type { BarcodeItem } from "@/store/modules/types";
 
 export function usePublicSharedFunctionsHooks() {
   /**
@@ -33,8 +34,21 @@ export function usePublicSharedFunctionsHooks() {
     return newTreeList;
   }
 
+  function formatBarcodeString(barcode: BarcodeItem) {
+    if (!barcode || !barcode.btype) return null;
+    const { startsWith, length } = barcode.btype;
+    const { num } = barcode;
+    if (!startsWith || !length || !num) return null;
+    let rt = startsWith + "-";
+    if (num.toString().length > length)
+      rt = rt + "*".repeat(num.toString().length - length) + num;
+    else rt = rt + ("0".repeat(20) + "" + num).slice(length * -1);
+    return rt;
+  }
+
   return {
     formatHigherDeptOptions,
-    formatHigherMenuOptions
+    formatHigherMenuOptions,
+    formatBarcodeString
   };
 }
