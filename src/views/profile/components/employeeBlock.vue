@@ -6,6 +6,9 @@ import { FormInstance } from "element-plus";
 import { merge } from "lodash";
 import { formatInaugurationDays } from "@/utils/stringUtils";
 import { formatDate } from "@/utils/dateUtils";
+import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
+
+const { formatBarcodeString } = usePublicSharedFunctionsHooks();
 
 const ruleFormRef = ref<FormInstance>();
 const { t } = useI18n();
@@ -31,13 +34,6 @@ var dataForm = reactive<Employee>({
   EID: "",
   ETL: "",
   inaugurationDate: null,
-  // probation: {
-  //   startDate: boolean;
-  //   period: number;
-  //   actualEndDate: Date;
-  //   result: string;
-  //   note: string;
-  // },
   privacy: {
     family: {
       status: "",
@@ -58,7 +54,7 @@ var dataForm = reactive<Employee>({
     }
   },
   education: {
-    qulification: "",
+    qualification: "",
     school: "",
     graduatedAt: null,
     major: ""
@@ -106,7 +102,7 @@ async function cancle(formEl: FormInstance | undefined) {
               <span>{{ t(`value.${props.employee.etype}`) }}</span>
             </el-form-item>
             <el-form-item :label="t('label.EID')">
-              <span>{{ props.employee.EID || "无" }}</span>
+              <span>{{ formatBarcodeString(props.employee.EID) || "无" }}</span>
             </el-form-item>
             <el-form-item :label="t('label.ETL')">
               <span>{{ props.employee.ETL || "无" }}</span>

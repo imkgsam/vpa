@@ -155,7 +155,7 @@ export type Employee = {
     };
   };
   education?: {
-    qulification?: string;
+    qualification?: string;
     school?: string;
     graduatedAt?: Date;
     major?: string;
