@@ -36,8 +36,9 @@ buttons:
   systemConfig: System Config
 menus:
   hshome: Home
-  hsBarcodeType: Barcode Type Manage
-  hsBarcodeItem: Barcode Item Manage
+  hsBarcodeManagement: Barcode Management
+  hsBarcodeType: Barcode Type
+  hsBarcodeItem: Barcode Item
   settings: Settings
   profile: Profile
   accountSetting: Account Settings
@@ -56,7 +57,9 @@ menus:
   hsRole: Role Manage
   hsSystemMenu: Menu Manage
   hsManufactureManagement: Manufacture
-  hsMoldGroup: Mold Group Manage
+  hsMoldGroup: Mold Group
+  hsMoldItem: Mold Item
+  hsMoldManagement: Mold Management
   hsDept: Dept Manage
   hsAccessControl: Access Control
   hssysMonitor: System Monitor

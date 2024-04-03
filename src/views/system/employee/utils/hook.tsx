@@ -467,14 +467,13 @@ export function useUser(
         }
         FormRef.validate(async valid => {
           if (valid) {
-            // 表单规则校验通过
+            if (curData?.account?.passwordReset) {
+              curData.account.password = curData.account.passwordReset;
+            }
+            delete curData.account.passwordReset;
             if (title === "新增") {
               await EntityAPI.Employee.create(curData);
             } else {
-              if (curData?.account?.passwordReset) {
-                curData.account.password = curData.account.passwordReset;
-              }
-              delete curData.account.passwordReset;
               await EntityAPI.Employee.update(curData);
             }
             onSearch();

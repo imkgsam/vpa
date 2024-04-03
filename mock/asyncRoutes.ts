@@ -67,22 +67,62 @@ const systemManagementRouter = {
       }
     },
     {
-      path: "/system/barcode/barcodeType/index",
-      name: "SystemBarcodeType",
+      path: "/system/barcode/index",
+      name: "SystemBarcodeManagement",
       meta: {
         icon: "ri:git-branch-line",
-        title: "menus.hsBarcodeType",
+        title: "menus.hsBarcodeManagement",
         roles: ["admin"]
-      }
+      },
+      children: [
+        {
+          path: "/system/barcode/barcodeType/index",
+          name: "SystemBarcodeType",
+          meta: {
+            icon: "ri:git-branch-line",
+            title: "menus.hsBarcodeType",
+            roles: ["admin"]
+          }
+        },
+        {
+          path: "/system/barcode/barcodeItem/index",
+          name: "SystemBarcodeItem",
+          meta: {
+            icon: "ri:git-branch-line",
+            title: "menus.hsBarcodeItem",
+            roles: ["admin"]
+          }
+        }
+      ]
     },
     {
-      path: "/system/barcode/barcodeItem/index",
-      name: "SystemBarcodeItem",
+      path: "/system/mold/index",
+      name: "SystemMoldManagement",
       meta: {
         icon: "ri:git-branch-line",
-        title: "menus.hsBarcodeItem",
+        title: "menus.hsMoldManagement",
         roles: ["admin"]
-      }
+      },
+      children: [
+        {
+          path: "/system/mold/moldItem/index",
+          name: "SystemMoldItem",
+          meta: {
+            icon: "ri:git-branch-line",
+            title: "menus.hsMoldItem",
+            roles: ["admin"]
+          }
+        },
+        {
+          path: "/system/mold/moldGroup/index",
+          name: "SystemMoldGroup",
+          meta: {
+            icon: "ri:git-branch-line",
+            title: "menus.hsMoldGroup",
+            roles: ["admin"]
+          }
+        }
+      ]
     }
   ]
 };

@@ -14,13 +14,18 @@ export const usePublicStore = defineStore({
     publicRoles: [],
     publicDepartments: [],
     publicCompanies: [],
-    publicEmployees: []
+    publicEmployees: [],
+    publicWorkers: []
   }),
   getters: {
     departmentOptionsTree: state =>
       formatHigherDeptOptions(
         handleTree(state.publicDepartments, "_id", "parent")
-      )
+      ),
+    publicWorkers: state =>
+      state.publicEmployees.filter(each => each.employees.etype === "Labor"),
+    publicOfficers: state =>
+      state.publicEmployees.filter(each => each.employees.etype in ["Fulltime"])
   },
   actions: {
     SET_PUBLIC_ROLES(data: Array<Role>) {
