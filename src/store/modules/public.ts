@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
 import { store } from "@/store";
 // import { EntityTypeEnum, Entity } from "./types";
-import type { Department, Role, Entity } from "./types";
-import { RoleAPI, DepartmentAPI, EntityAPI } from "@/api/system";
+import type { Department, Role, Entity, Location } from "./types";
+import { RoleAPI, DepartmentAPI, EntityAPI, LocationAPI } from "@/api/system";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { handleTree } from "@/utils/tree";
 
-const { formatHigherDeptOptions } = usePublicSharedFunctionsHooks();
+const { formatHigherDeptOptions, formatHigherLocationOptions } =
+  usePublicSharedFunctionsHooks();
 
 export const usePublicStore = defineStore({
   id: "public-store",
@@ -15,17 +16,31 @@ export const usePublicStore = defineStore({
     publicDepartments: [],
     publicCompanies: [],
     publicEmployees: [],
-    publicWorkers: []
+    publicWorkers: [],
+    publicLocations: []
   }),
   getters: {
+    productionLocationOptionsTree:
+      state => (disabledTypeList?: string[], enabledTypeList?: string[]) =>
+        formatHigherLocationOptions(
+          handleTree(state.publicLocations, "_id", "parent"),
+          disabledTypeList,
+          enabledTypeList
+        ),
+    locationOptionsTree: state =>
+      formatHigherDeptOptions(
+        handleTree(state.publicLocations, "_id", "parent")
+      ),
     departmentOptionsTree: state =>
       formatHigherDeptOptions(
         handleTree(state.publicDepartments, "_id", "parent")
       ),
     publicWorkers: state =>
-      state.publicEmployees.filter(each => each.employees.etype === "Labor"),
+      state.publicEmployees.filter(each => each?.meta?.isWorker),
     publicOfficers: state =>
-      state.publicEmployees.filter(each => each.employees.etype in ["Fulltime"])
+      state.publicEmployees.filter(
+        each => each?.employee?.etype in ["Fulltime"]
+      )
   },
   actions: {
     SET_PUBLIC_ROLES(data: Array<Role>) {
@@ -39,6 +54,9 @@ export const usePublicStore = defineStore({
     },
     SET_PUBLIC_EMPLOYEES(data: Array<Entity>) {
       this.publicEmployees = data;
+    },
+    SET_PUBLIC_LOCATIONS(data: Array<Location>) {
+      this.publicLocations = data;
     },
 
     /** 获取所有公开的部门 */
@@ -72,6 +90,14 @@ export const usePublicStore = defineStore({
         this.SET_PUBLIC_EMPLOYEES(req.data);
       }
       return this.publicEmployees;
+    },
+    /** 获取所有公开的地点 */
+    async getAllPublicLocations(refresh: boolean) {
+      if (refresh || this.publicLocations.length === 0) {
+        const req = await LocationAPI.getAllPublic();
+        this.SET_PUBLIC_LOCATIONS(req.data);
+      }
+      return this.publicLocations;
     }
   }
 });

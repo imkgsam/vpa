@@ -46,9 +46,43 @@ export function usePublicSharedFunctionsHooks() {
     return rt;
   }
 
+  /**
+   * 生成树状地点列表
+   * @param treeList
+   * @returns
+   */
+  function formatHigherLocationOptions(
+    treeList,
+    disabledTypeList?: string[],
+    enabledTypeList?: string[]
+  ) {
+    if (!treeList || !treeList.length) return;
+    const newTreeList = [];
+    for (let i = 0; i < treeList.length; i++) {
+      //判断是否启用
+      treeList[i].disabled = !treeList[i].meta.enabled;
+      if (disabledTypeList && disabledTypeList.length) {
+        treeList[i].disabled =
+          disabledTypeList.includes(treeList[i].ltype) || treeList[i].disabled;
+      }
+      if (enabledTypeList && enabledTypeList.length) {
+        treeList[i].disabled =
+          !enabledTypeList.includes(treeList[i].ltype) || treeList[i].disabled;
+      }
+      formatHigherLocationOptions(
+        treeList[i].children,
+        disabledTypeList,
+        enabledTypeList
+      );
+      newTreeList.push(treeList[i]);
+    }
+    return newTreeList;
+  }
+
   return {
     formatHigherDeptOptions,
     formatHigherMenuOptions,
-    formatBarcodeString
+    formatBarcodeString,
+    formatHigherLocationOptions
   };
 }

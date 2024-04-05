@@ -9,8 +9,11 @@ import type {
   UserAccount,
   RouteAccess,
   Entity,
+  Location,
   // BarcodeItem,
-  BarcodeType
+  BarcodeType,
+  // MoldItem,
+  MoldGroup
   // Employee
 } from "@/store/modules/types";
 
@@ -95,9 +98,8 @@ export const getDeptList = (data?: object) => {
 /** 获取系统监控-在线用户列表 */
 export const getOnlineLogsList = (data?: object) => {
   return http.request<ResultTable>("post", "/online-logs", { data });
-};
+}; /** 获取系统监控-登录日志列表 */
 
-/** 获取系统监控-登录日志列表 */
 export const getLoginLogsList = (data?: object) => {
   return http.request<ResultTable>("post", "/login-logs", { data });
 };
@@ -620,4 +622,115 @@ export const BarcodeAPI = {
     }
   },
   BarcodeItem: {}
+};
+
+export const LocationAPI = {
+  getList: (data?: object) => {
+    return http.request<ListResult<Location>>(
+      "get",
+      baseUrlApi("location/all"),
+      { data }
+    );
+  },
+  create: (data?: object) => {
+    return http.request<OneResult<Location>>("post", baseUrlApi("location/"), {
+      data
+    });
+  },
+  update: (data?: object) => {
+    return http.request<OneResult<Location>>("put", baseUrlApi("location/"), {
+      data
+    });
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Location>>(
+        "post",
+        baseUrlApi("location/enable"),
+        {
+          data
+        }
+      );
+    } else {
+      return http.request<OneResult<Location>>(
+        "post",
+        baseUrlApi("location/disable"),
+        {
+          data
+        }
+      );
+    }
+  },
+  delete: (data: object) => {
+    return http.request<OneResult<Location>>(
+      "post",
+      baseUrlApi("location/delete"),
+      {
+        data
+      }
+    );
+  },
+  getAllPublic: () => {
+    return http.request<ListResult<Location>>(
+      "get",
+      baseUrlApi("location/allpublic")
+    );
+  }
+};
+
+export const MoldAPI = {
+  MoldGroup: {
+    delete: (data: object) => {
+      return http.request<OneResult<MoldGroup>>(
+        "post",
+        baseUrlApi("mold/group/delete"),
+        {
+          data
+        }
+      );
+    },
+    getPListWithFilter: (data?: object) => {
+      return http.request<ListResultWithPage<MoldGroup>>(
+        "post",
+        baseUrlApi("mold/group/pfilters"),
+        { data }
+      );
+    },
+    getAllPublic: () => {
+      return http.request<ListResult<MoldGroup>>(
+        "get",
+        baseUrlApi("mold/group/allpublic")
+      );
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<MoldGroup>>(
+          "post",
+          baseUrlApi("mold/group/enable"),
+          { data }
+        );
+      } else {
+        return http.request<OneResult<MoldGroup>>(
+          "post",
+          baseUrlApi("mold/group/disable"),
+          { data }
+        );
+      }
+    },
+    create: (data?: object) => {
+      return http.request<OneResult<MoldGroup>>(
+        "post",
+        baseUrlApi("mold/group/"),
+        { data }
+      );
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<MoldGroup>>(
+        "put",
+        baseUrlApi("mold/group/"),
+        { data }
+      );
+    }
+  },
+  MoldItem: {}
 };

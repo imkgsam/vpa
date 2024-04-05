@@ -58,6 +58,7 @@ interface FormItemProps {
     //是否为我司员工
     isEmployee?: boolean;
     isUser?: boolean;
+    isWorker?: boolean;
   };
   createdAt?: Date;
   updatedAt?: Date;

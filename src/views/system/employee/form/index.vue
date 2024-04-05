@@ -62,7 +62,8 @@ const props = withDefaults(defineProps<FormProps>(), {
       isCustomer: undefined,
       //是否为我司员工
       isEmployee: true,
-      isUser: undefined
+      isUser: undefined,
+      isWorker: undefined
     },
     account: {
       _id: null,
@@ -186,6 +187,7 @@ const {
   departmentOptionsTree
 } = storeToRefs(usePublicStoreHook());
 const { countryOptions, sexOptions } = usePublicConstantHooks();
+
 const {
   employeeTypeOptions,
   probationResultTypeOptions,
@@ -217,7 +219,7 @@ defineExpose({ getRef });
     ref="ruleFormRef"
     :model="newFormInline"
     :rules="formRules"
-    label-width="82px"
+    label-width="110px"
   >
     <el-row :gutter="30">
       <!-- entity: 真实姓名 -->
@@ -388,93 +390,40 @@ defineExpose({ getRef });
       </re-col>
       <el-divider />
       <!-- entity: 内部备注 -->
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-        <el-checkbox
-          v-model="newFormInline.meta.enabled"
-          label="是否已启用"
-          size="large"
-        />
+      <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="是否为员工">
+          <el-checkbox v-model="newFormInline.meta.isEmployee" disabled />
+        </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-        <el-checkbox
-          v-model="newFormInline.meta.verified"
-          label="是否已认证"
-          size="large"
-        />
+      <div />
+      <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="是否为客户">
+          <el-checkbox v-model="newFormInline.meta.isCustomer" />
+        </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-        <el-checkbox
-          v-model="newFormInline.meta.isEmployee"
-          disabled
-          label="是否为员工"
-          size="large"
-        />
+      <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="是否为供应商">
+          <el-checkbox v-model="newFormInline.meta.isSupplier" />
+        </el-form-item>
       </el-col>
-      <el-col
-        v-if="newFormInline.meta.isEmployee"
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="6"
-        :xl="4"
-      >
-        <el-checkbox
-          v-model="newFormInline.employee.meta.enabled"
-          label="启用员工"
-          size="large"
-        />
+      <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="是否为系统用户">
+          <el-checkbox v-model="newFormInline.meta.isUser" />
+        </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-        <el-checkbox
-          v-model="newFormInline.meta.isCustomer"
-          label="是否为客户"
-          size="large"
-        />
+      <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="是否为工人">
+          <el-checkbox v-model="newFormInline.meta.isWorker" />
+        </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-        <el-checkbox
-          v-model="newFormInline.meta.isSupplier"
-          label="是否为供应商"
-          size="large"
-        />
-      </el-col>
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
-        <el-checkbox
-          v-model="newFormInline.meta.isUser"
-          label="是否为系统用户"
-          size="large"
-        />
-      </el-col>
-      <el-col
-        v-if="newFormInline.meta.isUser"
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="6"
-        :xl="4"
-      >
-        <el-checkbox
-          v-model="newFormInline.account.meta.enabled"
-          label="启用账户"
-          size="large"
-        />
-      </el-col>
-      <el-col
-        v-if="newFormInline.meta.isUser"
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="6"
-        :xl="4"
-      >
-        <el-checkbox
-          v-model="newFormInline.account.meta.verified"
-          label="账户已认证"
-          size="large"
-        />
-      </el-col>
+
       <!-- 员工信息 -->
       <el-divider v-if="newFormInline.meta.isEmployee"> 员工信息 </el-divider>
+      <el-col v-if="newFormInline.meta.isEmployee" :xs="24" :sm="12">
+        <el-form-item label="启用员工">
+          <el-checkbox v-model="newFormInline.employee.meta.enabled" />
+        </el-form-item>
+      </el-col>
       <!-- employee 员工类型  -->
       <re-col
         v-if="newFormInline.meta.isEmployee"
@@ -892,6 +841,16 @@ defineExpose({ getRef });
       </re-col>
 
       <el-divider v-if="newFormInline.meta.isUser"> 账户信息 </el-divider>
+      <el-col v-if="newFormInline.meta.isUser" :xs="24" :sm="12">
+        <el-form-item label="启用账户" prop="employee.education.major">
+          <el-checkbox v-model="newFormInline.account.meta.enabled" />
+        </el-form-item>
+      </el-col>
+      <el-col v-if="newFormInline.meta.isUser" :xs="24" :sm="12">
+        <el-form-item label="账户已认证" prop="employee.education.major">
+          <el-checkbox v-model="newFormInline.account.meta.verified" />
+        </el-form-item>
+      </el-col>
       <!-- 用户名 -->
       <re-col v-if="newFormInline.meta.isUser" :value="12" :xs="24" :sm="24">
         <el-form-item label="用户名" prop="account.accountName">

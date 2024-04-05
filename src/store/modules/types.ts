@@ -292,3 +292,56 @@ export type BarcodeType = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type Location = {
+  _id?: string;
+  name: string;
+  ltype: string;
+  company?: Entity;
+  parent?: Location;
+  meta: {
+    enabled: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type MoldGroup = {
+  _id?: string;
+  name: string;
+  workers: string[];
+  department: Department;
+  location: Location;
+  manager: Entity;
+  meta: {
+    enabled: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type MoldItem = {
+  _id?: string;
+  supplier: Entity;
+  // mold: Item
+  // product: Item
+  moldGroup: MoldGroup;
+  barcode: BarcodeItem;
+  loadTime: Date;
+  //报废日期
+  scrapDate: Date;
+  //理论最大注浆次数
+  maxGroutingTimes: number;
+  //初始注浆次数
+  initialGroutingTimes: number;
+  // 预警 阈值
+  warningThreadhold: number;
+  // 累计注浆次数，不含初始次数
+  cumulativeGroutingTimes: number;
+
+  meta: {
+    enabled: boolean;
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
+};

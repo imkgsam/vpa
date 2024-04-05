@@ -137,6 +137,9 @@ export function useUser(
           >
             {row.meta.isEmployee && row.employee ? "员工" : "非员工"}
           </el-tag>
+          <el-tag size={props.size} v-show={row.meta.isWorker === true}>
+            工人
+          </el-tag>
         </div>
       )
     },
@@ -378,7 +381,8 @@ export function useUser(
             isSupplier: row?.meta.isSupplier,
             isCustomer: row?.meta.isCustomer,
             isEmployee: true,
-            isUser: row?.meta.isUser
+            isUser: row?.meta.isUser,
+            isWorker: row?.meta.isWorker
           },
           account: {
             _id: row?.account?._id,

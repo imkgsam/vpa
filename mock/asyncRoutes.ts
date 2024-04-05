@@ -123,6 +123,15 @@ const systemManagementRouter = {
           }
         }
       ]
+    },
+    {
+      path: "/system/location/index",
+      name: "SystemLocationManagement",
+      meta: {
+        icon: "ri:git-branch-line",
+        title: "menus.hsLocationManagement",
+        roles: ["admin"]
+      }
     }
   ]
 };

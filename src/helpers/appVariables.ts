@@ -47,10 +47,24 @@ export function usePublicAppVariableHooks() {
     { cn: "离异", en: "Divorced" }
   ];
 
+  /**
+   * location 类型
+   */
+  const LocationTypeOptions = [
+    { cn: "视图", en: "View" },
+    { cn: "客户", en: "Customer" },
+    { cn: "中转", en: "Transit" },
+    { cn: "损耗", en: "Scrap" },
+    { cn: "内部", en: "Internal" },
+    { cn: "生产", en: "Production" },
+    { cn: "退回", en: "Return" }
+  ];
+
   return {
     employeeTypeOptions,
     probationResultTypeOptions,
     EducationTypeOptions,
-    MaritalStatusTypeOptions
+    MaritalStatusTypeOptions,
+    LocationTypeOptions
   };
 }

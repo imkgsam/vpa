@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { onBeforeMount } from "vue";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { BarcodeAPI } from "@/api/system";
+import { MoldAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
@@ -21,14 +21,18 @@ const {
   publicWorkers: workerOptions,
   publicEmployees: employeeOptions,
   // publicDepartments: departmentOptions,
-  departmentOptionsTree
+  departmentOptionsTree,
+  productionLocationOptionsTree
+  // publicLocations: locationOptions
 } = storeToRefs(usePublicStoreHook());
 
 const { tagStyleByBool } = usePublicThemeHooks();
 
-export function useRole() {
+export function useHook() {
   onBeforeMount(() => {
     usePublicStoreHook().getAllPublicEmployees(false);
+    usePublicStoreHook().getAllPublicLocations(false);
+    usePublicStoreHook().getAllPublicDepartments(false);
   });
 
   const form = reactive({
@@ -57,7 +61,7 @@ export function useRole() {
       minWidth: 120
     },
     {
-      label: "操作工人",
+      label: "操作工人s",
       prop: "workers",
       minWidth: 120
     },
@@ -104,7 +108,7 @@ export function useRole() {
       type: "warning"
     })
       .then(async () => {
-        let rt = await BarcodeAPI.BarcodeType.delete({ id: row._id });
+        let rt = await MoldAPI.MoldGroup.delete({ id: row._id });
         console.log(rt);
         message(`已成功删除了模组: ${row.name} `, { type: "success" });
         onSearch();
@@ -129,8 +133,8 @@ export function useRole() {
   async function onSearch() {
     loading.value = true;
     let filters = {};
-    if (form.code) {
-      filters["code"] = form.code;
+    if (form.name) {
+      filters["name"] = form.name;
     }
     if (form.meta.enabled !== undefined) {
       filters["meta"] = form.meta;
@@ -140,7 +144,7 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await BarcodeAPI.BarcodeType.getPListWithFilter(ops);
+    const { data } = await MoldAPI.MoldGroup.getPListWithFilter(ops);
 
     dataList.value = data.list;
     pagination.total = data.total;
@@ -163,10 +167,10 @@ export function useRole() {
       props: {
         formInline: {
           _id: row?._id,
-          code: row?.code,
-          startsWith: row?.startsWith,
-          remark: row?.remark,
-          length: row?.length || 10,
+          name: row?.name,
+          workers: row?.workers,
+          department: row?.department,
+          manager: row?.manager,
           meta: {
             enabled: row?.meta?.enabled
           }
@@ -181,7 +185,7 @@ export function useRole() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了模组名称为${curData.code}的这条数据`, {
+          message(`您${title}了模组名称为${curData.name}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -189,12 +193,11 @@ export function useRole() {
         }
         FormRef.validate(async valid => {
           if (valid) {
-            // 表单规则校验通过
             if (title === "新增") {
-              await BarcodeAPI.BarcodeType.create(curData);
+              await MoldAPI.MoldGroup.create(curData);
               chores();
             } else {
-              await BarcodeAPI.BarcodeType.update(curData);
+              await MoldAPI.MoldGroup.update(curData);
               chores();
             }
           }
@@ -204,7 +207,7 @@ export function useRole() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await BarcodeAPI.BarcodeType.toggleStatus({ id: id }, newValue);
+    let rt = await MoldAPI.MoldGroup.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
   }
@@ -220,6 +223,10 @@ export function useRole() {
     workerOptions,
     departmentOptionsTree,
     employeeOptions,
+    locationOptionsTree: productionLocationOptionsTree.value(
+      [],
+      ["Production"]
+    ),
 
     form,
     loading,

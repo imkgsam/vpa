@@ -138,7 +138,10 @@ export const handleTree = (
   data: any[],
   id?: string,
   parentId?: string,
-  children?: string
+  children?: string,
+  pSource?: string,
+  pDest?: string,
+  pSeperator?: string
 ): any => {
   if (!Array.isArray(data)) {
     console.warn("data must be an array");
@@ -147,7 +150,10 @@ export const handleTree = (
   const config = {
     id: id || "id",
     parentId: parentId || "parentId",
-    childrenList: children || "children"
+    childrenList: children || "children",
+    pSource: pSource || null,
+    pDest: pDest || null,
+    pSeperator: pSeperator || "/"
   };
 
   const childrenListMap: any = {};
@@ -171,22 +177,25 @@ export const handleTree = (
   }
 
   for (const t of tree) {
-    adaptToChildrenList(t);
+    adaptToChildrenList(t, config.pSeperator);
   }
 
-  function adaptToChildrenList(o: Record<string, any>) {
+  function adaptToChildrenList(o: Record<string, any>, prefix?: string) {
+    if (config.pSource && config.pDest && prefix) {
+      o[config.pDest] = prefix + o[config.pSource];
+    }
     if (childrenListMap[o[config.id]] !== null) {
       o[config.childrenList] = childrenListMap[o[config.id]];
-      // delete o[config.id]
-      // delete o['parent']
-      // if (!o[config.childrenList])
-      //   delete o[config.childrenList]
       if (o["meta"] && o["meta"].roles && !o["meta"].roles.length)
         delete o["meta"].roles;
     }
     if (o[config.childrenList]) {
       for (const c of o[config.childrenList]) {
-        adaptToChildrenList(c);
+        if (config.pSource && config.pDest && prefix) {
+          adaptToChildrenList(c, o[config.pDest] + config.pSeperator);
+        } else {
+          adaptToChildrenList(c);
+        }
       }
     }
   }

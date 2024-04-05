@@ -45,6 +45,7 @@ menus:
   dashboard: Dashboard
   hslogin: Login
   hsempty: Empty Page
+  hsLocationManagement: Location Manage
   hsitemManagement: Item Manage
   hsCategory: Category Manage
   hsAttribute: Attribute Manage
@@ -540,3 +541,12 @@ constant:
     common: Common User
     sales-manager: Sales Manager
     mold-bookkeeper: Mold Bookkeeper
+  location:
+    View: View
+    Scrap: Scrap 
+    Internal: Internal 
+    Return: Return 
+    Transit: Transit 
+    Customer: Customer 
+    Vendor: Vendor 
+    Production: Production
