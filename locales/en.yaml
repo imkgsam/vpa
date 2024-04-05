@@ -550,3 +550,7 @@ constant:
     Customer: Customer 
     Vendor: Vendor 
     Production: Production
+  moldType:
+    HighPressure: High Pressure
+    OnFloor: On Floor
+    On-line: On-line

@@ -311,6 +311,7 @@ export type MoldGroup = {
   name: string;
   workers: string[];
   department: Department;
+  mtype: string;
   location: Location;
   manager: Entity;
   meta: {

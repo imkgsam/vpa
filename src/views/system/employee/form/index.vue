@@ -391,6 +391,16 @@ defineExpose({ getRef });
       <el-divider />
       <!-- entity: 内部备注 -->
       <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="主体是否启用" prop="meta.enabled">
+          <el-checkbox v-model="newFormInline.meta.enabled" />
+        </el-form-item>
+      </el-col>
+      <el-col :xs="24" :sm="12" :md="6">
+        <el-form-item label="主体是否认证" prop="meta.verified">
+          <el-checkbox v-model="newFormInline.meta.verified" />
+        </el-form-item>
+      </el-col>
+      <el-col :xs="24" :sm="12" :md="6">
         <el-form-item label="是否为员工">
           <el-checkbox v-model="newFormInline.meta.isEmployee" disabled />
         </el-form-item>

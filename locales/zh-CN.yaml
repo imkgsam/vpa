@@ -551,3 +551,7 @@ constant:
     Customer: 客户 
     Vendor: 供应商 
     Production: 生产
+  moldType:
+    HighPressure: 高压成型
+    OnFloor: 地摊成型
+    On-line: 上线成型

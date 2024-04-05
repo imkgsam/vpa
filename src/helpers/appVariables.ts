@@ -60,11 +60,21 @@ export function usePublicAppVariableHooks() {
     { cn: "退回", en: "Return" }
   ];
 
+  /**
+   * location 类型
+   */
+  const moldTypeOptions = [
+    { cn: "高压成型", en: "HighPressure" },
+    { cn: "地摊成型", en: "On-line" },
+    { cn: "上线成型", en: "OnFloor" }
+  ];
+
   return {
     employeeTypeOptions,
     probationResultTypeOptions,
     EducationTypeOptions,
     MaritalStatusTypeOptions,
-    LocationTypeOptions
+    LocationTypeOptions,
+    moldTypeOptions
   };
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -17,11 +17,20 @@ defineOptions({
   name: "SystemMoldGroup"
 });
 
+onBeforeMount(() => {
+  t.value = productionLocationOptionsTree.value([], ["Production"]);
+});
+
+const t = ref({});
+
 const formRef = ref();
 const {
   workerOptions,
   departmentOptionsTree,
+  locationOptionsTree,
+  productionLocationOptionsTree,
   employeeOptions,
+  moldTypeOptions,
 
   form,
   loading,
@@ -50,20 +59,58 @@ const {
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
       <el-form-item label="模组名称" prop="name">
-        <el-input
-          v-model="form.name"
-          placeholder="请输入模组名称"
-          clearable
-          class="!w-[180px]"
-        />
+        <el-input v-model="form.name" placeholder="请输入模组名称" clearable />
       </el-form-item>
+      <el-form-item label="类型" prop="mtype">
+        <el-select
+          v-model="form.mtype"
+          clearable
+          filterable
+          placeholder="请选择类型"
+        >
+          <el-option
+            v-for="(itm, idx) in moldTypeOptions"
+            :key="idx"
+            :label="itm.cn"
+            :value="itm.en"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="操作工人" prop="workers">
         <el-select
           v-model="form.workers"
           placeholder="请选择操作工人"
           clearable
           multiple
-          class="!w-[180px]"
+        >
+          <el-option
+            v-for="(itm, idx) in workerOptions"
+            :key="idx"
+            :label="itm.name"
+            :value="itm._id"
+          />
+        </el-select>
+      </el-form-item>
+      <!-- <el-form-item label="所在地点" prop="location">
+        <el-cascader v-model="form.location" class="w-full" collapse-tags :options="t.value" :props="{
+      value: '_id',
+      label: 'name',
+      emitPath: false,
+      checkStrictly: true
+    }" clearable filterable placeholder="请选择所在地点">
+          <template #default="{ node, data }">
+            <span>{{ data.name }}</span>
+            <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+          </template>
+        </el-cascader>
+      </el-form-item> -->
+      <el-form-item label="管理员" prop="manager">
+        <el-select
+          v-model="form.manager"
+          clearable
+          filterable
+          placeholder="请选择管理员"
         >
           <el-option
             v-for="(itm, idx) in workerOptions"
@@ -78,7 +125,6 @@ const {
           v-model="form.meta.enabled"
           placeholder="请选择状态"
           clearable
-          class="!w-[180px]"
         >
           <el-option label="已启用" :value="true" />
           <el-option label="已停用" :value="false" />

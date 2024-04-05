@@ -6,13 +6,19 @@ import { usePublicThemeHooks } from "@/helpers/theme";
 import { useHook } from "./utils/hook";
 const { switchStyle } = usePublicThemeHooks();
 
-const { workerOptions, departmentOptionsTree, locationOptionsTree } = useHook();
+const {
+  workerOptions,
+  departmentOptionsTree,
+  locationOptionsTree,
+  moldTypeOptions
+} = useHook();
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     _id: "",
     name: "",
     manager: undefined,
+    mtype: "",
     department: undefined,
     location: undefined,
     workers: [],
@@ -41,12 +47,29 @@ defineExpose({ getRef });
   >
     <el-row :gutter="30">
       <el-col>
-        <el-form-item label="模组名称" prop="code">
+        <el-form-item label="模组名称" prop="name">
           <el-input
             v-model="newFormInline.name"
             clearable
             placeholder="请输入模组名称"
           />
+        </el-form-item>
+      </el-col>
+      <el-col :xs="24">
+        <el-form-item label="类型" prop="mtype">
+          <el-select
+            v-model="newFormInline.mtype"
+            clearable
+            filterable
+            placeholder="请选择类型"
+          >
+            <el-option
+              v-for="(itm, idx) in moldTypeOptions"
+              :key="idx"
+              :label="itm.cn"
+              :value="itm.en"
+            />
+          </el-select>
         </el-form-item>
       </el-col>
       <el-col :xs="24">

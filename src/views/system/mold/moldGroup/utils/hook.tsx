@@ -10,12 +10,14 @@ import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
-// import { transformI18n } from "@/plugins/i18n";
+import { transformI18n } from "@/plugins/i18n";
 // import { usePublicConstantHooks } from "@/helpers/constant";
-// import { usePublicAppVariableHooks } from "@/helpers/appVariables";
+import { usePublicAppVariableHooks } from "@/helpers/appVariables";
 // import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { storeToRefs } from "pinia";
 import { usePublicStoreHook } from "@/store/modules/public";
+
+const { moldTypeOptions } = usePublicAppVariableHooks();
 
 const {
   publicWorkers: workerOptions,
@@ -33,11 +35,14 @@ export function useHook() {
     usePublicStoreHook().getAllPublicEmployees(false);
     usePublicStoreHook().getAllPublicLocations(false);
     usePublicStoreHook().getAllPublicDepartments(false);
+    usePublicStoreHook().getAllPublicLocations(true);
   });
 
   const form = reactive({
     name: "",
     workers: [],
+    mtype: "",
+    location: undefined,
     department: undefined,
     manager: undefined,
     meta: {
@@ -61,19 +66,28 @@ export function useHook() {
       minWidth: 120
     },
     {
+      label: "类型",
+      prop: "mtype",
+      minWidth: 120,
+      formatter: ({ mtype }) => transformI18n(`constant.moldType.${mtype}`)
+    },
+    {
       label: "操作工人s",
       prop: "workers",
-      minWidth: 120
+      minWidth: 120,
+      formatter: ({ workers }) => workers.map(each => each.name)
     },
     {
       label: "所属部门",
       prop: "department",
-      minWidth: 120
+      minWidth: 120,
+      formatter: ({ department }) => department.name
     },
     {
       label: "管理者",
       prop: "manager",
-      minWidth: 120
+      minWidth: 120,
+      formatter: ({ manager }) => manager.name
     },
     {
       label: "状态",
@@ -139,6 +153,16 @@ export function useHook() {
     if (form.meta.enabled !== undefined) {
       filters["meta"] = form.meta;
     }
+    if (form.mtype) {
+      filters["mtype"] = form.mtype;
+    }
+    if (form.location) {
+      filters["location"] = form.location;
+    }
+    if (form.department) {
+      filters["department"] = form.department;
+    }
+
     const ops = {
       filters,
       currentPage: pagination.currentPage,
@@ -168,9 +192,11 @@ export function useHook() {
         formInline: {
           _id: row?._id,
           name: row?.name,
-          workers: row?.workers,
-          department: row?.department,
-          manager: row?.manager,
+          workers: row?.workers.map(each => each._id),
+          mtype: row?.mtype,
+          department: row?.department?._id,
+          location: row?.location?._id,
+          manager: row?.manager?._id,
           meta: {
             enabled: row?.meta?.enabled
           }
@@ -227,6 +253,9 @@ export function useHook() {
       [],
       ["Production"]
     ),
+    productionLocationOptionsTree,
+
+    moldTypeOptions,
 
     form,
     loading,
