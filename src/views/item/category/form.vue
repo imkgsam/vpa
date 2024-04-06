@@ -8,7 +8,10 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     higherDeptOptions: [],
     parent: "",
-    name: ""
+    name: "",
+    meta: {
+      enabled: undefined
+    }
   })
 });
 
@@ -63,6 +66,14 @@ defineExpose({ getRef });
           />
         </el-form-item>
       </re-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="12">
+        <strong class="pl-3"> 状态: </strong>
+        <el-switch
+          v-model="newFormInline.meta.enabled"
+          active-text="启用"
+          inactive-text="停用"
+        />
+      </el-col>
     </el-row>
   </el-form>
 </template>

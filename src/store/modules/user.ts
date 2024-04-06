@@ -4,6 +4,7 @@ import { store } from "@/store";
 import type { Account, UserAccount } from "./types";
 import { routerArrays } from "@/layout/types";
 import { router, resetRouter } from "@/router";
+import { message } from "@/utils/message";
 import { storageLocal } from "@pureadmin/utils";
 import {
   changePasswordByEmail,
@@ -21,7 +22,6 @@ import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
 // import { toRaw } from "vue";
 import { merge } from "lodash";
-// import { message } from "@/utils/message";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -123,10 +123,8 @@ export const useUserStore = defineStore({
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
           .then(data => {
-            if (data) {
-              setToken(data.data);
-              resolve(data);
-            }
+            if (data) setToken(data.data);
+            resolve(data);
           })
           .catch(error => {
             reject(error);
@@ -168,7 +166,7 @@ export const useUserStore = defineStore({
     },
 
     localLogout() {
-      // message("身份已过期,请重新登录", { type: "warning" });
+      message("身份已过期,请重新登录", { type: "warning" });
       removeToken();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();

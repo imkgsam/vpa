@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRole } from "./utils/hook";
+import { ref, computed, nextTick, onMounted } from "vue";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import MenuLine from "@iconify-icons/ri/menu-line";
+import {
+  delay,
+  subBefore,
+  deviceDetection,
+  useResizeObserver
+} from "@pureadmin/utils";
 
 // import Database from "@iconify-icons/ri/database-2-line";
 // import More from "@iconify-icons/ep/more-filled";
@@ -12,17 +18,44 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import Close from "@iconify-icons/ep/close";
+import Check from "@iconify-icons/ep/check";
 
 defineOptions({
   name: "SystemRole"
 });
 
+const iconClass = computed(() => {
+  return [
+    "w-[22px]",
+    "h-[22px]",
+    "flex",
+    "justify-center",
+    "items-center",
+    "outline-none",
+    "rounded-[4px]",
+    "cursor-pointer",
+    "transition-colors",
+    "hover:bg-[#0000000f]",
+    "dark:hover:bg-[#ffffff1f]",
+    "dark:hover:text-[#ffffffd9]"
+  ];
+});
+
+const treeRef = ref();
 const formRef = ref();
+const tableRef = ref();
+const contentRef = ref();
+const treeHeight = ref();
+
 const {
   form,
+  isShow,
+  curRow,
   loading,
   columns,
   dataList,
+  treeData,
   pagination,
   // buttonClass,
   onSearch,
@@ -43,7 +76,7 @@ const {
       ref="formRef"
       :inline="true"
       :model="form"
-      class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
+      class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
     >
       <el-form-item label="角色标识：" prop="code">
         <el-input

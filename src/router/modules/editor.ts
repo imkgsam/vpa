@@ -15,7 +15,7 @@ export default {
       name: "Editor",
       component: () => import("@/views/editor/index.vue"),
       meta: {
-        title: $t("menus.hseditor"),
+        title: $t("menus.pureEditor"),
         keepAlive: true
       }
     }

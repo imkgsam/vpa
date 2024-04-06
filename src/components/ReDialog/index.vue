@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {
-  closeDialog,
-  dialogStore,
   type EventType,
   type ButtonProps,
-  type DialogOptions
+  type DialogOptions,
+  closeDialog,
+  dialogStore
 } from "./index";
 import { ref, computed } from "vue";
 import { isFunction } from "@pureadmin/utils";
@@ -37,6 +37,7 @@ const footerButtons = computed(() => {
             type: "primary",
             text: true,
             bg: true,
+            popconfirm: options?.popconfirm,
             btnClick: ({ dialog: { options, index } }) => {
               const done = () =>
                 closeDialog(options, index, { command: "sure" });
@@ -64,9 +65,10 @@ const fullscreenClass = computed(() => {
 function eventsCallBack(
   event: EventType,
   options: DialogOptions,
-  index: number
+  index: number,
+  isClickFullScreen = false
 ) {
-  fullscreen.value = options?.fullscreen ?? false;
+  if (!isClickFullScreen) fullscreen.value = options?.fullscreen ?? false;
   if (options?.[event] && isFunction(options?.[event])) {
     return options?.[event]({ options, index });
   }
@@ -108,7 +110,17 @@ function handleClose(
         <i
           v-if="!options?.fullscreen"
           :class="fullscreenClass"
-          @click="fullscreen = !fullscreen"
+          @click="
+            () => {
+              fullscreen = !fullscreen;
+              eventsCallBack(
+                'fullscreenCallBack',
+                { ...options, fullscreen },
+                index,
+                true
+              );
+            }
+          "
         >
           <IconifyIconOffline
             class="pure-dialog-svg"
@@ -138,19 +150,34 @@ function handleClose(
         <component :is="options?.footerRenderer({ options, index })" />
       </template>
       <span v-else>
-        <el-button
-          v-for="(btn, key) in footerButtons(options)"
-          :key="key"
-          v-bind="btn"
-          @click="
-            btn.btnClick({
-              dialog: { options, index },
-              button: { btn, index: key }
-            })
-          "
-        >
-          {{ btn?.label }}
-        </el-button>
+        <template v-for="(btn, key) in footerButtons(options)" :key="key">
+          <el-popconfirm
+            v-if="btn.popconfirm"
+            v-bind="btn.popconfirm"
+            @confirm="
+              btn.btnClick({
+                dialog: { options, index },
+                button: { btn, index: key }
+              })
+            "
+          >
+            <template #reference>
+              <el-button v-bind="btn">{{ btn?.label }}</el-button>
+            </template>
+          </el-popconfirm>
+          <el-button
+            v-else
+            v-bind="btn"
+            @click="
+              btn.btnClick({
+                dialog: { options, index },
+                button: { btn, index: key }
+              })
+            "
+          >
+            {{ btn?.label }}
+          </el-button>
+        </template>
       </span>
     </template>
   </el-dialog>

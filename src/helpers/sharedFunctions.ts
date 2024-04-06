@@ -7,12 +7,12 @@ export function usePublicSharedFunctionsHooks() {
    * @param treeList
    * @returns
    */
-  function formatHigherDeptOptions(treeList) {
+  function formatHigherGeneralOptions(treeList) {
     if (!treeList || !treeList.length) return;
     const newTreeList = [];
     for (let i = 0; i < treeList.length; i++) {
       treeList[i].disabled = !treeList[i].meta.enabled;
-      formatHigherDeptOptions(treeList[i].children);
+      formatHigherGeneralOptions(treeList[i].children);
       newTreeList.push(treeList[i]);
     }
     return newTreeList;
@@ -80,7 +80,7 @@ export function usePublicSharedFunctionsHooks() {
   }
 
   return {
-    formatHigherDeptOptions,
+    formatHigherGeneralOptions,
     formatHigherMenuOptions,
     formatBarcodeString,
     formatHigherLocationOptions

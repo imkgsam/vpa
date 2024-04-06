@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRole } from "./utils/hook";
+import { useHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import MenuLine from "@iconify-icons/ri/menu-line";
@@ -14,7 +14,7 @@ import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemRole"
+  name: "ItemManagement"
 });
 
 const formRef = ref();
@@ -34,7 +34,7 @@ const {
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
-} = useRole();
+} = useHook();
 </script>
 
 <template>
@@ -45,18 +45,18 @@ const {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
-      <el-form-item label="角色名称：" prop="name">
+      <el-form-item label="产品名称：" prop="name">
         <el-input
           v-model="form.code"
-          placeholder="请输入角色名称"
+          placeholder="请输入产品名称"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="角色标识：" prop="code">
+      <el-form-item label="产品标识：" prop="code">
         <el-input
           v-model="form.code"
-          placeholder="请输入角色标识"
+          placeholder="请输入产品标识"
           clearable
           class="!w-[180px]"
         />
@@ -87,19 +87,22 @@ const {
       </el-form-item>
     </el-form>
 
-    <PureTableBar
-      title="角色管理（仅演示，操作后不生效）"
-      :columns="columns"
-      @refresh="onSearch"
-    >
+    <PureTableBar title="产品管理" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
+          @click="$router.push({ name: 'ItemCreate' })"
+        >
+          新增产品
+        </el-button>
+        <!-- <el-button
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增角色
-        </el-button>
+          新增产品
+        </el-button> -->
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
@@ -178,7 +181,7 @@ const {
               @click="handleMenu">
               菜单权限
             </el-button>
-            <el-popconfirm :title="`是否确认删除角色名称为${row.name}的这条数据`" @confirm="handleDelete(row)">
+            <el-popconfirm :title="`是否确认删除产品名称为${row.name}的这条数据`" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Delete)">
                   删除

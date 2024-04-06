@@ -65,8 +65,16 @@ export function usePublicAppVariableHooks() {
    */
   const moldTypeOptions = [
     { cn: "高压成型", en: "HighPressure" },
-    { cn: "地摊成型", en: "On-line" },
-    { cn: "上线成型", en: "OnFloor" }
+    { cn: "上线成型", en: "On-line" },
+    { cn: "地摊成型", en: "OnFloor" }
+  ];
+
+  /**
+   * Item 类型
+   */
+  const ItemTypeOptions = [
+    { cn: "物品", en: "Product" },
+    { cn: "服务", en: "Service" }
   ];
 
   return {
@@ -75,6 +83,7 @@ export function usePublicAppVariableHooks() {
     EducationTypeOptions,
     MaritalStatusTypeOptions,
     LocationTypeOptions,
-    moldTypeOptions
+    moldTypeOptions,
+    ItemTypeOptions
   };
 }

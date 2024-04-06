@@ -22,10 +22,8 @@ const { moldTypeOptions } = usePublicAppVariableHooks();
 const {
   publicWorkers: workerOptions,
   publicEmployees: employeeOptions,
-  // publicDepartments: departmentOptions,
   departmentOptionsTree,
   productionLocationOptionsTree
-  // publicLocations: locationOptions
 } = storeToRefs(usePublicStoreHook());
 
 const { tagStyleByBool } = usePublicThemeHooks();
@@ -49,6 +47,7 @@ export function useHook() {
       enabled: undefined
     }
   });
+
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
@@ -106,8 +105,7 @@ export function useHook() {
       label: "创建时间",
       minWidth: 180,
       prop: "createdAt",
-      formatter: ({ createdAt }) =>
-        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createdAt }) => dayjs(createdAt).format("YYYY-MM-DD HH:mm")
     },
     {
       label: "操作",
@@ -161,6 +159,9 @@ export function useHook() {
     }
     if (form.department) {
       filters["department"] = form.department;
+    }
+    if (form.workers && form.workers.length) {
+      filters["workers"] = form.workers;
     }
 
     const ops = {

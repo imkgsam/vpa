@@ -3,17 +3,22 @@ import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { CategoryAPI } from "@/api/system";
-
+import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
 import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { ElMessageBox } from "element-plus";
+import { transformI18n } from "@/plugins/i18n";
+const { tagStyleByBool } = usePublicThemeHooks();
 
 export function useHook() {
   const form = reactive({
     name: "",
-    parent: null
+    parent: null,
+    meta: {
+      enabled: undefined
+    }
   });
 
   const formRef = ref();
@@ -23,13 +28,29 @@ export function useHook() {
   const columns: TableColumnList = [
     {
       label: "类别名称",
+      prop: "title",
+      align: "left",
+      formatter: ({ name }) => transformI18n(`constant.category.${name}`)
+    },
+    {
+      label: "类别代码",
       prop: "name",
-      width: 200,
       align: "left"
     },
     {
+      label: "状态",
+      prop: "meta.enabled",
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          style={tagStyleByBool.value(row.meta.enabled || false)}
+        >
+          {row?.meta.enabled ? "启用" : "停用"}
+        </el-tag>
+      )
+    },
+    {
       label: "创建时间",
-      minWidth: 180,
       prop: "createdAt",
       formatter: ({ createdAt }) =>
         dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
@@ -90,7 +111,10 @@ export function useHook() {
             cloneDeep(dataList.value.filter(each => each._id !== row?._id))
           ),
           parent: row?.parent,
-          name: row?.name || ""
+          name: row?.name,
+          meta: {
+            enabled: row?.meta?.enabled
+          }
         }
       },
       width: "45%",

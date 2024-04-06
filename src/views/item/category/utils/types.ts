@@ -3,6 +3,9 @@ interface FormItemProps {
   higherDeptOptions: Record<string, unknown>[];
   parent: string;
   name: string;
+  meta: {
+    enabled: boolean;
+  };
 }
 interface FormProps {
   formInline: FormItemProps;

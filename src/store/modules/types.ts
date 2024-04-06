@@ -19,6 +19,7 @@ export type appType = {
   };
   layout: string;
   device: string;
+  viewportSize: { width: number; height: number };
   sortSwap: boolean;
 };
 
@@ -324,8 +325,8 @@ export type MoldGroup = {
 export type MoldItem = {
   _id?: string;
   supplier: Entity;
-  // mold: Item
-  // product: Item
+  mold: Item;
+  product: Item;
   moldGroup: MoldGroup;
   barcode: BarcodeItem;
   loadTime: Date;
@@ -339,10 +340,43 @@ export type MoldItem = {
   warningThreadhold: number;
   // 累计注浆次数，不含初始次数
   cumulativeGroutingTimes: number;
-
   meta: {
     enabled: boolean;
   };
   createdAt?: Date;
   updatedAt?: Date;
+};
+
+export type Item = {
+  _id?: string;
+  code: string;
+  category: Category;
+  etype: string;
+  meta: {
+    //是否启用
+    enabled: boolean;
+    //是否跟踪库存
+    canBeStocked: boolean;
+    //是否能销售
+    canBeSold: boolean;
+    //是否能采购
+    canBePurchased: boolean;
+    //是否能生产
+    canBenProduced: boolean;
+    //是否能出租
+    canBenRented: boolean;
+    // 是否有变体
+    hasVariants: boolean;
+    //是哪个款式的变体 parent
+    isVariantOf?: Item;
+    attributeTags?: Array<AttributeValue>;
+  };
+  attributes?: Array<AttributeOptions>;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type AttributeOptions = {
+  attribute: Attribute;
+  options: Array<AttributeValue>;
 };

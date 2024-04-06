@@ -15,7 +15,7 @@ export default {
       name: "Guide",
       component: () => import("@/views/guide/index.vue"),
       meta: {
-        title: $t("menus.hsguide")
+        title: $t("menus.pureGuide")
       }
     }
   ]

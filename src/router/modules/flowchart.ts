@@ -15,7 +15,7 @@ export default {
       name: "FlowChart",
       component: () => import("@/views/flow-chart/index.vue"),
       meta: {
-        title: $t("menus.hsflowChart")
+        title: $t("menus.pureFlowChart")
       }
     }
   ]

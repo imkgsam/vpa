@@ -1,12 +1,18 @@
 import { defineStore } from "pinia";
 import { store } from "@/store";
 // import { EntityTypeEnum, Entity } from "./types";
-import type { Department, Role, Entity, Location } from "./types";
-import { RoleAPI, DepartmentAPI, EntityAPI, LocationAPI } from "@/api/system";
+import type { Department, Role, Entity, Location, Category } from "./types";
+import {
+  RoleAPI,
+  DepartmentAPI,
+  EntityAPI,
+  LocationAPI,
+  CategoryAPI
+} from "@/api/system";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { handleTree } from "@/utils/tree";
 
-const { formatHigherDeptOptions, formatHigherLocationOptions } =
+const { formatHigherGeneralOptions, formatHigherLocationOptions } =
   usePublicSharedFunctionsHooks();
 
 export const usePublicStore = defineStore({
@@ -17,7 +23,8 @@ export const usePublicStore = defineStore({
     publicCompanies: [],
     publicEmployees: [],
     publicWorkers: [],
-    publicLocations: []
+    publicLocations: [],
+    publicCategories: []
   }),
   getters: {
     productionLocationOptionsTree:
@@ -28,12 +35,16 @@ export const usePublicStore = defineStore({
           enabledTypeList
         ),
     locationOptionsTree: state =>
-      formatHigherDeptOptions(
+      formatHigherGeneralOptions(
         handleTree(state.publicLocations, "_id", "parent")
       ),
     departmentOptionsTree: state =>
-      formatHigherDeptOptions(
+      formatHigherGeneralOptions(
         handleTree(state.publicDepartments, "_id", "parent")
+      ),
+    categoryOptionsTree: state =>
+      formatHigherGeneralOptions(
+        handleTree(state.publicCategories, "_id", "parent")
       ),
     publicWorkers: state =>
       state.publicEmployees.filter(each => each?.meta?.isWorker),
@@ -57,6 +68,9 @@ export const usePublicStore = defineStore({
     },
     SET_PUBLIC_LOCATIONS(data: Array<Location>) {
       this.publicLocations = data;
+    },
+    SET_PUBLIC_CATEGORIES(data: Array<Category>) {
+      this.publicCategories = data;
     },
 
     /** 获取所有公开的部门 */
@@ -98,6 +112,14 @@ export const usePublicStore = defineStore({
         this.SET_PUBLIC_LOCATIONS(req.data);
       }
       return this.publicLocations;
+    },
+    /** 获取所有公开的产品类别 */
+    async getAllPublicCategories(refresh: boolean) {
+      if (refresh || this.publicCategories.length === 0) {
+        const req = await CategoryAPI.getAllPublic();
+        this.SET_PUBLIC_CATEGORIES(req.data);
+      }
+      return this.publicCategories;
     }
   }
 });

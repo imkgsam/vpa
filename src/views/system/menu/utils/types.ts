@@ -14,7 +14,7 @@ interface FormItemProps {
   name?: string;
   component?: string;
   redirect?: string;
-  meta: {
+  showLink: {
     title: string;
     icon?: string;
     extraIcon?: string;

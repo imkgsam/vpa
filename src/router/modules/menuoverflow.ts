@@ -14,7 +14,7 @@ export default {
       name: "MenuOverflow",
       component: () => import("@/views/menuoverflow/index.vue"),
       meta: {
-        title: $t("menus.hsChildMenuoverflow"),
+        title: $t("menus.pureChildMenuOverflow"),
         showParent: true
       }
     }

@@ -16,7 +16,8 @@ export default {
       name: "FrameBoard",
       component: IFrame,
       meta: {
-        title: $t("menus.hsboard"),
+        title: $t("menus.pureBoard"),
+        keepAlive: true,
         frameSrc: "https://songlh.top/paint-board/"
       }
     }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { list } from "./base/list";
+import { list } from "./edit/list";
 
 defineOptions({
-  name: "PureTable"
+  name: "PureTableEdit"
 });
 
 const selected = ref(0);
@@ -18,30 +18,29 @@ function tabClick({ index }) {
     <template #header>
       <div class="card-header">
         <span class="font-medium">
-          二次封装 element-plus 的
-          <el-link
-            href="https://element-plus.org/zh-CN/component/table.html"
-            target="_blank"
-            style="margin: 0 4px 5px; font-size: 16px"
-          >
-            el-table
-          </el-link>
-          完全兼容 api 并提供灵活的配置项以及完善的类型提示，不用将代码都写在
-          template 里了
+          可编辑用法全部采用 TSX 语法，充分发挥
           <el-link
             href="https://github.com/pure-admin/pure-admin-table"
             target="_blank"
             style="margin: 0 4px 5px; font-size: 16px"
           >
-            @pureadmin/table 源码
+            @pureadmin/table
           </el-link>
+          的灵活性，维护整体表格只需操作 columns 配置即可
         </span>
       </div>
+      <el-link
+        class="mt-2"
+        href="https://github.com/pure-admin/vue-pure-admin/blob/main/src/views/table/edit"
+        target="_blank"
+      >
+        代码位置 src/views/table/edit
+      </el-link>
     </template>
 
     <el-alert
-      title="基础用法中大部分表格都没设置 row-key ，不过最好都设置一下，后端需返回唯一值的字段，比如id。作用：1. 用来优化 Table
-      的渲染，尤其当字段在深层结构中；2. 防止某些操作导致表格组件内部混乱"
+      title="可编辑用法中所有表格都设置了 row-key ，它是唯一值的字段，比如id。作用：1. 用来优化 Table
+      的渲染，尤其当字段在深层结构中；2. 防止拖拽后表格组件内部混乱（拖拽必须设置）"
       type="info"
       :closable="false"
     />
@@ -50,12 +49,14 @@ function tabClick({ index }) {
       <template v-for="(item, index) of list" :key="item.key">
         <el-tab-pane :lazy="true">
           <template #label>
-            <el-tooltip
-              :content="`（第 ${index + 1} 个示例）${item.content}`"
-              placement="top-end"
+            <span
+              v-tippy="{
+                maxWidth: 'none',
+                content: `（第 ${index + 1} 个示例）${item.content}`
+              }"
             >
-              <span>{{ item.title }}</span>
-            </el-tooltip>
+              {{ item.title }}
+            </span>
           </template>
           <component :is="item.component" v-if="selected == index" />
         </el-tab-pane>
@@ -74,7 +75,7 @@ function tabClick({ index }) {
 }
 
 :deep(.el-alert__title) {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 :deep(.el-tabs__nav-next),

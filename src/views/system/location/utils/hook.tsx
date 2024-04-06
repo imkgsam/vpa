@@ -34,7 +34,7 @@ export function useHook() {
     }
   });
 
-  const { formatHigherDeptOptions } = usePublicSharedFunctionsHooks();
+  const { formatHigherGeneralOptions } = usePublicSharedFunctionsHooks();
 
   const formRef = ref();
   const dataList = ref([]);
@@ -137,7 +137,7 @@ export function useHook() {
         formInline: {
           title,
           _id: row?._id,
-          higherDeptOptions: formatHigherDeptOptions(
+          higherDeptOptions: formatHigherGeneralOptions(
             cloneDeep(dataList.value.filter(each => each._id !== row?._id))
           ),
           parent: row?.parent,

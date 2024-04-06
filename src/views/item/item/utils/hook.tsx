@@ -1,17 +1,29 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { RoleAPI } from "@/api/system";
+import { ItemAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
+import { usePublicStoreHook } from "@/store/modules/public";
+import { onBeforeMount } from "vue";
+import { storeToRefs } from "pinia";
+import { usePublicAppVariableHooks } from "@/helpers/appVariables";
 
+const { ItemTypeOptions } = usePublicAppVariableHooks();
 const { tagStyleByBool } = usePublicThemeHooks();
 
-export function useRole() {
+const { categoryOptionsTree: categoriesOptions } =
+  storeToRefs(usePublicStoreHook());
+
+export function useHook() {
+  onBeforeMount(() => {
+    usePublicStoreHook().getAllPublicCategories(false);
+  });
+
   const form = reactive({
     code: "",
     meta: {
@@ -30,12 +42,12 @@ export function useRole() {
   });
   const columns: TableColumnList = [
     {
-      label: "角色名称",
+      label: "产品名称",
       prop: "code",
       minWidth: 120
     },
     {
-      label: "状态",
+      label: "产品状态",
       prop: "meta.enabled",
       width: 100,
       cellRenderer: ({ row, props }) => (
@@ -52,7 +64,7 @@ export function useRole() {
       minWidth: 180,
       prop: "createdAt",
       formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+        dayjs(createTime).format("YYYY-MM-DD HH:mm")
     },
     {
       label: "操作",
@@ -61,54 +73,9 @@ export function useRole() {
       slot: "operation"
     }
   ];
-  // const buttonClass = computed(() => {
-  //   return [
-  //     "!h-[20px]",
-  //     "reset-margin",
-  //     "!text-gray-500",
-  //     "dark:!text-white",
-  //     "dark:hover:!text-primary"
-  //   ];
-  // });
-
-  // function onChange({ row, index }) {
-  //   ElMessageBox.confirm(
-  //     `确认要${
-  //       row.meta.enabled ? "停用" : "启用"
-  //     }<strong style='color:var(--el-color-primary)'>${
-  //       row.code
-  //     }</strong>吗?`,
-  //     "系统提示",
-  //     {
-  //       confirmButtonText: "确定",
-  //       cancelButtonText: "取消",
-  //       type: "warning",
-  //       dangerouslyUseHTMLString: true,
-  //       draggable: true,
-  //       callback: async (action, instance) => {
-  //         return new Promise((resolve, reject) => {
-  //           console.log(action, instance)
-  //           if (action === 'confirm') {
-  //             resolve(true)
-  //           } else {
-  //             reject(false)
-  //           }
-  //         })
-  //       }
-  //     }
-  //   )
-  //     // .then( async () => {
-  //     //   console.log('returning ture')
-  //     //   return true
-  //     // })
-  //     // .catch(() => {
-  //     //   console.log('returning false')
-  //     //   return false
-  //     // });
-  // }
 
   function handleDelete(row) {
-    message(`您删除了角色名称为${row.code}的这条数据`, { type: "success" });
+    message(`您删除了产品名称为${row.code}的这条数据`, { type: "success" });
     onSearch();
   }
 
@@ -140,7 +107,7 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await RoleAPI.getPListWithFilter(ops);
+    const { data } = await ItemAPI.getPListWithFilter(ops);
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -158,10 +125,25 @@ export function useRole() {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}角色`,
+      title: `${title}产品`,
       props: {
         formInline: {
-          code: row?.code ?? ""
+          _id: row?._id,
+          code: row?.code,
+          category: row?.category?._id,
+          etype: row?.etype,
+          meta: {
+            enabled: row?.meta?.enabled,
+            canBeStocked: row?.meta?.canBeStocked,
+            canBeSold: row?.meta?.canBeSold,
+            canBePurchased: row?.meta?.canBePurchased,
+            canBenProduced: row?.meta?.canBenProduced,
+            canBenRented: row?.meta?.canBenRented,
+            hasVariants: row?.meta?.hasVariants,
+            isVariantOf: row?.meta?.isVariantOf?._id,
+            attributeTags: row?.meta?.attributeTags
+          },
+          attributes: row?.attributes
         }
       },
       width: "40%",
@@ -173,7 +155,7 @@ export function useRole() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了角色名称为${curData.code}的这条数据`, {
+          message(`您${title}了产品名称为${curData.code}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -223,6 +205,9 @@ export function useRole() {
     // handleDatabase,
     handleSizeChange,
     handleCurrentChange,
-    handleSelectionChange
+    handleSelectionChange,
+
+    categoriesOptions,
+    ItemTypeOptions
   };
 }

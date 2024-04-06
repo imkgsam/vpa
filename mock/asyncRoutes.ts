@@ -51,7 +51,7 @@ const systemManagementRouter = {
       name: "SystemDept",
       meta: {
         icon: "ri:git-branch-line",
-        title: "menus.hsDept",
+        title: "menus.pureDept",
         roles: ["admin"]
       }
     },
@@ -164,103 +164,128 @@ const itemManagementRouter = {
       }
     },
     {
-      path: "/item/item/index",
-      name: "Items",
+      path: "/item/item",
+      redirect: "/item/item/index",
+      name: "ItemsPage",
       meta: {
         icon: "ep:menu",
         title: "menus.hsItem",
+        roles: ["admin"]
+      },
+      children: [
+        {
+          path: "/item/item/index",
+          name: "Items",
+          meta: {
+            icon: "ep:menu",
+            title: "menus.hsItem",
+            roles: ["admin"]
+          }
+        },
+        {
+          path: "/item/item/create",
+          name: "ItemCreate",
+          meta: {
+            icon: "ep:menu",
+            title: "menus.hsItemCreate",
+            roles: ["admin"],
+            hiddenTag: false,
+            showLink: false,
+            keepAlive: true
+            // showParent: true
+          }
+        }
+      ]
+    }
+  ]
+};
+
+// const manufactureRouter = {
+//   path: "/manufacture",
+//   name: "Manufacture",
+//   meta: {
+//     icon: "ri:settings-3-line",
+//     title: "menus.hsManufactureManagement",
+//     rank: routeRank.manufacture
+//   },
+//   children: [
+//     {
+//       path: "/manufacture/moldgroup/index",
+//       name: "manufactureMoldGroup",
+//       meta: {
+//         icon: "ri:admin-line",
+//         title: "menus.hsMoldGroup",
+//         roles: ["admin", "mold-bookkeeper"],
+//         showParent: true
+//       }
+//     }
+//   ]
+// };
+
+const systemMonitorRouter = {
+  path: "/monitor",
+  meta: {
+    icon: "ep:monitor",
+    title: "menus.pureSysMonitor",
+    rank: routeRank.monitor
+  },
+  children: [
+    {
+      path: "/monitor/online-user",
+      component: "monitor/online/index",
+      name: "OnlineUser",
+      meta: {
+        icon: "ri:user-voice-line",
+        title: "menus.pureOnlineUser",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/login-logs",
+      component: "monitor/logs/login/index",
+      name: "LoginLog",
+      meta: {
+        icon: "ri:window-line",
+        title: "menus.pureLoginLog",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/operation-logs",
+      component: "monitor/logs/operation/index",
+      name: "OperationLog",
+      meta: {
+        icon: "ri:history-fill",
+        title: "menus.pureOperationLog",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/system-logs",
+      component: "monitor/logs/system/index",
+      name: "SystemLog",
+      meta: {
+        icon: "ri:file-search-line",
+        title: "menus.pureSystemLog",
         roles: ["admin"]
       }
     }
   ]
 };
 
-const manufactureRouter = {
-  path: "/manufacture",
-  name: "Manufacture",
-  meta: {
-    icon: "ri:settings-3-line",
-    title: "menus.hsManufactureManagement",
-    rank: routeRank.manufacture
-  },
-  children: [
-    {
-      path: "/manufacture/moldgroup/index",
-      name: "manufactureMoldGroup",
-      meta: {
-        icon: "ri:admin-line",
-        title: "menus.hsMoldGroup",
-        roles: ["admin", "mold-bookkeeper"],
-        showParent: true
-      }
-    }
-  ]
-};
-
-// const systemMonitorRouter = {
-//   path: "/monitor",
-//   meta: {
-//     icon: "ep:monitor",
-//     title: "menus.hssysMonitor",
-//     rank: routeRank.monitor
-//   },
-//   children: [
-//     {
-//       path: "/monitor/online-user",
-//       component: "monitor/online/index",
-//       name: "OnlineUser",
-//       meta: {
-//         icon: "ri:user-voice-line",
-//         title: "menus.hsOnlineUser",
-//         roles: ["admin"]
-//       }
-//     },
-//     {
-//       path: "/monitor/login-logs",
-//       component: "monitor/logs/login/index",
-//       name: "LoginLog",
-//       meta: {
-//         icon: "ri:window-line",
-//         title: "menus.hsLoginLog",
-//         roles: ["admin"]
-//       }
-//     },
-//     {
-//       path: "/monitor/operation-logs",
-//       component: "monitor/logs/operation/index",
-//       name: "OperationLog",
-//       meta: {
-//         icon: "ri:history-fill",
-//         title: "menus.hsOperationLog",
-//         roles: ["admin"]
-//       }
-//     },
-//     {
-//       path: "/monitor/system-logs",
-//       component: "monitor/logs/system/index",
-//       name: "SystemLog",
-//       meta: {
-//         icon: "ri:file-search-line",
-//         title: "menus.hsSystemLog",
-//         roles: ["admin"]
-//       }
-//     }
-//   ]
-// };
-
 // const permissionRouter = {
 //   path: "/permission",
 //   meta: {
-//     title: "menus.permission",
-//     rank: routeRank.permission,
-//     icon: "ep:lollipop"
+//     title: "menus.purePermission",
+//     icon: "ep:lollipop",
+//     rank: routeRank.permission
 //   },
 //   children: [
 //     {
 //       path: "/permission/page/index",
 //       name: "PermissionPage",
 //       meta: {
-//         title: "menus.permissionPage",
+//         title: "menus.purePermissionPage",
 //         roles: ["admin", "common"]
 //       }
 //     },
@@ -268,7 +293,7 @@ const manufactureRouter = {
 //       path: "/permission/button/index",
 //       name: "PermissionButton",
 //       meta: {
-//         title: "menus.permissionButton",
+//         title: "menus.purePermissionButton",
 //         roles: ["admin", "common"],
 //         auths: [
 //           "permission:btn:add",
@@ -294,22 +319,22 @@ const frameRouter = {
       path: "/iframe/external",
       name: "IframeExternal",
       meta: {
-        title: "menus.hsExternalDoc"
+        title: "menus.pureExternalDoc"
       },
       children: [
         {
           path: "/external",
           name: "https://yiming_chang.gitee.io/pure-admin-doc",
           meta: {
-            title: "menus.externalLink",
+            title: "menus.pureExternalLink",
             roles: ["admin", "common"]
           }
         },
         {
-          path: "/pureutilsLink",
+          path: "/pureUtilsLink",
           name: "https://pure-admin-utils.netlify.app/",
           meta: {
-            title: "menus.pureutilsLink",
+            title: "menus.pureUtilsLink",
             roles: ["admin", "common"]
           }
         }
@@ -319,14 +344,34 @@ const frameRouter = {
       path: "/iframe/embedded",
       name: "IframeEmbedded",
       meta: {
-        title: "menus.hsEmbeddedDoc"
+        title: "menus.pureEmbeddedDoc"
       },
       children: [
+        {
+          path: "/iframe/colorhunt",
+          name: "FrameColorHunt",
+          meta: {
+            title: "menus.pureColorHuntDoc",
+            frameSrc: "https://colorhunt.co/",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
+        {
+          path: "/iframe/uigradients",
+          name: "FrameUiGradients",
+          meta: {
+            title: "menus.pureUiGradients",
+            frameSrc: "https://uigradients.com/",
+            keepAlive: true,
+            roles: ["admin", "common"]
+          }
+        },
         {
           path: "/iframe/ep",
           name: "FrameEp",
           meta: {
-            title: "menus.hsEpDocument",
+            title: "menus.pureEpDoc",
             frameSrc: "https://element-plus.org/zh-CN/",
             keepAlive: true,
             roles: ["admin", "common"]
@@ -336,7 +381,7 @@ const frameRouter = {
           path: "/iframe/tailwindcss",
           name: "FrameTailwindcss",
           meta: {
-            title: "menus.hsTailwindcssDocument",
+            title: "menus.pureTailwindcssDoc",
             frameSrc: "https://tailwindcss.com/docs/installation",
             keepAlive: true,
             roles: ["admin", "common"]
@@ -346,7 +391,7 @@ const frameRouter = {
           path: "/iframe/vue3",
           name: "FrameVue",
           meta: {
-            title: "menus.hsVueDocument",
+            title: "menus.pureVueDoc",
             frameSrc: "https://cn.vuejs.org/",
             keepAlive: true,
             roles: ["admin", "common"]
@@ -356,7 +401,7 @@ const frameRouter = {
           path: "/iframe/vite",
           name: "FrameVite",
           meta: {
-            title: "menus.hsViteDocument",
+            title: "menus.pureViteDoc",
             frameSrc: "https://cn.vitejs.dev/",
             keepAlive: true,
             roles: ["admin", "common"]
@@ -366,7 +411,7 @@ const frameRouter = {
           path: "/iframe/pinia",
           name: "FramePinia",
           meta: {
-            title: "menus.hsPiniaDocument",
+            title: "menus.purePiniaDoc",
             frameSrc: "https://pinia.vuejs.org/zh/index.html",
             keepAlive: true,
             roles: ["admin", "common"]
@@ -376,7 +421,7 @@ const frameRouter = {
           path: "/iframe/vue-router",
           name: "FrameRouter",
           meta: {
-            title: "menus.hsRouterDocument",
+            title: "menus.pureRouterDoc",
             frameSrc: "https://router.vuejs.org/zh/",
             keepAlive: true,
             roles: ["admin", "common"]
@@ -440,8 +485,7 @@ const asyncRouter = {
   children: [
     itemManagementRouter,
     systemManagementRouter,
-    manufactureRouter,
-    // systemMonitorRouter,
+    systemMonitorRouter,
     // permissionRouter,
     frameRouter
     // tabsRouter

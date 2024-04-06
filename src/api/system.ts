@@ -13,7 +13,8 @@ import type {
   // BarcodeItem,
   BarcodeType,
   // MoldItem,
-  MoldGroup
+  MoldGroup,
+  Item
   // Employee
 } from "@/store/modules/types";
 
@@ -112,6 +113,21 @@ export const getOperationLogsList = (data?: object) => {
 /** 获取系统监控-系统日志列表 */
 export const getSystemLogsList = (data?: object) => {
   return http.request<ResultTable>("post", "/system-logs", { data });
+};
+
+/** 获取系统监控-系统日志-根据 id 查日志详情 */
+export const getSystemLogsDetail = (data?: object) => {
+  return http.request<Result>("post", "/system-logs-detail", { data });
+};
+
+/** 获取角色管理-权限-菜单权限 */
+export const getRoleMenu = (data?: object) => {
+  return http.request<Result>("post", "/role-menu", { data });
+};
+
+/** 获取角色管理-权限-菜单权限-根据角色 id 查对应菜单 */
+export const getRoleMenuIds = (data?: object) => {
+  return http.request<Result>("post", "/role-menu-ids", { data });
 };
 
 // --------------------------------- api ---------------------------------------------------
@@ -225,6 +241,12 @@ export const CategoryAPI = {
       {
         data
       }
+    );
+  },
+  getAllPublic: () => {
+    return http.request<ListResultWithPage<Category>>(
+      "get",
+      baseUrlApi("item/category/allpublic")
     );
   },
   create: (data?: object) => {
@@ -733,4 +755,39 @@ export const MoldAPI = {
     }
   },
   MoldItem: {}
+};
+
+export const ItemAPI = {
+  delete: (data: object) => {
+    return http.request<OneResult<Item>>("post", baseUrlApi("item/delete"), {
+      data
+    });
+  },
+  getPListWithFilter: (data?: object) => {
+    return http.request<ListResultWithPage<Item>>(
+      "post",
+      baseUrlApi("item/pfilters"),
+      { data }
+    );
+  },
+  getAllPublic: () => {
+    return http.request<ListResult<Item>>("get", baseUrlApi("item/allpublic"));
+  },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Item>>("post", baseUrlApi("item/enable"), {
+        data
+      });
+    } else {
+      return http.request<OneResult<Item>>("post", baseUrlApi("item/disable"), {
+        data
+      });
+    }
+  },
+  create: (data?: object) => {
+    return http.request<OneResult<Item>>("post", baseUrlApi("item/"), { data });
+  },
+  update: (data?: object) => {
+    return http.request<OneResult<Item>>("put", baseUrlApi("item/"), { data });
+  }
 };

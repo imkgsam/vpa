@@ -16,7 +16,8 @@ export default {
       name: "FormDesign",
       component: IFrame,
       meta: {
-        title: $t("menus.hsFormDesign"),
+        title: $t("menus.pureFormDesign"),
+        keepAlive: true,
         frameSrc:
           "https://haixin-fang.github.io/vue-form-design/playground/index.html",
         frameLoading: false

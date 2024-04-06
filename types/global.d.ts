@@ -39,6 +39,15 @@ declare global {
   }
 
   /**
+   * Document 的类型提示
+   */
+  interface Document {
+    webkitFullscreenElement?: Element;
+    mozFullScreenElement?: Element;
+    msFullscreenElement?: Element;
+  }
+
+  /**
    * 打包压缩格式的类型声明
    */
   type ViteCompressionType =
@@ -90,6 +99,7 @@ declare global {
     Weak?: boolean;
     HideTabs?: boolean;
     HideFooter?: boolean;
+    Stretch?: boolean | number;
     SidebarStatus?: boolean;
     EpThemeColor?: string;
     ShowLogo?: boolean;
@@ -170,6 +180,7 @@ declare global {
       showLogo?: boolean;
       showModel?: string;
       multiTagsCache?: boolean;
+      stretch?: boolean | number;
     };
     tags?: Array<any>;
   }

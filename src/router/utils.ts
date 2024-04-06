@@ -47,9 +47,7 @@ function handRank(routeInfo: any) {
 
 /** 按照路由中meta下的rank等级升序来排序路由 */
 function ascending(arr: any[]) {
-  // console.log("===== level 4 ----- ascending");
   arr.forEach((v, index) => {
-    // 当rank不存在时，根据顺序自动创建，首页路由永远在第一位
     if (handRank(v)) v.meta.rank = index + 2;
   });
   return arr.sort(
@@ -158,7 +156,6 @@ function addPathMatch() {
 
 /** 处理动态路由（后端返回的路由） */
 function handleAsyncRoutes(routeList) {
-  // console.log("===== level 2 ----- handleAsyncRoutes");
   if (routeList.length === 0) {
     usePermissionStoreHook().handleWholeMenus(routeList);
   } else {
@@ -233,7 +230,6 @@ function initRouter() {
  * @returns 返回处理后的一维路由
  */
 function formatFlatteningRoutes(routesList: RouteRecordRaw[]) {
-  // console.log("===== level 3 ----- formatFlatteningRoutes");
   if (routesList.length === 0) return routesList;
   let hierarchyList = buildHierarchyTree(routesList);
   for (let i = 0; i < hierarchyList.length; i++) {
@@ -309,7 +305,6 @@ function handleAliveRoute({ name }: ToRouteType, mode?: string) {
 
 /** 过滤后端传来的动态路由 重新生成规范路由 */
 function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
-  // console.log("===== level 3 ----- addAsyncRoutes");
   if (!arrRoutes || !arrRoutes.length) return;
   const modulesRoutesKeys = Object.keys(modulesRoutes);
   arrRoutes.forEach((v: RouteRecordRaw) => {

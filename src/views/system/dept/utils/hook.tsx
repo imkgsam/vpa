@@ -7,9 +7,9 @@ import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
-import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { ElMessageBox } from "element-plus";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
+import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 
 export function useDept() {
   const form = reactive({
@@ -19,7 +19,7 @@ export function useDept() {
     }
   });
 
-  const { formatHigherDeptOptions } = usePublicSharedFunctionsHooks();
+  const { formatHigherGeneralOptions } = usePublicSharedFunctionsHooks();
 
   const formRef = ref();
   const dataList = ref([]);
@@ -120,7 +120,7 @@ export function useDept() {
       props: {
         formInline: {
           _id: row?._id,
-          higherDeptOptions: formatHigherDeptOptions(
+          higherDeptOptions: formatHigherGeneralOptions(
             cloneDeep(dataList.value.filter(each => each._id !== row?._id))
           ),
           parent: row?.parent,
@@ -132,9 +132,14 @@ export function useDept() {
           color: row?.color || ""
         }
       },
-      width: "45%",
-      draggable: false,
-      fullscreenIcon: false,
+      // width: "45%",
+      // draggable: false,
+      // fullscreenIcon: false,
+      width: "40%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
       beforeSure: (done, { options }) => {

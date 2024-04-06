@@ -27,7 +27,11 @@ export const routeRank = {
   board: 23,
   monitor: 24,
   item: 25,
-  manufacture: 26
+  manufacture: 26,
+  form: 27,
+  ganttastic: 28,
+  mind: 29,
+  vueflow: 30
 };
 
 export const newRouteRank = {

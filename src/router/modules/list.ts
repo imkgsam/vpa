@@ -16,7 +16,7 @@ export default {
       component: () => import("@/views/list/card/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: $t("menus.hsListCard"),
+        title: $t("menus.pureListCard"),
         showParent: true
       }
     }

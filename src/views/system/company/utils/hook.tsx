@@ -7,12 +7,18 @@ import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import croppingUpload from "../upload.vue";
 import { usePublicThemeHooks } from "@/helpers/theme";
-import { addDialog } from "@/components/ReDialog";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormItemProps, RoleFormItemProps } from "../utils/types";
-import { hideTextAtIndex, getKeyList, isAllEmpty } from "@pureadmin/utils";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
-
+import userAvatar from "@/assets/user.jpg";
+// import { usePublicHooks } from "../../hooks";
+import { addDialog } from "@/components/ReDialog";
+import type { FormItemProps, RoleFormItemProps } from "../utils/types";
+import {
+  getKeyList,
+  isAllEmpty,
+  hideTextAtIndex,
+  deviceDetection
+} from "@pureadmin/utils";
 import {
   getRoleIds,
   getDeptList,
@@ -48,7 +54,7 @@ export function useUser(
     phone: "",
     status: ""
   });
-  const { formatHigherDeptOptions } = usePublicSharedFunctionsHooks();
+  const { formatHigherGeneralOptions } = usePublicSharedFunctionsHooks();
 
   const formRef = ref();
   const ruleFormRef = ref();
@@ -87,8 +93,8 @@ export function useUser(
         <el-image
           fit="cover"
           preview-teleported={true}
-          src={row.avatar}
-          preview-src-list={Array.of(row.avatar)}
+          src={row.avatar || userAvatar}
+          preview-src-list={Array.of(row.avatar || userAvatar)}
           class="w-[24px] h-[24px] rounded-full align-middle"
         />
       ),
@@ -303,7 +309,9 @@ export function useUser(
       props: {
         formInline: {
           title,
-          higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
+          higherDeptOptions: formatHigherGeneralOptions(
+            higherDeptOptions.value
+          ),
           parentId: row?.dept.id ?? 0,
           nickname: row?.nickname ?? "",
           accountName: row?.accountName ?? "",
@@ -317,6 +325,7 @@ export function useUser(
       },
       width: "46%",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
@@ -355,10 +364,11 @@ export function useUser(
       width: "40%",
       draggable: true,
       closeOnClickModal: false,
+      fullscreen: deviceDetection(),
       contentRenderer: () =>
         h(croppingUpload, {
           ref: cropRef,
-          imgSrc: row.avatar,
+          imgSrc: row.avatar || userAvatar,
           onCropper: info => (avatarInfo.value = info)
         }),
       beforeSure: done => {
@@ -384,6 +394,7 @@ export function useUser(
       width: "30%",
       draggable: true,
       closeOnClickModal: false,
+      fullscreen: deviceDetection(),
       contentRenderer: () => (
         <>
           <ElForm ref={ruleFormRef} model={pwdForm}>
@@ -466,6 +477,7 @@ export function useUser(
       },
       width: "400px",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(roleForm),
@@ -502,6 +514,7 @@ export function useUser(
     selectedNum,
     pagination,
     buttonClass,
+    deviceDetection,
     onSearch,
     resetForm,
     onbatchDel,

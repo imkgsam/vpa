@@ -1,5 +1,16 @@
 
 buttons:
+  pureLoginOut: 退出系统
+  pureLogin: 登录
+  pureSystemSet: 打开项目配置
+  pureReload: 重新加载
+  pureCloseCurrentTab: 关闭当前标签页
+  pureCloseLeftTabs: 关闭左侧标签页
+  pureCloseRightTabs: 关闭右侧标签页
+  pureCloseOtherTabs: 关闭其他标签页
+  pureCloseAllTabs: 关闭全部标签页
+  pureContentFullScreen: 内容区全屏
+  pureContentExitFullScreen: 内容区退出全屏
   hsOverview: 简述
   hsLoginOut: 退出系统
   hsProfile: 个人资料
@@ -170,8 +181,132 @@ menus:
   hsMenuoverflow: 目录超出显示 Tooltip 文字提示
   hsChildMenuoverflow: 菜单超出显示 Tooltip 文字提示
   test: 测试主页
+
+  pureHome: 首页
+  pureLogin: 登录
+  pureEmpty: 无Layout页
+  pureTable: 表格
+  pureSysManagement: 系统管理
+  pureUser: 用户管理
+  pureRole: 角色管理
+  pureSystemMenu: 菜单管理
+  pureDept: 部门管理
+  pureSysMonitor: 系统监控
+  pureOnlineUser: 在线用户
+  pureLoginLog: 登录日志
+  pureOperationLog: 操作日志
+  pureSystemLog: 系统日志
+  pureEditor: 编辑器
+  pureAbnormal: 异常页面
+  pureFourZeroFour: "404"
+  pureFourZeroOne: "403"
+  pureFive: "500"
+  pureComponents: 组件
+  pureDialog: 函数式弹框
+  pureMessage: 消息提示
+  pureVideo: 视频
+  pureSegmented: 分段控制器
+  pureWaterfall: 瀑布流无限滚动
+  pureMap: 地图
+  pureDraggable: 拖拽
+  pureSplitPane: 切割面板
+  pureText: 文本省略
+  pureElButton: 按钮
+  pureCheckButton: 可选按钮
+  pureButton: 按钮动效
+  pureCropping: 图片裁剪
+  pureAnimatecss: animate.css选择器
+  pureCountTo: 数字动画
+  pureSelector: 范围选择器
+  pureFlowChart: 流程图
+  pureSeamless: 无缝滚动
+  pureContextmenu: 右键菜单
+  pureTypeit: 打字机
+  pureJsonEditor: JSON编辑器
+  pureColorPicker: 颜色选择器
+  pureDatePicker: 日期选择器
+  pureDateTimePicker: 日期时间选择器
+  pureTimePicker: 时间选择器
+  pureTag: 标签
+  pureStatistic: 统计组件
+  pureCollapse: 折叠面板
+  pureGanttastic: 甘特图
+  pureProgress: 进度条
+  pureUpload: 文件上传
+  pureCheckCard: 多选卡片
+  pureMenus: 多级菜单
+  pureMenu1: 菜单1
+  pureMenu1-1: 菜单1-1
+  pureMenu1-2: 菜单1-2
+  pureMenu1-2-1: 菜单1-2-1
+  pureMenu1-2-2: 菜单1-2-2
+  pureMenu1-3: 菜单1-3
+  pureMenu2: 菜单2
+  purePermission: 权限管理
+  purePermissionPage: 页面权限
+  purePermissionButton: 按钮权限
+  pureTabs: 标签页操作
+  pureGuide: 引导页
+  pureAble: 功能
+  pureMenuTree: 菜单树结构
+  pureVideoFrame: 视频帧截取-wasm版
+  pureWavesurfer: 音频可视化
+  pureRipple: 波纹(Ripple)
+  pureMqtt: MQTT客户端(mqtt)
+  pureOptimize: 防抖、截流、复制、长按指令
+  pureVerify: 图形验证码
+  pureWatermark: 水印
+  purePrint: 打印
+  pureDownload: 下载
+  pureExternalPage: 外部页面
+  pureExternalDoc: 文档外链
+  pureEmbeddedDoc: 文档内嵌
+  pureExternalLink: vue-pure-admin
+  pureUtilsLink: pure-admin-utils
+  pureColorHuntDoc: 调色板
+  pureUiGradients: 渐变色
+  pureEpDoc: element-plus
+  pureTailwindcssDoc: tailwindcss
+  pureVueDoc: vue3
+  pureViteDoc: vite
+  purePiniaDoc: pinia
+  pureRouterDoc: vue-router
+  pureAbout: 关于
+  pureResult: 结果页面
+  pureSuccess: 成功页面
+  pureFail: 失败页面
+  pureIconSelect: 图标选择器
+  pureTimeline: 时间线
+  pureLineTree: 树形连接线
+  pureList: 列表页面
+  pureListCard: 卡片列表页
+  pureDebounce: 防抖节流
+  pureFormDesign: 表单设计器
+  pureBarcode: 条形码
+  pureQrcode: 二维码
+  pureCascader: 区域级联选择器
+  pureSwiper: Swiper插件
+  pureVirtualList: 虚拟列表
+  purePdf: PDF预览
+  pureWord: Word预览
+  pureExcels: Excel预览
+  pureExcel: 导出Excel
+  pureInfiniteScroll: 表格无限滚动
+  pureSensitive: 敏感词过滤
+  purePinyin: 汉语拼音
+  pureDanmaku: 弹幕
+  pureSchemaForm: 表单
+  pureTableBase: 基础用法
+  pureTableHigh: 高级用法
+  pureTableEdit: 可编辑用法
+  pureVxeTable: 虚拟滚动
+  pureBoard: 艺术画板
+  pureMindMap: 思维导图
+  pureMenuOverflow: 目录超出显示 Tooltip 文字提示
+  pureChildMenuOverflow: 菜单超出显示 Tooltip 文字提示
+  
 status:
-  hsLoad: 加载中...
+  pureLoad: 加载中...
 login:
   accountName: 账号
   email: 邮箱
@@ -220,6 +355,47 @@ login:
   passwordUpdateReg: 修改密码成功
   oldPasswordReg: 请输入旧密码
   newPasswordReg: 请输入新密码
+
+  pureUsername: 账号
+  purePassword: 密码
+  pureVerifyCode: 验证码
+  pureRemember: 天内免登录
+  pureRememberInfo: 勾选并登录后，规定天数内无需输入用户名和密码会自动登入系统
+  pureSure: 确认密码
+  pureForget: 忘记密码?
+  pureLogin: 登录
+  pureThirdLogin: 第三方登录
+  purePhoneLogin: 手机登录
+  pureQRCodeLogin: 二维码登录
+  pureRegister: 注册
+  pureWeChatLogin: 微信登录
+  pureAlipayLogin: 支付宝登录
+  pureQQLogin: QQ登录
+  pureWeiBoLogin: 微博登录
+  purePhone: 手机号码
+  pureSmsVerifyCode: 短信验证码
+  pureBack: 返回
+  pureTest: 模拟测试
+  pureTip: 扫码后点击"确认"，即可完成登录
+  pureDefinite: 确定
+  pureLoginSuccess: 登录成功
+  pureRegisterSuccess: 注册成功
+  pureTickPrivacy: 请勾选隐私政策
+  pureReadAccept: 我已仔细阅读并接受
+  purePrivacyPolicy: 《隐私政策》
+  pureGetVerifyCode: 获取验证码
+  pureInfo: 秒后重新获取
+  pureUsernameReg: 请输入账号
+  purePassWordReg: 请输入密码
+  pureVerifyCodeReg: 请输入验证码
+  pureVerifyCodeCorrectReg: 请输入正确的验证码
+  pureVerifyCodeSixReg: 请输入6位数字验证码
+  purePhoneReg: 请输入手机号码
+  purePhoneCorrectReg: 请输入正确的手机号码格式
+  purePassWordRuleReg: 密码格式应为8-18位数字、字母、符号的任意两种组合
+  purePassWordSureReg: 请输入确认密码
+  purePassWordDifferentReg: 两次密码不一致!
+  purePassWordUpdateReg: 修改密码成功
 label:
   accountName: 用户名
   email: 登录邮箱
@@ -555,3 +731,14 @@ constant:
     HighPressure: 高压成型
     OnFloor: 地摊成型
     On-line: 上线成型
+  category:
+    toilet: 马桶
+    one-piece toilet: 连体式马桶
+    two-piece toilet: 分体式马桶
+    wall-mounted toilet: 挂墙式马桶
+    sink: 洗手盆
+    pedestal sink: 立柱盆
+    drop-in sink: 台上盆
+    wall-mounted sink: 挂盆
+    console sink: 支架盆
+    vessel sink: 艺术盆

@@ -7,10 +7,10 @@ import { addDialog } from "@/components/ReDialog";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
-import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { ElMessageBox } from "element-plus";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
+import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 
 export function useHook() {
   const form = reactive({
@@ -182,6 +182,7 @@ export function useHook() {
       },
       width: "45%",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),

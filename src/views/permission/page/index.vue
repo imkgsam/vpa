@@ -53,6 +53,13 @@ function onChange() {
         <div class="card-header">
           <span>当前角色：{{ accountName }}</span>
         </div>
+        <el-link
+          class="mt-2"
+          href="https://github.com/pure-admin/vue-pure-admin/blob/main/src/views/permission/page/index.vue"
+          target="_blank"
+        >
+          代码位置 src/views/permission/page/index.vue
+        </el-link>
       </template>
       <el-select v-model="accountName" @change="onChange">
         <el-option

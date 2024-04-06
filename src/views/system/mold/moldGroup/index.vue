@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import { useHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -12,22 +12,20 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import { usePublicStoreHook } from "@/store/modules/public";
 
 defineOptions({
   name: "SystemMoldGroup"
 });
 
-onBeforeMount(() => {
-  t.value = productionLocationOptionsTree.value([], ["Production"]);
-});
-
-const t = ref({});
+const lops = computed(() =>
+  productionLocationOptionsTree.value([], ["Production"])
+);
 
 const formRef = ref();
 const {
   workerOptions,
   departmentOptionsTree,
-  locationOptionsTree,
   productionLocationOptionsTree,
   employeeOptions,
   moldTypeOptions,
@@ -59,11 +57,17 @@ const {
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
       <el-form-item label="模组名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入模组名称" clearable />
+        <el-input
+          v-model="form.name"
+          placeholder="请输入模组名称"
+          clearable
+          class="!w-[130px]"
+        />
       </el-form-item>
       <el-form-item label="类型" prop="mtype">
         <el-select
           v-model="form.mtype"
+          class="!w-[130px]"
           clearable
           filterable
           placeholder="请选择类型"
@@ -80,6 +84,7 @@ const {
       <el-form-item label="操作工人" prop="workers">
         <el-select
           v-model="form.workers"
+          class="!w-[130px]"
           placeholder="请选择操作工人"
           clearable
           multiple
@@ -92,22 +97,32 @@ const {
           />
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="所在地点" prop="location">
-        <el-cascader v-model="form.location" class="w-full" collapse-tags :options="t.value" :props="{
-      value: '_id',
-      label: 'name',
-      emitPath: false,
-      checkStrictly: true
-    }" clearable filterable placeholder="请选择所在地点">
+      <el-form-item label="所在地点" prop="location">
+        <el-cascader
+          v-model="form.location"
+          class="!w-[300px]"
+          collapse-tags
+          :options="lops"
+          :props="{
+            value: '_id',
+            label: 'name',
+            emitPath: false,
+            checkStrictly: true
+          }"
+          clearable
+          filterable
+          placeholder="请选择所在地点"
+        >
           <template #default="{ node, data }">
             <span>{{ data.name }}</span>
             <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
           </template>
         </el-cascader>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item label="管理员" prop="manager">
         <el-select
           v-model="form.manager"
+          class="!w-[120px]"
           clearable
           filterable
           placeholder="请选择管理员"
@@ -123,6 +138,7 @@ const {
       <el-form-item label="状态：" prop="meta.enabled">
         <el-select
           v-model="form.meta.enabled"
+          class="!w-[120px]"
           placeholder="请选择状态"
           clearable
         >

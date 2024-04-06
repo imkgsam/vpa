@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
+// import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { RoleAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
@@ -7,11 +8,23 @@ import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
-import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
 import { transformI18n } from "@/plugins/i18n";
 
 const { tagStyleByBool } = usePublicThemeHooks();
+// import { usePublicHooks } from "../../hooks";
+import {
+  // getKeyList,
+  deviceDetection
+} from "@pureadmin/utils";
+import {
+  // type Ref,
+  reactive,
+  ref,
+  onMounted,
+  h
+  // toRaw, watch
+} from "vue";
 
 export function useRole() {
   const form = reactive({
@@ -20,10 +33,13 @@ export function useRole() {
       enabled: undefined
     }
   });
+  const curRow = ref();
   const formRef = ref();
   const dataList = ref([]);
+  // const treeIds = ref([]);
+  const treeData = ref([]);
+  const isShow = ref(false);
   const loading = ref(true);
-  // const switchLoadMap = ref({});
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -119,9 +135,7 @@ export function useRole() {
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;
-    setTimeout(() => {
-      loading.value = false;
-    }, 500);
+    loading.value = false;
   }
 
   const resetForm = formEl => {
@@ -143,6 +157,7 @@ export function useRole() {
       },
       width: "40%",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
@@ -177,25 +192,82 @@ export function useRole() {
     let rt = await RoleAPI.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
+    // /** 菜单权限 */
+    // async function handleMenu(row?: any) {
+    //   const { id } = row;
+    //   if (id) {
+    //     curRow.value = row;
+    //     isShow.value = true;
+    //     const { data } = await getRoleMenuIds({ id });
+    //     treeRef.value.setCheckedKeys(data);
+    //   } else {
+    //     curRow.value = null;
+    //     isShow.value = false;
+    //   }
+    // }
+
+    // /** 高亮当前权限选中行 */
+    // function rowStyle({ row: { id } }) {
+    //   return {
+    //     cursor: "pointer",
+    //     background: id === curRow.value?.id ? "var(--el-fill-color-light)" : ""
+    //   };
+    // }
+
+    // /** 菜单权限-保存 */
+    // function handleSave() {
+    //   const { id, name } = curRow.value;
+    //   // 根据用户 id 调用实际项目中菜单权限修改接口
+    //   console.log(id, treeRef.value.getCheckedKeys());
+    //   message(`角色名称为${name}的菜单权限修改成功`, {
+    //     type: "success"
+    //   });
   }
 
   /** 数据权限 可自行开发 */
   // function handleDatabase() {}
 
-  onMounted(() => {
+  // const onQueryChanged = (query: string) => {
+  //   // treeRef.value!.filter(query);
+  // };
+
+  const filterMethod = (query: string, node) => {
+    return transformI18n(node.title)!.includes(query);
+  };
+
+  onMounted(async () => {
     onSearch();
   });
 
+  // watch(isExpandAll, val => {
+  //   val
+  //     ? treeRef.value.setExpandedKeys(treeIds.value)
+  //     : treeRef.value.setExpandedKeys([]);
+  // });
+
+  // watch(isSelectAll, val => {
+  //   val
+  //     ? treeRef.value.setCheckedKeys(treeIds.value)
+  //     : treeRef.value.setCheckedKeys([]);
+  // });
+
   return {
     form,
+    isShow,
+    curRow,
     loading,
     columns,
     dataList,
+    treeData,
     pagination,
     // buttonClass,
     onSearch,
     resetForm,
     openDialog,
+
+    filterMethod,
+    transformI18n,
+    // onQueryChanged,
     // handleDatabase,
     handleSizeChange,
     handleCurrentChange,
