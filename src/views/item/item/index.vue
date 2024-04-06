@@ -4,6 +4,7 @@ import { useHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import MenuLine from "@iconify-icons/ri/menu-line";
+import { useDetail } from "@/helpers/hooks/useDetailHook";
 
 // import Database from "@iconify-icons/ri/database-2-line";
 // import More from "@iconify-icons/ep/more-filled";
@@ -12,6 +13,8 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+
+const { toDetail } = useDetail();
 
 defineOptions({
   name: "ItemManagement"
@@ -92,7 +95,14 @@ const {
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="$router.push({ name: 'ItemCreate' })"
+          @click="
+            toDetail(
+              { id: Date.now().toString() },
+              'query',
+              '/item/item/detail',
+              'ItemDetail'
+            )
+          "
         >
           新增产品
         </el-button>

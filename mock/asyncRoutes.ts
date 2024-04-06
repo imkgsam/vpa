@@ -183,15 +183,16 @@ const itemManagementRouter = {
           }
         },
         {
-          path: "/item/item/create",
-          name: "ItemCreate",
+          path: "/item/item/detail",
+          name: "ItemDetail",
           meta: {
             icon: "ep:menu",
             title: "menus.hsItemCreate",
             roles: ["admin"],
-            hiddenTag: false,
+            // hiddenTag: false,
             showLink: false,
-            keepAlive: true
+            keepAlive: true,
+            dynamicLevel: 5
             // showParent: true
           }
         }

@@ -181,10 +181,10 @@ dependencies:
     version: 4.1.0(vue@3.4.21)
   vxe-table:
     specifier: ^4.5.21
-    version: 4.5.21(vue@3.4.21)(xe-utils@3.5.23)
+    version: 4.5.21(vue@3.4.21)(xe-utils@3.5.24)
   wavesurfer.js:
     specifier: ^7.7.5
-    version: 7.7.8
+    version: 7.7.9
   xgplayer:
     specifier: ^3.0.15
     version: 3.0.16(core-js@3.36.1)
@@ -9685,7 +9685,7 @@ packages:
       vue: 3.4.21(typescript@5.4.4)
     dev: false
 
-  /vxe-table@4.5.21(vue@3.4.21)(xe-utils@3.5.23):
+  /vxe-table@4.5.21(vue@3.4.21)(xe-utils@3.5.24):
     resolution: {integrity: sha512-yp+BNGCy61lk7ayf0LI3UNcR2fRmipGSiIAh3lNOIdyW1nAobf/GwIx3rXghjzFb0a6NNJeYxv2NM+gwXxtmww==}
     peerDependencies:
       vue: ^3.2.28
@@ -9693,7 +9693,7 @@ packages:
     dependencies:
       dom-zindex: 1.0.1
       vue: 3.4.21(typescript@5.4.4)
-      xe-utils: 3.5.23
+      xe-utils: 3.5.24
     dev: false
 
   /w3c-hr-time@1.0.2:
@@ -9716,8 +9716,8 @@ packages:
       makeerror: 1.0.12
     dev: false
 
-  /wavesurfer.js@7.7.8:
-    resolution: {integrity: sha512-uzpe+wOe031G03wC4P/LO7Ai9OkF7Wyh8QGn9IMjAbwtiwK+H083cOZij9S4SD/vEdTdXligFKvziSB9bVmaIg==}
+  /wavesurfer.js@7.7.9:
+    resolution: {integrity: sha512-U7u5mJkV7y/zCc0L4rN0vK94T22ys5KAz9dngCCvutzbiKRamLz6R/huXadFou4hQycF6Ef+1spqygdjiZwMLw==}
     dev: false
 
   /webidl-conversions@3.0.1:
@@ -9886,8 +9886,8 @@ packages:
         optional: true
     dev: false
 
-  /xe-utils@3.5.23:
-    resolution: {integrity: sha512-wHBMrDFG08518AIYhFyP3dxvWjK0hthdXbdR0p4kuFM9vuq9F30jnH+VliGxhaU4zWtoyAmq4/sGBKJrGhDHag==}
+  /xe-utils@3.5.24:
+    resolution: {integrity: sha512-22TRz/qaRNcPTQi2SHNU19FqHogctQvVkFu09/smPdbkwOXNS9tUZ4EwA2bJ7HFkdWtnELrxFpCt58LS2HCojA==}
     dev: false
 
   /xgplayer-subtitles@3.0.16(core-js@3.36.1):
