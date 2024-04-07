@@ -1,64 +1,305 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { formRules } from "../utils/rule";
+import { FormProps } from "../utils/types";
 import { useHook } from "../utils/hook";
-import { PureTableBar } from "@/components/RePureTableBar";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import MenuLine from "@iconify-icons/ri/menu-line";
-import { useDetail } from "@/helpers/hooks/useDetailHook";
 
-// import Database from "@iconify-icons/ri/database-2-line";
-// import More from "@iconify-icons/ep/more-filled";
-import Delete from "@iconify-icons/ep/delete";
-import EditPen from "@iconify-icons/ep/edit-pen";
-import Refresh from "@iconify-icons/ep/refresh";
-import Menu from "@iconify-icons/ep/menu";
-import AddFill from "@iconify-icons/ri/add-circle-line";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Delete,
+  Edit,
+  Share,
+  Setting
+} from "@element-plus/icons-vue";
 
-defineOptions({
-  name: "ItemDetail"
+const {
+  categoriesOptions,
+  ItemTypeOptions,
+  attirbuteOptions,
+  usePublicStoreHook
+} = useHook();
+
+const props = withDefaults(defineProps<FormProps>(), {
+  formInline: () => ({
+    _id: undefined,
+    code: "",
+    category: undefined,
+    etype: "",
+    meta: {
+      enabled: undefined,
+      canBeStocked: undefined,
+      canBeSold: undefined,
+      canBePurchased: undefined,
+      canBenProduced: undefined,
+      canBenRented: undefined,
+      hasVariants: undefined,
+      isVariantOf: undefined,
+      attributeTags: []
+    },
+    attributes: []
+  })
 });
 
-const { initToDetail, getParameter } = useDetail();
-initToDetail("query");
+const ruleFormRef = ref();
+const newFormInline = ref(props.formInline);
 
-const formRef = ref();
-const {
-  form,
-  loading,
-  columns,
-  dataList,
-  pagination,
-  // buttonClass,
-  onSearch,
-  resetForm,
-  openDialog,
-  handleMenu,
-  handleDelete,
-  // handleDatabase,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange
-} = useHook();
+function getRef() {
+  return ruleFormRef.value;
+}
+
+defineExpose({ getRef });
+const activeName = ref("first");
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  console.log(tab, event);
+};
+
+const deleteRow = (index: number) => {
+  newFormInline.value?.attributes.splice(index, 1);
+};
+
+const ttt = ref();
+
+const onAddItem = () => {
+  newFormInline.value?.attributes.push({
+    attribute: null,
+    options: []
+  });
+};
 </script>
 
 <template>
-  <div class="main">
-    <h3>{{ getParameter }}</h3>
+  <div>
+    <!-- 顶部tab links -->
+    <div class="bg-bg_color w-full mb-5">
+      <el-button-group>
+        <el-button class="!text-left !p-5">
+          <IconifyIconOnline
+            icon="streamline-emojis:beaming-face-with-smiling-eyes"
+            class="ml-1"
+            width="30"
+          />
+          <div class="inline-block ml-1 mr-10">
+            <span class="block"> 0 </span>
+            <span class="block"> 在手 </span>
+          </div>
+        </el-button>
+        <el-button class="!text-left !p-5">
+          <IconifyIconOnline
+            icon="streamline-emojis:beaming-face-with-smiling-eyes"
+            class="ml-1"
+            width="30"
+          />
+          <div class="inline-block ml-1 mr-10">
+            <span class="block"> 0 </span>
+            <span class="block"> 在手 </span>
+          </div>
+        </el-button>
+      </el-button-group>
+      <el-button :icon="Setting" text="plain" class="float-right m-a"
+        >操作</el-button
+      >
+    </div>
+    <!-- 主体部分 -->
+    <div class="main bg-bg_color w-[99/100] p-8">
+      <el-form
+        ref="ruleFormRef"
+        :model="newFormInline"
+        :rules="formRules"
+        label-width="82px"
+      >
+        <el-row :gutter="30">
+          <el-col :xs="24">
+            <el-form-item label="产品型号" prop="code">
+              <el-input
+                v-model="newFormInline.code"
+                clearable
+                placeholder="请输入产品型号"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" class="my-5">
+            <el-checkbox
+              v-model="newFormInline.meta.enabled"
+              label="是否已启用"
+              size="small"
+            />
+            <el-checkbox
+              v-model="newFormInline.meta.canBeStocked"
+              label="是否可库存"
+              size="small"
+            />
+            <el-checkbox
+              v-model="newFormInline.meta.canBeSold"
+              label="是否可出售"
+              size="small"
+            />
+            <el-checkbox
+              v-model="newFormInline.meta.canBePurchased"
+              label="是否可采购"
+              size="small"
+            />
+            <el-checkbox
+              v-model="newFormInline.meta.canBenProduced"
+              label="是否可生产"
+              size="small"
+            />
+            <el-checkbox
+              v-model="newFormInline.meta.canBenRented"
+              label="是否可出租"
+              size="small"
+            />
+          </el-col>
+        </el-row>
+
+        <el-tabs type="border-card" class="my-5">
+          <el-tab-pane class="my-5" label="基本信息">
+            <el-row :gutter="30">
+              <el-col :xs="24" :sm="12">
+                <el-form-item label="所属分类" prop="category">
+                  <el-cascader
+                    v-model="newFormInline.category"
+                    class="w-full"
+                    collapse-tags
+                    :options="categoriesOptions"
+                    :props="{
+                      value: '_id',
+                      label: 'name',
+                      emitPath: false,
+                      checkStrictly: true
+                    }"
+                    clearable
+                    filterable
+                    placeholder="请选择所属类别"
+                  >
+                    <template #default="{ node, data }">
+                      <span>{{ data.name }}</span>
+                      <span v-if="!node.isLeaf">
+                        ({{ data.children.length }})
+                      </span>
+                    </template>
+                  </el-cascader>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12">
+                <el-form-item label="产品类型" prop="etype">
+                  <el-select
+                    v-model="newFormInline.etype"
+                    placeholder="请选择产品类型"
+                  >
+                    <el-option
+                      v-for="(itm, idx) in ItemTypeOptions"
+                      :key="idx"
+                      :label="itm.cn"
+                      :value="itm.en"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane class="my-5" label="变体属性">
+            <div>
+              <el-table :data="newFormInline?.attributes" style="width: 100%">
+                <el-table-column fixed prop="attribute" label="属性">
+                  <template #default="scope">
+                    <el-select
+                      v-model="newFormInline.attributes[scope.$index].attribute"
+                    >
+                      <el-option
+                        v-for="(itm, idx) in attirbuteOptions"
+                        :key="idx"
+                        :label="itm.name"
+                        :value="itm._id"
+                        :disabled="
+                          newFormInline.attributes
+                            .map(each => each.attribute)
+                            .includes(itm._id)
+                        "
+                      />
+                    </el-select>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="options" label="选项">
+                  <template #default="scope">
+                    <el-select
+                      v-model="newFormInline.attributes[scope.$index].options"
+                      multiple
+                      :disabled="
+                        !newFormInline.attributes[scope.$index].attribute
+                      "
+                    >
+                      <el-option
+                        v-for="(
+                          itm, idx
+                        ) in usePublicStoreHook().getAttributeValuesByAttirbute(
+                          newFormInline.attributes[scope.$index].attribute
+                        )"
+                        :key="idx"
+                        :label="itm.name"
+                        :value="itm._id"
+                      />
+                    </el-select>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  fixed="right"
+                  label="Operations"
+                  width="300"
+                  class-name="!text-right"
+                >
+                  <template #default="scope">
+                    <el-button
+                      :icon="Delete"
+                      link
+                      type="primary"
+                      size="small"
+                      @click.prevent="deleteRow(scope.$index)"
+                    />
+                  </template>
+                </el-table-column>
+              </el-table>
+              <el-button class="mt-4" style="width: 100%" @click="onAddItem">
+                Add Item
+              </el-button>
+            </div>
+            <div />
+          </el-tab-pane>
+          <el-tab-pane
+            v-if="newFormInline.meta.canBeStocked"
+            class="my-5"
+            label="库存"
+          >
+            库存
+          </el-tab-pane>
+          <el-tab-pane
+            v-if="newFormInline.meta.canBenProduced"
+            class="my-5"
+            label="生产"
+          >
+            生产
+          </el-tab-pane>
+          <el-tab-pane
+            v-if="newFormInline.meta.canBePurchased"
+            class="my-5"
+            label="采购"
+          >
+            采购
+          </el-tab-pane>
+          <el-tab-pane
+            v-if="newFormInline.meta.canBeSold"
+            class="my-5"
+            label="销售"
+            >销售</el-tab-pane
+          >
+          <el-tab-pane
+            v-if="newFormInline.meta.canBenRented"
+            class="my-5"
+            label="租赁"
+            >租赁</el-tab-pane
+          >
+        </el-tabs>
+      </el-form>
+    </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-:deep(.el-dropdown-menu__item i) {
-  margin: 0;
-}
-
-.main-content {
-  margin: 24px 24px 0 !important;
-}
-
-.search-form {
-  :deep(.el-form-item) {
-    margin-bottom: 12px;
-  }
-}
-</style>
