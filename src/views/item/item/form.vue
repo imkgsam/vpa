@@ -91,7 +91,7 @@ defineExpose({ getRef });
       <el-tab-pane label="基本信息">
         <el-row :gutter="30">
           <el-col :xs="24" :sm="12">
-            <el-form-item label="所属分类" prop="category">
+            <el-form-item label="所属类别" prop="category">
               <el-cascader
                 v-model="newFormInline.category"
                 class="w-full"

@@ -16,12 +16,15 @@ import { usePublicAppVariableHooks } from "@/helpers/appVariables";
 const { ItemTypeOptions } = usePublicAppVariableHooks();
 const { tagStyleByBool } = usePublicThemeHooks();
 
-const { categoryOptionsTree: categoriesOptions } =
-  storeToRefs(usePublicStoreHook());
+const {
+  categoryOptionsTree: categoriesOptions,
+  publicAttributes: attributeOptions
+} = storeToRefs(usePublicStoreHook());
 
 export function useHook() {
   onBeforeMount(() => {
     usePublicStoreHook().getAllPublicCategories(false);
+    usePublicStoreHook().getAllPublicAttributes(false);
   });
 
   const form = reactive({
@@ -82,6 +85,21 @@ export function useHook() {
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
     onSearch();
+  }
+
+  function handleDetailSubmit(row, ref) {
+    console.log("in handleDetailSubmit", row);
+    console.log(ref);
+    const FormRef = ref;
+    const curData = row as FormItemProps;
+    FormRef.validate(valid => {
+      console.log("curData", curData);
+      if (valid) {
+        console.log(" valid");
+      } else {
+        console.log(" invalid");
+      }
+    });
   }
 
   function handleCurrentChange(val: number) {
@@ -208,6 +226,9 @@ export function useHook() {
     handleSelectionChange,
 
     categoriesOptions,
-    ItemTypeOptions
+    ItemTypeOptions,
+    attributeOptions,
+    usePublicStoreHook,
+    handleDetailSubmit
   };
 }

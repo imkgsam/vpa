@@ -282,6 +282,12 @@ export const AttributeAPI = {
       { data }
     );
   },
+  getAllPublic: () => {
+    return http.request<ListResultWithPage<Attribute>>(
+      "get",
+      baseUrlApi("item/attribute/allpublic")
+    );
+  },
   create: (data?: object) => {
     return http.request<OneResult<Attribute>>(
       "post",
@@ -761,6 +767,11 @@ export const ItemAPI = {
   delete: (data: object) => {
     return http.request<OneResult<Item>>("post", baseUrlApi("item/delete"), {
       data
+    });
+  },
+  detail: (id: string) => {
+    return http.request<OneResult<Item>>("get", baseUrlApi("item/detail"), {
+      params: { id }
     });
   },
   getPListWithFilter: (data?: object) => {

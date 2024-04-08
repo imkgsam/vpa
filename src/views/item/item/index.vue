@@ -97,10 +97,11 @@ const {
           :icon="useRenderIcon(AddFill)"
           @click="
             toDetail(
-              { id: Date.now().toString() },
+              { ts: Date.now().toString() },
               'query',
               '/item/item/detail',
-              'ItemDetail'
+              'ItemDetail',
+              'Product'
             )
           "
         >

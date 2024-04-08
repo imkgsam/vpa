@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { formRules } from "../utils/rule";
+import { ref, onBeforeMount } from "vue";
+import { detailFormRules } from "../utils/rule";
 import { FormProps } from "../utils/types";
 import { useHook } from "../utils/hook";
+import { useDetail } from "@/helpers/hooks/useDetailHook";
 
 import {
   ArrowLeft,
@@ -12,53 +13,52 @@ import {
   Share,
   Setting
 } from "@element-plus/icons-vue";
+import { ItemAPI } from "@/api/system";
+import { Item } from "@/store/modules/types";
 
 const {
   categoriesOptions,
   ItemTypeOptions,
-  attirbuteOptions,
-  usePublicStoreHook
+  attributeOptions,
+  usePublicStoreHook,
+  handleDetailSubmit
 } = useHook();
 
-const props = withDefaults(defineProps<FormProps>(), {
-  formInline: () => ({
-    _id: undefined,
-    code: "",
-    category: undefined,
-    etype: "",
-    meta: {
-      enabled: undefined,
-      canBeStocked: undefined,
-      canBeSold: undefined,
-      canBePurchased: undefined,
-      canBenProduced: undefined,
-      canBenRented: undefined,
-      hasVariants: undefined,
-      isVariantOf: undefined,
-      attributeTags: []
-    },
-    attributes: []
-  })
+onBeforeMount(async () => {
+  const params = getParameter;
+  console.log("in onBeforeMount", params);
+  if (params?.id) {
+    const { data } = await ItemAPI.detail(params.id as string);
+    newFormInline.value = data;
+  }
 });
 
+const { getParameter } = useDetail();
+
+const newFormInline = ref({
+  _id: undefined,
+  code: "",
+  category: undefined,
+  etype: "",
+  meta: {
+    enabled: undefined,
+    canBeStocked: undefined,
+    canBeSold: undefined,
+    canBePurchased: undefined,
+    canBenProduced: undefined,
+    canBenRented: undefined,
+    hasVariants: undefined,
+    isVariantOf: undefined,
+    attributeTags: []
+  },
+  attributes: []
+} as Item);
+
 const ruleFormRef = ref();
-const newFormInline = ref(props.formInline);
-
-function getRef() {
-  return ruleFormRef.value;
-}
-
-defineExpose({ getRef });
-const activeName = ref("first");
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event);
-};
 
 const deleteRow = (index: number) => {
   newFormInline.value?.attributes.splice(index, 1);
 };
-
-const ttt = ref();
 
 const onAddItem = () => {
   newFormInline.value?.attributes.push({
@@ -96,17 +96,41 @@ const onAddItem = () => {
           </div>
         </el-button>
       </el-button-group>
-      <el-button :icon="Setting" text="plain" class="float-right m-a"
-        >操作</el-button
+      <el-dropdown trigger="click" class="!align-middle float-right m-a">
+        <el-button :icon="Setting" text="plain"> 操作 </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <el-button class="reset-margin" link type="warning">
+                修改
+              </el-button>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <el-button class="reset-margin" link> 停用 </el-button>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <el-button class="reset-margin" link type="danger">
+                删除
+              </el-button>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+
+      <el-button
+        class="float-right m-a"
+        @click="handleDetailSubmit(newFormInline, ruleFormRef)"
+        >提交</el-button
       >
     </div>
+
     <!-- 主体部分 -->
     <div class="main bg-bg_color w-[99/100] p-8">
       <el-form
         ref="ruleFormRef"
         :model="newFormInline"
-        :rules="formRules"
-        label-width="82px"
+        :rules="detailFormRules"
+        label-width="100px"
       >
         <el-row :gutter="30">
           <el-col :xs="24">
@@ -152,11 +176,15 @@ const onAddItem = () => {
           </el-col>
         </el-row>
 
+        <div v-if="newFormInline?.meta?.isVariantOf">
+          所属ITEM: {{ newFormInline?.meta?.isVariantOf }}
+        </div>
+
         <el-tabs type="border-card" class="my-5">
           <el-tab-pane class="my-5" label="基本信息">
             <el-row :gutter="30">
-              <el-col :xs="24" :sm="12">
-                <el-form-item label="所属分类" prop="category">
+              <el-col :xs="24" :sm="12" :md="6">
+                <el-form-item label="所属类别" prop="category">
                   <el-cascader
                     v-model="newFormInline.category"
                     class="w-full"
@@ -181,7 +209,7 @@ const onAddItem = () => {
                   </el-cascader>
                 </el-form-item>
               </el-col>
-              <el-col :xs="24" :sm="12">
+              <el-col :xs="24" :sm="12" :md="6">
                 <el-form-item label="产品类型" prop="etype">
                   <el-select
                     v-model="newFormInline.etype"
@@ -200,46 +228,60 @@ const onAddItem = () => {
           </el-tab-pane>
           <el-tab-pane class="my-5" label="变体属性">
             <div>
-              <el-table :data="newFormInline?.attributes" style="width: 100%">
-                <el-table-column fixed prop="attribute" label="属性">
+              <el-table :data="newFormInline?.attributes" style="width: 80%">
+                <el-table-column fixed label="属性">
                   <template #default="scope">
-                    <el-select
-                      v-model="newFormInline.attributes[scope.$index].attribute"
+                    <el-form-item
+                      label="属性名称"
+                      :prop="'attributes.' + scope.$index + '.attribute'"
+                      :rules="detailFormRules.attribute"
                     >
-                      <el-option
-                        v-for="(itm, idx) in attirbuteOptions"
-                        :key="idx"
-                        :label="itm.name"
-                        :value="itm._id"
-                        :disabled="
-                          newFormInline.attributes
-                            .map(each => each.attribute)
-                            .includes(itm._id)
+                      <el-select
+                        v-model="
+                          newFormInline.attributes[scope.$index].attribute
                         "
-                      />
-                    </el-select>
+                      >
+                        <el-option
+                          v-for="(itm, idx) in attributeOptions"
+                          :key="idx"
+                          :label="itm.name"
+                          :value="itm._id"
+                          :disabled="
+                            newFormInline.attributes
+                              .map(each => each.attribute)
+                              .includes(itm._id)
+                          "
+                        />
+                      </el-select>
+                    </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column prop="options" label="选项">
+                <el-table-column prop="attributes.options" label="选项">
                   <template #default="scope">
-                    <el-select
-                      v-model="newFormInline.attributes[scope.$index].options"
-                      multiple
-                      :disabled="
-                        !newFormInline.attributes[scope.$index].attribute
-                      "
+                    <el-form-item
+                      label="属性可选值"
+                      :prop="'attributes.' + scope.$index + '.options'"
+                      :rules="detailFormRules.options2"
                     >
-                      <el-option
-                        v-for="(
-                          itm, idx
-                        ) in usePublicStoreHook().getAttributeValuesByAttirbute(
-                          newFormInline.attributes[scope.$index].attribute
-                        )"
-                        :key="idx"
-                        :label="itm.name"
-                        :value="itm._id"
-                      />
-                    </el-select>
+                      <el-select
+                        v-model="newFormInline.attributes[scope.$index].options"
+                        multiple
+                        :disabled="
+                          !newFormInline.attributes[scope.$index].attribute
+                        "
+                      >
+                        <el-option
+                          v-for="(
+                            itm, idx
+                          ) in usePublicStoreHook().getAttributeValuesByAttirbute(
+                            newFormInline.attributes[scope.$index].attribute
+                          )"
+                          :key="idx"
+                          :label="itm.name"
+                          :value="itm._id"
+                        />
+                      </el-select>
+                    </el-form-item>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -259,9 +301,7 @@ const onAddItem = () => {
                   </template>
                 </el-table-column>
               </el-table>
-              <el-button class="mt-4" style="width: 100%" @click="onAddItem">
-                Add Item
-              </el-button>
+              <el-button class="mt-4" @click="onAddItem"> Add Item </el-button>
             </div>
             <div />
           </el-tab-pane>

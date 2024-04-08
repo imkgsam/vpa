@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
 import { store } from "@/store";
 // import { EntityTypeEnum, Entity } from "./types";
-import type { Department, Role, Entity, Location, Category } from "./types";
+// import type { Department, Role, Entity, Location, Category } from "./types";
 import {
   RoleAPI,
   DepartmentAPI,
   EntityAPI,
   LocationAPI,
-  CategoryAPI
+  CategoryAPI,
+  AttributeAPI
 } from "@/api/system";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { handleTree } from "@/utils/tree";
@@ -24,9 +25,23 @@ export const usePublicStore = defineStore({
     publicEmployees: [],
     publicWorkers: [],
     publicLocations: [],
-    publicCategories: []
+    publicCategories: [],
+
+    publicAttributes: []
   }),
   getters: {
+    getAttributeValuesByAttirbute: state => (attributeId: string) => {
+      let rt = [];
+      if (attributeId) {
+        const t = state.publicAttributes.filter(
+          each => each._id === attributeId
+        );
+        if (t && t.length === 1) {
+          rt = t[0].values;
+        }
+      }
+      return rt;
+    },
     productionLocationOptionsTree:
       state => (disabledTypeList?: string[], enabledTypeList?: string[]) =>
         formatHigherLocationOptions(
@@ -54,30 +69,39 @@ export const usePublicStore = defineStore({
       )
   },
   actions: {
-    SET_PUBLIC_ROLES(data: Array<Role>) {
-      this.publicRoles = data;
-    },
-    SET_PUBLIC_DEPARTMENTS(data: Array<Department>) {
-      this.publicDepartments = data;
-    },
-    SET_PUBLIC_COMPANIES(data: Array<Entity>) {
-      this.publicCompanies = data;
-    },
-    SET_PUBLIC_EMPLOYEES(data: Array<Entity>) {
-      this.publicEmployees = data;
-    },
-    SET_PUBLIC_LOCATIONS(data: Array<Location>) {
-      this.publicLocations = data;
-    },
-    SET_PUBLIC_CATEGORIES(data: Array<Category>) {
-      this.publicCategories = data;
+    SET(data: Array<any>, type: string) {
+      switch (type) {
+        case "Role":
+          this.publicRoles = data;
+          break;
+        case "Location":
+          this.publicLocations = data;
+          break;
+        case "Employee":
+          this.publicEmployees = data;
+          break;
+        case "Company":
+          this.publicCompanies = data;
+          break;
+        case "Department":
+          this.publicDepartments = data;
+          break;
+        case "Category":
+          this.publicCategories = data;
+          break;
+        case "Attribute":
+          this.publicAttributes = data;
+          break;
+        default:
+          console.log("not implement");
+      }
     },
 
     /** 获取所有公开的部门 */
     async getAllPublicDepartments(refresh: boolean) {
       if (refresh || this.publicDepartments.length === 0) {
         const req = await DepartmentAPI.getAllPublic();
-        this.SET_PUBLIC_DEPARTMENTS(req.data);
+        this.SET(req.data, "Department");
       }
       return this.publicDepartments;
     },
@@ -85,7 +109,7 @@ export const usePublicStore = defineStore({
     async getAllPublicRoles(refresh: boolean) {
       if (refresh || this.publicRoles.length === 0) {
         const req = await RoleAPI.getAllPublic();
-        this.SET_PUBLIC_ROLES(req.data);
+        this.SET(req.data, "Role");
       }
       return this.publicRoles;
     },
@@ -93,7 +117,7 @@ export const usePublicStore = defineStore({
     async getAllPublicCompanies(refresh: boolean) {
       if (refresh || this.publicCompanies.length === 0) {
         const req = await EntityAPI.Company.getAllPublic();
-        this.SET_PUBLIC_COMPANIES(req.data);
+        this.SET(req.data, "Company");
       }
       return this.publicCompanies;
     },
@@ -101,7 +125,7 @@ export const usePublicStore = defineStore({
     async getAllPublicEmployees(refresh: boolean) {
       if (refresh || this.publicEmployees.length === 0) {
         const req = await EntityAPI.Employee.getAllPublic();
-        this.SET_PUBLIC_EMPLOYEES(req.data);
+        this.SET(req.data, "Employee");
       }
       return this.publicEmployees;
     },
@@ -109,7 +133,7 @@ export const usePublicStore = defineStore({
     async getAllPublicLocations(refresh: boolean) {
       if (refresh || this.publicLocations.length === 0) {
         const req = await LocationAPI.getAllPublic();
-        this.SET_PUBLIC_LOCATIONS(req.data);
+        this.SET(req.data, "Location");
       }
       return this.publicLocations;
     },
@@ -117,9 +141,17 @@ export const usePublicStore = defineStore({
     async getAllPublicCategories(refresh: boolean) {
       if (refresh || this.publicCategories.length === 0) {
         const req = await CategoryAPI.getAllPublic();
-        this.SET_PUBLIC_CATEGORIES(req.data);
+        this.SET(req.data, "Category");
       }
       return this.publicCategories;
+    },
+    /** 获取所有公开的产品属性 */
+    async getAllPublicAttributes(refresh: boolean) {
+      if (refresh || this.publicAttributes.length === 0) {
+        const req = await AttributeAPI.getAllPublic();
+        this.SET(req.data, "Attribute");
+      }
+      return this.publicAttributes;
     }
   }
 });
