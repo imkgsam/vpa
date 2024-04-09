@@ -7,6 +7,8 @@ import {
   type RouteParamsRaw
 } from "vue-router";
 
+// update
+
 export function useDetail() {
   const route = useRoute();
   const router = useRouter();
