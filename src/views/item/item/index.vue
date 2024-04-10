@@ -107,13 +107,6 @@ const {
         >
           新增产品
         </el-button>
-        <!-- <el-button
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDialog()"
-        >
-          新增产品
-        </el-button> -->
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
@@ -150,7 +143,15 @@ const {
                       type="warning"
                       :size="size"
                       :icon="useRenderIcon(EditPen)"
-                      @click="openDialog('修改', row)"
+                      @click="
+                        toDetail(
+                          { id: row._id },
+                          'query',
+                          '/item/item/detail',
+                          'ItemDetail',
+                          'Product'
+                        )
+                      "
                     >
                       修改
                     </el-button>

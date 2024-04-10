@@ -25,7 +25,8 @@ const {
   resetForm,
   openDialog,
   myHandleDelete,
-  handleSelectionChange
+  handleSelectionChange,
+  toggleStatus
 } = useHook();
 </script>
 
@@ -138,6 +139,18 @@ const {
                       @click="openDialog('修改', row)"
                     >
                       修改
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      :type="row?.meta.enabled ? 'danger' : 'success'"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="toggleStatus(row._id, !row.meta.enabled)"
+                    >
+                      {{ row?.meta.enabled ? "停用" : "启用" }}
                     </el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>

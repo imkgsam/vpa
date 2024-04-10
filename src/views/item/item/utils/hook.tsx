@@ -12,6 +12,7 @@ import { usePublicStoreHook } from "@/store/modules/public";
 import { onBeforeMount } from "vue";
 import { storeToRefs } from "pinia";
 import { usePublicAppVariableHooks } from "@/helpers/appVariables";
+import { useDetail } from "@/helpers/hooks/useDetailHook";
 
 const { ItemTypeOptions } = usePublicAppVariableHooks();
 const { tagStyleByBool } = usePublicThemeHooks();
@@ -20,6 +21,8 @@ const {
   categoryOptionsTree: categoriesOptions,
   publicAttributes: attributeOptions
 } = storeToRefs(usePublicStoreHook());
+
+// const { closeTagAndGoTo } = useDetail()
 
 export function useHook() {
   onBeforeMount(() => {
@@ -87,15 +90,26 @@ export function useHook() {
     onSearch();
   }
 
-  function handleDetailSubmit(row, ref) {
+  function handleDetailSubmit(row, ref, ops) {
     console.log("in handleDetailSubmit", row);
     console.log(ref);
+    console.log(ops);
     const FormRef = ref;
     const curData = row as FormItemProps;
-    FormRef.validate(valid => {
+    FormRef.validate(async valid => {
       console.log("curData", curData);
+      delete curData?.meta?.attributeTags;
       if (valid) {
         console.log(" valid");
+        if (ops === "update") {
+          await ItemAPI.update({ ...curData });
+        } else if (ops === "create") {
+          await ItemAPI.create({ ...curData });
+        } else {
+          console.log("not implement");
+        }
+        useDetail().closeTagAndGoTo("/item/item/index");
+        onSearch();
       } else {
         console.log(" invalid");
       }

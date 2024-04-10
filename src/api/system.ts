@@ -243,6 +243,25 @@ export const CategoryAPI = {
       }
     );
   },
+  toggleStatus: (data: object, newValue: boolean) => {
+    if (newValue) {
+      return http.request<OneResult<Category>>(
+        "post",
+        baseUrlApi("item/category/enable"),
+        {
+          data
+        }
+      );
+    } else {
+      return http.request<OneResult<Category>>(
+        "post",
+        baseUrlApi("item/category/disable"),
+        {
+          data
+        }
+      );
+    }
+  },
   getAllPublic: () => {
     return http.request<ListResultWithPage<Category>>(
       "get",

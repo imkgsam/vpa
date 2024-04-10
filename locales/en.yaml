@@ -732,12 +732,39 @@ constant:
     On-line: On-line
   category:
     toilet: Toilet
+    toilet bowl: Toilet Bowl
+    toilet tank: Toilet Tank
     one-piece toilet: One-Piece Toilet
     two-piece toilet: Two-Piece Toilet
     wall-mounted toilet: Wall-Mounted Toilet
+    children toilet: Children's Toilet
+    smart toilet: Smart Toilet
     sink: Sink
     pedestal sink: Pedestal Sink
     drop-in sink: Drop-in Sink
+    under counter sink: Under Counter Sink
+    cabinet sink: Cabinet Sink
+    mid-edged basin: Mid-edged Sink
+    kitchen sink: Kitchen Sink
     wall-mounted sink: Wall-Mounted Sink
     console sink: Console Sink
     vessel sink: Vessel Sink
+    finishedProduct: Finished Product
+    ceramicPart: Ceramic Part
+    product: Product
+    accessory: Accessory
+    flush unit: Flush Unit
+    toilet seat: Toilet Seat
+    bolt: Bolts
+    showerSet: Shower Set
+    faucet: Faucet
+    valve: Valve
+    cabinet: Cabinet
+    packaging material: Packaging Material
+    carton: Carton
+    foam: Foam
+    others: Others
+    honeycomb board: Honeycomb Board
+    production supplies: Production Supplies
+    office supplies: Office Supplies
+    commodity: Commodity

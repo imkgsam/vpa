@@ -434,47 +434,47 @@ const frameRouter = {
 };
 
 //已经创建至后端路由 数据库中
-// const tabsRouter = {
-//   path: "/tabs",
-//   meta: {
-//     icon: "ri:bookmark-2-line",
-//     title: "menus.hstabs",
-//     rank: routeRank.tabs
-//   },
-//   children: [
-//     {
-//       path: "/tabs/index",
-//       name: "Tabs",
-//       meta: {
-//         title: "menus.hstabs",
-//         roles: ["admin", "common"]
-//       }
-//     },
-//     // query 传参模式
-//     {
-//       path: "/tabs/query-detail",
-//       name: "TabQueryDetail",
-//       meta: {
-//         // 不在menu菜单中显示
-//         showLink: false,
-//         activePath: "/tabs/index",
-//         roles: ["admin", "common"]
-//       }
-//     },
-//     // params 传参模式
-//     {
-//       path: "/tabs/params-detail/:id",
-//       component: "params-detail",
-//       name: "TabParamsDetail",
-//       meta: {
-//         // 不在menu菜单中显示
-//         showLink: false,
-//         activePath: "/tabs/index",
-//         roles: ["admin", "common"]
-//       }
-//     }
-//   ]
-// };
+const tabsRouter = {
+  path: "/tabs",
+  meta: {
+    icon: "ri:bookmark-2-line",
+    title: "menus.hstabs",
+    rank: routeRank.tabs
+  },
+  children: [
+    {
+      path: "/tabs/index",
+      name: "Tabs",
+      meta: {
+        title: "menus.hstabs",
+        roles: ["admin", "common"]
+      }
+    },
+    // query 传参模式
+    {
+      path: "/tabs/query-detail",
+      name: "TabQueryDetail",
+      meta: {
+        // 不在menu菜单中显示
+        showLink: false,
+        activePath: "/tabs/index",
+        roles: ["admin", "common"]
+      }
+    },
+    // params 传参模式
+    {
+      path: "/tabs/params-detail/:id",
+      component: "params-detail",
+      name: "TabParamsDetail",
+      meta: {
+        // 不在menu菜单中显示
+        showLink: false,
+        activePath: "/tabs/index",
+        roles: ["admin", "common"]
+      }
+    }
+  ]
+};
 
 const asyncRouter = {
   path: "/asyncroutes",
@@ -488,8 +488,8 @@ const asyncRouter = {
     systemManagementRouter,
     systemMonitorRouter,
     // permissionRouter,
-    frameRouter
-    // tabsRouter
+    frameRouter,
+    tabsRouter
   ]
 };
 

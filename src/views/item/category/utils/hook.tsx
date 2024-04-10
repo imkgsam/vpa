@@ -73,6 +73,12 @@ export function useHook() {
     onSearch();
   }
 
+  async function toggleStatus(id: string, newValue: boolean) {
+    let rt = await CategoryAPI.toggleStatus({ id: id }, newValue);
+    console.log(rt);
+    await onSearch();
+  }
+
   async function onSearch() {
     loading.value = true;
     const { data } = await CategoryAPI.getList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
@@ -136,19 +142,12 @@ export function useHook() {
           if (valid) {
             console.log("curData", curData);
             // 表单规则校验通过
+            delete curData.higherDeptOptions;
             if (title === "新增") {
-              await CategoryAPI.create({
-                _id: curData._id,
-                name: curData.name,
-                parent: curData.parent
-              });
+              await CategoryAPI.create({ ...curData });
               chores();
             } else {
-              await CategoryAPI.update({
-                _id: curData._id,
-                name: curData.name,
-                parent: curData.parent
-              });
+              await CategoryAPI.update({ ...curData });
               chores();
             }
           }
@@ -187,6 +186,7 @@ export function useHook() {
     openDialog,
     /** 删除产品类别 */
     myHandleDelete,
-    handleSelectionChange
+    handleSelectionChange,
+    toggleStatus
   };
 }

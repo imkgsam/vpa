@@ -29,9 +29,14 @@ onBeforeMount(async () => {
   console.log("in onBeforeMount", params);
   if (params?.id) {
     const { data } = await ItemAPI.detail(params.id as string);
-    newFormInline.value = data;
+    if (data) {
+      newFormInline.value = data;
+      ops.value = "update";
+    }
   }
 });
+
+const ops = ref("create");
 
 const { getParameter } = useDetail();
 
@@ -96,32 +101,35 @@ const onAddItem = () => {
           </div>
         </el-button>
       </el-button-group>
-      <el-dropdown trigger="click" class="!align-middle float-right m-a">
-        <el-button :icon="Setting" text="plain"> 操作 </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <el-button class="reset-margin" link type="warning">
-                修改
-              </el-button>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <el-button class="reset-margin" link> 停用 </el-button>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <el-button class="reset-margin" link type="danger">
-                删除
-              </el-button>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <div class="float-right block">
+        <el-dropdown trigger="click" class="!align-middle float-right m-a">
+          <el-button :icon="Setting" plain text> 操作 </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <el-button class="reset-margin" link type="warning">
+                  修改
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button class="reset-margin" link> 停用 </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button class="reset-margin" link type="danger">
+                  删除
+                </el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
 
-      <el-button
-        class="float-right m-a"
-        @click="handleDetailSubmit(newFormInline, ruleFormRef)"
-        >提交</el-button
-      >
+        <el-button
+          class="float-right m-a"
+          text
+          @click="handleDetailSubmit(newFormInline, ruleFormRef, ops)"
+          >提交
+        </el-button>
+      </div>
     </div>
 
     <!-- 主体部分 -->

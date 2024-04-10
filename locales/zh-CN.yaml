@@ -733,12 +733,41 @@ constant:
     On-line: 上线成型
   category:
     toilet: 马桶
+    toilet bowl: 马桶座头
+    toilet tank: 马桶水箱
     one-piece toilet: 连体式马桶
     two-piece toilet: 分体式马桶
     wall-mounted toilet: 挂墙式马桶
+    children toilet: 儿童马桶
+    smart toilet: 智能马桶
     sink: 洗手盆
     pedestal sink: 立柱盆
     drop-in sink: 台上盆
+    under counter sink: 台下盆
+    cabinet sink: 柜盆
+    mid-edged basin: 中边盆
+    kitchen sink: 厨房菜盆
     wall-mounted sink: 挂盆
     console sink: 支架盆
     vessel sink: 艺术盆
+    finished product: 成品
+    ceramic part: 空瓷
+    product: 产品
+    accessory: 配件
+    flush unit: 水球
+    toilet seat: 盖板
+    bolt: 螺丝
+    showerSet: 花洒
+    faucet: 龙头
+    valve: 角阀
+    cabinet: 浴室柜
+    packaging material: 包装材料
+    carton: 纸箱
+    foam: 泡沫
+    others: 其他
+    honeycomb board: 蜂窝板
+    production supplies: 生产用品
+    office supplies: 办公用品
+    commodity: 日用品
+
+

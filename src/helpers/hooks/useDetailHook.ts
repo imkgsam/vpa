@@ -30,12 +30,7 @@ export function useDetail() {
         meta = {
           dynamicLevel: 3,
           title: parameter?.id
-            ? parameter?.code
-              ? {
-                  zh: `修改成品: ${parameter?.code}`,
-                  en: `Edit Item: ${parameter?.code}`
-                }
-              : { zh: `修改产品`, en: `Edit Item` }
+            ? { zh: `修改产品`, en: `Edit Item` }
             : { zh: "新增成品", en: "Create Item" }
         };
         break;
@@ -78,5 +73,13 @@ export function useDetail() {
       toDetail(getParameter, model, route.path, route.name as string);
   };
 
-  return { toDetail, initToDetail, getParameter, router };
+  const closeTagAndGoTo = (destPath: string) => {
+    const currentPath = route.path;
+    useMultiTagsStoreHook().handleTags("splice", currentPath);
+    router.push({
+      path: destPath || "/home"
+    });
+  };
+
+  return { toDetail, initToDetail, getParameter, router, closeTagAndGoTo };
 }
