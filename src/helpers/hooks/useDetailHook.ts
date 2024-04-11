@@ -10,11 +10,14 @@ import {
 // update
 
 export function useDetail() {
+  console.log("in useDetail init function");
   const route = useRoute();
   const router = useRouter();
-  const getParameter = isEmpty(route.params) ? route.query : route.params;
+  const getParameter = isEmpty(route?.params) ? route?.query : route?.params;
 
   console.log("route", route);
+  console.log("router", router);
+
   function toDetail(
     parameter: LocationQueryRaw | RouteParamsRaw,
     model: "query" | "params",
@@ -74,6 +77,7 @@ export function useDetail() {
   };
 
   const closeTagAndGoTo = (destPath: string) => {
+    console.log("in closeTagAndGoTo ", destPath);
     const currentPath = route.path;
     useMultiTagsStoreHook().handleTags("splice", currentPath);
     router.push({

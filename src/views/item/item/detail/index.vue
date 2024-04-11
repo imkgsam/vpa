@@ -21,7 +21,8 @@ const {
   ItemTypeOptions,
   attributeOptions,
   usePublicStoreHook,
-  handleDetailSubmit
+  handleItemSubmit,
+  openVariantDialog
 } = useHook();
 
 onBeforeMount(async () => {
@@ -38,7 +39,7 @@ onBeforeMount(async () => {
 
 const ops = ref("create");
 
-const { getParameter } = useDetail();
+const { getParameter, closeTagAndGoTo } = useDetail();
 
 const newFormInline = ref({
   _id: undefined,
@@ -107,8 +108,13 @@ const onAddItem = () => {
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <el-button class="reset-margin" link type="warning">
-                  修改
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="warning"
+                  @click="openVariantDialog({ _id: newFormInline._id })"
+                >
+                  查看变体
                 </el-button>
               </el-dropdown-item>
               <el-dropdown-item>
@@ -126,7 +132,7 @@ const onAddItem = () => {
         <el-button
           class="float-right m-a"
           text
-          @click="handleDetailSubmit(newFormInline, ruleFormRef, ops)"
+          @click="handleItemSubmit(newFormInline, ruleFormRef, ops)"
           >提交
         </el-button>
       </div>

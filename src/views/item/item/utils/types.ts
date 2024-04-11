@@ -29,4 +29,12 @@ interface FormProps {
   formInline: FormItemProps;
 }
 
-export type { FormItemProps, FormProps };
+interface VariantFormProps {
+  _id: string;
+  variants?: Array<Item>;
+}
+interface VariantFormPropsC {
+  data: VariantFormProps;
+}
+
+export type { FormItemProps, FormProps, VariantFormProps, VariantFormPropsC };

@@ -793,6 +793,15 @@ export const ItemAPI = {
       params: { id }
     });
   },
+  getAllVariants: (id: string) => {
+    return http.request<ListResult<Item>>(
+      "get",
+      baseUrlApi("item/variant/all"),
+      {
+        params: { id }
+      }
+    );
+  },
   getPListWithFilter: (data?: object) => {
     return http.request<ListResultWithPage<Item>>(
       "post",

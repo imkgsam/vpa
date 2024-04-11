@@ -1,18 +1,21 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
+import variantForm from "../components/variantForm.vue";
 import { message } from "@/utils/message";
 import { ItemAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
-import type { FormItemProps } from "../utils/types";
+import type { FormItemProps, VariantFormProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { usePublicStoreHook } from "@/store/modules/public";
 import { onBeforeMount } from "vue";
 import { storeToRefs } from "pinia";
 import { usePublicAppVariableHooks } from "@/helpers/appVariables";
-import { useDetail } from "@/helpers/hooks/useDetailHook";
+import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
+
+import { useRouter, useRoute } from "vue-router";
 
 const { ItemTypeOptions } = usePublicAppVariableHooks();
 const { tagStyleByBool } = usePublicThemeHooks();
@@ -22,9 +25,9 @@ const {
   publicAttributes: attributeOptions
 } = storeToRefs(usePublicStoreHook());
 
-// const { closeTagAndGoTo } = useDetail()
-
 export function useHook() {
+  const router = useRouter();
+  const route = useRoute();
   onBeforeMount(() => {
     usePublicStoreHook().getAllPublicCategories(false);
     usePublicStoreHook().getAllPublicAttributes(false);
@@ -90,26 +93,34 @@ export function useHook() {
     onSearch();
   }
 
-  function handleDetailSubmit(row, ref, ops) {
-    console.log("in handleDetailSubmit", row);
+  function handleItemSubmit(row, ref, ops) {
+    console.log("in handleItemSubmit", row);
     console.log(ref);
     console.log(ops);
     const FormRef = ref;
     const curData = row as FormItemProps;
+    function nextStep(success: boolean, errorMessage?: string) {
+      message(success ? `您的操作已成功` : errorMessage, {
+        type: success ? "success" : "error"
+      });
+      if (success) {
+        useMultiTagsStoreHook().handleTags("splice", route.path);
+        router.push("/item/item/index");
+      }
+    }
     FormRef.validate(async valid => {
       console.log("curData", curData);
       delete curData?.meta?.attributeTags;
       if (valid) {
-        console.log(" valid");
+        let res = null;
         if (ops === "update") {
-          await ItemAPI.update({ ...curData });
+          res = await ItemAPI.update({ ...curData });
         } else if (ops === "create") {
-          await ItemAPI.create({ ...curData });
+          res = await ItemAPI.create({ ...curData });
         } else {
           console.log("not implement");
         }
-        useDetail().closeTagAndGoTo("/item/item/index");
-        onSearch();
+        nextStep(res?.statusCode === "10000", res?.message);
       } else {
         console.log(" invalid");
       }
@@ -215,6 +226,32 @@ export function useHook() {
     message("等菜单管理页面开发后完善");
   }
 
+  function openVariantDialog(row?: VariantFormProps) {
+    console.log("in openVariantDialog", row);
+    addDialog({
+      title: `查看产品变体`,
+      props: {
+        data: {
+          _id: row?._id
+        }
+      },
+      width: "40%",
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(variantForm, { ref: formRef }),
+      beforeSure: (done, { options }) => {
+        const FormRef = formRef.value.getRef();
+        const curData = options.props.formInline as FormItemProps;
+        FormRef.validate(valid => {
+          if (valid) {
+            console.log("curData", curData);
+          }
+        });
+      }
+    });
+  }
+
   /** 数据权限 可自行开发 */
   // function handleDatabase() {}
 
@@ -243,6 +280,7 @@ export function useHook() {
     ItemTypeOptions,
     attributeOptions,
     usePublicStoreHook,
-    handleDetailSubmit
+    handleItemSubmit,
+    openVariantDialog
   };
 }
