@@ -44,9 +44,9 @@ const chartData = [
     color: "#7846e5",
     duration: 100,
     name: "用户满意度",
-    value: 100,
-    percent: "+100%",
-    data: [100]
+    value: 50,
+    percent: "+50%",
+    data: [50]
   }
 ];
 
