@@ -92,11 +92,8 @@ export function useHook() {
       label: "状态",
       prop: "meta.enabled",
       width: 100,
-      cellRenderer: ({ row, props }) => (
-        <el-tag
-          size={props.size}
-          style={tagStyleByBool.value(row.meta.enabled || false)}
-        >
+      cellRenderer: ({ row }) => (
+        <el-tag style={tagStyleByBool.value(row.meta.enabled || false)}>
           {row?.meta.enabled ? "启用" : "停用"}
         </el-tag>
       )

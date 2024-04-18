@@ -5,12 +5,14 @@ import { FormProps } from "./utils/types";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { useHook } from "./utils/hook";
 const { switchStyle } = usePublicThemeHooks();
+import { transformI18n } from "@/plugins/i18n";
 
 const {
   workerOptions,
   departmentOptionsTree,
   locationOptionsTree,
-  moldTypeOptions
+  moldTypeOptions,
+  MoldGroupStatusOptions
 } = useHook();
 
 const props = withDefaults(defineProps<FormProps>(), {
@@ -23,7 +25,8 @@ const props = withDefaults(defineProps<FormProps>(), {
     location: undefined,
     workers: [],
     meta: {
-      enabled: false
+      enabled: false,
+      status: ""
     }
   })
 });
@@ -164,6 +167,23 @@ defineExpose({ getRef });
             inactive-text="停用"
             :style="switchStyle"
           />
+        </el-form-item>
+      </el-col>
+      <el-col v-if="newFormInline._id" :xs="24">
+        <el-form-item label="状态" prop="meta.status">
+          <el-select
+            v-model="newFormInline.meta.status"
+            clearable
+            filterable
+            placeholder="请选择状态"
+          >
+            <el-option
+              v-for="(itm, idx) in MoldGroupStatusOptions"
+              :key="idx"
+              :label="transformI18n(`constant.moldGroupStatus.${itm}`)"
+              :value="itm"
+            />
+          </el-select>
         </el-form-item>
       </el-col>
     </el-row>
