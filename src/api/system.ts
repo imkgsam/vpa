@@ -12,7 +12,7 @@ import type {
   Location,
   // BarcodeItem,
   BarcodeType,
-  // MoldItem,
+  MoldItem,
   MoldGroup,
   Item
   // Employee
@@ -611,6 +611,48 @@ export const EntityAPI = {
         }
       );
     }
+  },
+  Supplier: {
+    getPAll: () => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/supplier/filters")
+      );
+    },
+    getAll: (data?: object) => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/supplier/filters"),
+        { data }
+      );
+    },
+    getAllPublic: () => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/supplier/allpublic")
+      );
+    }
+  },
+  Customer: {
+    getPAll: () => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/customer/filters")
+      );
+    },
+    getAll: (data?: object) => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/customer/filters"),
+        { data }
+      );
+    },
+    getAllPublic: () => {
+      return http.request<ListResultWithPage<Entity>>(
+        "get",
+        baseUrlApi("entity/customer/allpublic")
+      );
+    }
   }
 };
 
@@ -779,7 +821,59 @@ export const MoldAPI = {
       );
     }
   },
-  MoldItem: {}
+  MoldItem: {
+    delete: (data: object) => {
+      return http.request<OneResult<MoldItem>>(
+        "post",
+        baseUrlApi("mold/item/delete"),
+        {
+          data
+        }
+      );
+    },
+    getPListWithFilter: (data?: object) => {
+      return http.request<ListResultWithPage<MoldItem>>(
+        "post",
+        baseUrlApi("mold/item/pfilters"),
+        { data }
+      );
+    },
+    getAllPublic: () => {
+      return http.request<ListResult<MoldItem>>(
+        "get",
+        baseUrlApi("mold/item/allpublic")
+      );
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<MoldItem>>(
+          "post",
+          baseUrlApi("mold/item/enable"),
+          { data }
+        );
+      } else {
+        return http.request<OneResult<MoldItem>>(
+          "post",
+          baseUrlApi("mold/item/disable"),
+          { data }
+        );
+      }
+    },
+    create: (data?: object) => {
+      return http.request<OneResult<MoldItem>>(
+        "post",
+        baseUrlApi("mold/item/"),
+        { data }
+      );
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<MoldItem>>(
+        "put",
+        baseUrlApi("mold/item/"),
+        { data }
+      );
+    }
+  }
 };
 
 export const ItemAPI = {

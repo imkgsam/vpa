@@ -57,7 +57,14 @@ const newFormInline = ref({
     isVariantOf: undefined,
     attributeTags: []
   },
-  attributes: []
+  attributes: [],
+  mold: {
+    maxGroutingTimes: null,
+    initialGroutingTimes: null,
+    warningThreadhold: null,
+    cumulativeGroutingTimes: null,
+    product: null
+  }
 } as Item);
 
 const ruleFormRef = ref();
@@ -318,6 +325,64 @@ const onAddItem = () => {
               <el-button class="mt-4" @click="onAddItem"> Add Item </el-button>
             </div>
             <div />
+          </el-tab-pane>
+          <el-tab-pane
+            v-if="newFormInline.etype === 'Mold'"
+            class="my-5"
+            label="模具属性"
+          >
+            <el-row :gutter="30">
+              <el-col :xs="24" :sm="12" :md="8">
+                <el-form-item label="最高注浆次数" prop="mold.maxGroutingTimes">
+                  <el-input-number
+                    v-model.number="newFormInline.mold.maxGroutingTimes"
+                    clearable
+                    :min="1"
+                    placeholder="请输入最高注浆次数"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12" :md="8">
+                <el-form-item label="预警阈值" prop="mold.warningThreadhold">
+                  <el-input-number
+                    v-model.number="newFormInline.mold.warningThreadhold"
+                    clearable
+                    :min="1"
+                    placeholder="请输入注浆预警阈值"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12" :md="8">
+                <el-form-item
+                  label="初始注浆次数"
+                  prop="mold.initialGroutingTimes"
+                >
+                  <el-input-number
+                    v-model.number="newFormInline.mold.initialGroutingTimes"
+                    clearable
+                    :min="0"
+                    placeholder="请输入初始注浆次数"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12" :md="8">
+                <el-form-item label="模具ITEM" prop="mold">
+                  <el-select
+                    v-model="newFormInline.mold.product"
+                    placeholder="请选择产品SPU"
+                    class="w-full"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(item, index) in allMoldItems"
+                      :key="index"
+                      :label="item.alias"
+                      :value="item._id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-tab-pane>
           <el-tab-pane
             v-if="newFormInline.meta.canBeStocked"

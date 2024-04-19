@@ -8,7 +8,8 @@ import {
   EntityAPI,
   LocationAPI,
   CategoryAPI,
-  AttributeAPI
+  AttributeAPI,
+  ItemAPI
 } from "@/api/system";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { handleTree } from "@/utils/tree";
@@ -26,10 +27,17 @@ export const usePublicStore = defineStore({
     publicWorkers: [],
     publicLocations: [],
     publicCategories: [],
+    publicAttributes: [],
+    publicSuppliers: [],
+    publicCustomer: [],
 
-    publicAttributes: []
+    publicItems: []
   }),
   getters: {
+    // 获取所有模具item
+    allMoldItems: state =>
+      state.publicItems.filter(each => each?.etype === "Mold"),
+
     getAttributeValuesByAttirbute: state => (attributeId: string) => {
       let rt = [];
       if (attributeId) {
@@ -92,6 +100,15 @@ export const usePublicStore = defineStore({
         case "Attribute":
           this.publicAttributes = data;
           break;
+        case "Supplier":
+          this.publicSuppliers = data;
+          break;
+        case "Customer":
+          this.publicCustomers = data;
+          break;
+        case "Item":
+          this.publicItems = data;
+          break;
         default:
           console.log("not implement");
       }
@@ -104,6 +121,22 @@ export const usePublicStore = defineStore({
         this.SET(req.data, "Department");
       }
       return this.publicDepartments;
+    },
+    /** 获取所有公开的供应商 */
+    async getAllPublicSuppliers(refresh: boolean) {
+      if (refresh || this.publicSuppliers.length === 0) {
+        const req = await EntityAPI.Supplier.getAllPublic();
+        this.SET(req.data, "Supplier");
+      }
+      return this.publicSuppliers;
+    },
+    /** 获取所有公开的客户 */
+    async getAllPublicCustomers(refresh: boolean) {
+      if (refresh || this.publicCustomers.length === 0) {
+        const req = await EntityAPI.Customer.getAllPublic();
+        this.SET(req.data, "Customer");
+      }
+      return this.publicCustomers;
     },
     /** 获取所有公开的角色 */
     async getAllPublicRoles(refresh: boolean) {
@@ -152,6 +185,14 @@ export const usePublicStore = defineStore({
         this.SET(req.data, "Attribute");
       }
       return this.publicAttributes;
+    },
+    /** 获取所有公开的产品 */
+    async getAllPublicItems(refresh: boolean) {
+      if (refresh || this.publicItems.length === 0) {
+        const req = await ItemAPI.getAllPublic();
+        this.SET(req.data, "Item");
+      }
+      return this.publicItems;
     }
   }
 });

@@ -74,7 +74,8 @@ export function usePublicAppVariableHooks() {
    */
   const ItemTypeOptions = [
     { cn: "物品", en: "Product" },
-    { cn: "服务", en: "Service" }
+    { cn: "服务", en: "Service" },
+    { cn: "模具", en: "Mold" }
   ];
 
   const MoldGroupStatusOptions = [

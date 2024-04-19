@@ -774,3 +774,6 @@ constant:
     production supplies: Production Supplies
     office supplies: Office Supplies
     commodity: Commodity
+    mold: Mold
+    production mold: Production Mold
+    master mold: Master Mold

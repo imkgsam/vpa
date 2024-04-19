@@ -1,7 +1,8 @@
 // import dayjs from "dayjs";
+import { onBeforeMount } from "vue";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { RoleAPI } from "@/api/system";
+import { MoldAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
@@ -11,12 +12,22 @@ import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
 import { transformI18n } from "@/plugins/i18n";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
+import { usePublicStoreHook } from "@/store/modules/public";
+import { storeToRefs } from "pinia";
 
 const { formatBarcodeString } = usePublicSharedFunctionsHooks();
 
+const { publicSuppliers: supplierOptions, allMoldItems } =
+  storeToRefs(usePublicStoreHook());
+
 const { tagStyleByBool } = usePublicThemeHooks();
 
-export function useRole() {
+export function useHook() {
+  onBeforeMount(() => {
+    usePublicStoreHook().getAllPublicItems(false);
+    usePublicStoreHook().getAllPublicSuppliers(false);
+  });
+
   const form = reactive({
     code: "",
     meta: {
@@ -37,12 +48,12 @@ export function useRole() {
     {
       label: "产品SPU",
       prop: "product",
-      minWidth: 120
+      minWidth: 100
     },
     {
       label: "模具批次",
       prop: "meta.batch",
-      minWidth: 120
+      minWidth: 100
     },
     {
       label: "识别码",
@@ -58,7 +69,7 @@ export function useRole() {
     {
       label: "模具类型",
       prop: "mtype",
-      minWidth: 120,
+      minWidth: 100,
       formatter: ({ mtype }) => transformI18n(`constant.moldType.${mtype}`)
     },
     {
@@ -96,18 +107,19 @@ export function useRole() {
       label: "所属模组",
       prop: "group.moldGroup",
       sortable: true,
-      formatter: ({ group }) => (group.moldGroup ? group.moldGroup.name : "-")
+      formatter: ({ row }) =>
+        row?.group.moldGroup ? row?.group.moldGroup.name : "-"
     },
     {
       label: "排位",
       prop: "group.index",
-      formatter: ({ group }) => (group.index ? group.index : "-")
+      formatter: ({ row }) => (row?.group.index ? row?.group.index : "-")
     },
     {
       label: "所在地点",
       prop: "location",
       minWidth: 120,
-      formatter: ({ location }) => location.name
+      formatter: ({ row }) => row?.location.name
     },
     {
       label: "状态",
@@ -127,7 +139,7 @@ export function useRole() {
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 150,
       slot: "operation"
     }
   ];
@@ -137,7 +149,7 @@ export function useRole() {
       type: "warning"
     })
       .then(async () => {
-        let rt = await RoleAPI.delete({ id: row._id });
+        let rt = await MoldAPI.MoldItem.delete({ id: row._id });
         console.log(rt);
         message(`已成功删除了角色: ${row.name} `, { type: "success" });
         onSearch();
@@ -173,12 +185,7 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await RoleAPI.getPListWithFilter(ops);
-
-    dataList.value = data.list.map(each => {
-      each.title = transformI18n(`constant.roles.${each.code}`);
-      return each;
-    });
+    const { data } = await MoldAPI.MoldItem.getPListWithFilter(ops);
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;
@@ -224,13 +231,13 @@ export function useRole() {
             console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
-              await RoleAPI.create({
+              await MoldAPI.MoldItem.create({
                 code: curData.code,
                 meta: { enabled: curData.meta.enabled }
               });
               chores();
             } else {
-              await RoleAPI.update({
+              await MoldAPI.MoldItem.update({
                 code: curData.code,
                 _id: curData._id,
                 meta: { enabled: curData.meta.enabled }
@@ -244,7 +251,7 @@ export function useRole() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await RoleAPI.toggleStatus({ id: id }, newValue);
+    let rt = await MoldAPI.MoldItem.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
   }
@@ -271,6 +278,9 @@ export function useRole() {
     handleCurrentChange,
     handleSelectionChange,
     toggleStatus,
-    myHandleDelete
+    myHandleDelete,
+
+    supplierOptions,
+    allMoldItems
   };
 }

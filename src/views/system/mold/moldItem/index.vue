@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRole } from "./utils/hook";
+import { useHook } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import MenuLine from "@iconify-icons/ri/menu-line";
@@ -34,7 +34,7 @@ const {
   handleSelectionChange,
   toggleStatus,
   myHandleDelete
-} = useRole();
+} = useHook();
 </script>
 
 <template>

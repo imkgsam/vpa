@@ -775,5 +775,8 @@ constant:
     production supplies: 生产用品
     office supplies: 办公用品
     commodity: 日用品
+    mold: 模具
+    production mold: 生产模
+    master mold: 母模
 
 

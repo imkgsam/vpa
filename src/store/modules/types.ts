@@ -372,6 +372,12 @@ export type Item = {
     attributeTags?: Array<AttributeValue>;
   };
   attributes?: Array<AttributeOptions>;
+  mold?: {
+    maxGroutingTimes?: number;
+    initialGroutingTimes?: number;
+    warningThreadhold?: number;
+    cumulativeGroutingTimes?: number;
+  };
   createdAt?: Date;
   updatedAt?: Date;
 };
