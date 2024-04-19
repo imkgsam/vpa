@@ -79,10 +79,19 @@ export function usePublicSharedFunctionsHooks() {
     return newTreeList;
   }
 
+  function computeAndFormatPercentage(input1, input2, n) {
+    if (!n || n < 0 || n >= 10) n = 2;
+    if (input1 & input2) {
+      return (Math.round((input1 / input2) * 100) / 100).toFixed(n);
+    }
+    return null;
+  }
+
   return {
     formatHigherGeneralOptions,
     formatHigherMenuOptions,
     formatBarcodeString,
-    formatHigherLocationOptions
+    formatHigherLocationOptions,
+    computeAndFormatPercentage
   };
 }

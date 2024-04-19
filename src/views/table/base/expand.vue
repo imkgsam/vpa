@@ -54,7 +54,7 @@ const childColumns: TableColumnList = [
       :border="parentBorder"
     >
       <template #expand="{ row }">
-        <div class="m-4">
+        <div class="!h-[100px] overflow-scroll">
           <p class="mb-2">State: {{ row.state }}</p>
           <p class="mb-2">City: {{ row.city }}</p>
           <p class="mb-2">Address: {{ row.address }}</p>

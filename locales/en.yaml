@@ -730,6 +730,12 @@ constant:
     HighPressure: High Pressure
     OnFloor: On Floor
     On-line: On-line
+  moldGroupStatus:
+    Idle: Idel
+    Standby: Standby
+    Maintenance: Maintenance
+    Running: Running
+    Scrapped: Scrapped
   category:
     toilet: Toilet
     toilet bowl: Toilet Bowl

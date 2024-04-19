@@ -12,6 +12,7 @@ interface FormItemProps {
   location: string | Location;
   meta?: {
     enabled?: boolean;
+    status?: string;
   };
   createdAt?: Date;
   updatedAt?: Date;

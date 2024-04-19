@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
 import { RoleAPI } from "@/api/system";
@@ -10,6 +10,9 @@ import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
 import { transformI18n } from "@/plugins/i18n";
+import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
+
+const { formatBarcodeString } = usePublicSharedFunctionsHooks();
 
 const { tagStyleByBool } = usePublicThemeHooks();
 
@@ -32,34 +35,94 @@ export function useRole() {
   });
   const columns: TableColumnList = [
     {
-      label: "角色名称",
-      prop: "title",
+      label: "产品SPU",
+      prop: "product",
       minWidth: 120
     },
     {
-      label: "角色代码",
-      prop: "code",
+      label: "模具批次",
+      prop: "meta.batch",
       minWidth: 120
+    },
+    {
+      label: "识别码",
+      prop: "barcode",
+      width: 100,
+      formatter: ({ barcode }) => formatBarcodeString(barcode)
+    },
+    {
+      label: "可选属性",
+      minWidth: 180,
+      prop: "attributes"
+    },
+    {
+      label: "模具类型",
+      prop: "mtype",
+      minWidth: 120,
+      formatter: ({ mtype }) => transformI18n(`constant.moldType.${mtype}`)
+    },
+    {
+      label: "最高",
+      prop: "maxGroutingTimes",
+      sortable: true
+    },
+    {
+      label: "初始",
+      prop: "initialGroutingTimes",
+      sortable: true
+    },
+    {
+      label: "预警",
+      prop: "warningThreadhold",
+      sortable: true
+    },
+    {
+      label: "累计",
+      prop: "cumulativeGroutingTimes",
+      sortable: true
+    },
+    {
+      label: "剩余",
+      prop: "remaining",
+      sortable: true,
+      formatter: ({
+        maxGroutingTimes,
+        initialGroutingTimes,
+        cumulativeGroutingTimes
+      }) =>
+        `${maxGroutingTimes - initialGroutingTimes - cumulativeGroutingTimes}`
+    },
+    {
+      label: "所属模组",
+      prop: "group.moldGroup",
+      sortable: true,
+      formatter: ({ group }) => (group.moldGroup ? group.moldGroup.name : "-")
+    },
+    {
+      label: "排位",
+      prop: "group.index",
+      formatter: ({ group }) => (group.index ? group.index : "-")
+    },
+    {
+      label: "所在地点",
+      prop: "location",
+      minWidth: 120,
+      formatter: ({ location }) => location.name
     },
     {
       label: "状态",
-      prop: "meta.enabled",
+      prop: "meta",
       width: 100,
-      cellRenderer: ({ row, props }) => (
-        <el-tag
-          size={props.size}
-          style={tagStyleByBool.value(row.meta.enabled || false)}
-        >
-          {row?.meta.enabled ? "启用" : "停用"}
-        </el-tag>
+      cellRenderer: ({ row }) => (
+        <>
+          <el-tag style={tagStyleByBool.value(row.meta.enabled || false)}>
+            {row?.meta.enabled ? "启用" : "停用"}
+          </el-tag>
+          <el-tag style={tagStyleByBool.value(row.meta?.inUse || false)}>
+            {row?.meta?.inUse ? "使用中" : "闲置中"}
+          </el-tag>
+        </>
       )
-    },
-    {
-      label: "创建时间",
-      minWidth: 180,
-      prop: "createdAt",
-      formatter: ({ createdAt }) =>
-        dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",

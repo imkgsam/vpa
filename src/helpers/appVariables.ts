@@ -77,6 +77,19 @@ export function usePublicAppVariableHooks() {
     { cn: "服务", en: "Service" }
   ];
 
+  const MoldGroupStatusOptions = [
+    // 闲置, 没有安装模具的时候
+    "Idle",
+    //待命中， 已经安装上了
+    "Standby",
+    // 维护中， 已经安装上，但是在维护中，不可生产
+    "Maintenance",
+    // 运行中， 正常生产中
+    "Running",
+    // 报废停用中， 已经不再生产的
+    "Scrapped"
+  ];
+
   return {
     employeeTypeOptions,
     probationResultTypeOptions,
@@ -84,6 +97,7 @@ export function usePublicAppVariableHooks() {
     MaritalStatusTypeOptions,
     LocationTypeOptions,
     moldTypeOptions,
-    ItemTypeOptions
+    ItemTypeOptions,
+    MoldGroupStatusOptions
   };
 }

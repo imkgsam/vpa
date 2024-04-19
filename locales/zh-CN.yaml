@@ -731,6 +731,12 @@ constant:
     HighPressure: 高压成型
     OnFloor: 地摊成型
     On-line: 上线成型
+  moldGroupStatus:
+    Idle: 闲置
+    Standby: 待命
+    Maintenance: 维护
+    Running: 运行
+    Scrapped: 报废
   category:
     toilet: 马桶
     toilet bowl: 马桶座头

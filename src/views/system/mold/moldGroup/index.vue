@@ -33,6 +33,7 @@ const {
   form,
   loading,
   columns,
+  childrenTablecolumns,
   dataList,
   pagination,
   // buttonClass,
@@ -161,14 +162,14 @@ const {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="条码类型管理" :columns="columns" @refresh="onSearch">
+    <PureTableBar title="模组管理" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增角色
+          新增模组
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">
@@ -223,6 +224,30 @@ const {
                       {{ row?.meta.enabled ? "停用" : "启用" }}
                     </el-button>
                   </el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="row.meta.enabled && row.meta.moldCount > 0"
+                  >
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                    >
+                      录入注浆
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="row.meta.enabled">
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="info"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                    >
+                      添加模具
+                    </el-button>
+                  </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button
                       class="reset-margin"
@@ -239,23 +264,14 @@ const {
               </template>
             </el-dropdown>
           </template>
-          <!-- <template #operation="{ row }">
-            <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)">
-              修改
-            </el-button>
-            <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Menu)"
-              @click="handleMenu">
-              菜单权限
-            </el-button>
-            <el-popconfirm :title="`是否确认删除角色名称为${row.name}的这条数据`" @confirm="handleDelete(row)">
-              <template #reference>
-                <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Delete)">
-                  删除
-                </el-button>
-              </template>
-            </el-popconfirm>
-          </template> -->
+          <template #expand="{ row }">
+            <div
+              class="!h-[250px] overflow-scroll bg-slate-100 p-10 hidescrollbar"
+            >
+              <h3 class="pb-4">已安装模具:</h3>
+              <pure-table :data="row.items" :columns="childrenTablecolumns" />
+            </div>
+          </template>
         </pure-table>
       </template>
     </PureTableBar>
@@ -275,5 +291,14 @@ const {
   :deep(.el-form-item) {
     margin-bottom: 12px;
   }
+}
+
+.hidescrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hidescrollbar::-webkit-scrollbar {
+  display: none;
 }
 </style>

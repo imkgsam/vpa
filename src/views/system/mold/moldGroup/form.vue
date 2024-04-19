@@ -175,6 +175,7 @@ defineExpose({ getRef });
             v-model="newFormInline.meta.status"
             clearable
             filterable
+            :disabled="!newFormInline.meta.enabled"
             placeholder="请选择状态"
           >
             <el-option

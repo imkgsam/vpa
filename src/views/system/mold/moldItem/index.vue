@@ -87,14 +87,14 @@ const {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="条码管理" :columns="columns" @refresh="onSearch">
+    <PureTableBar title="模具管理" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增角色
+          新增模具
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">

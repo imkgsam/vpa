@@ -13,11 +13,14 @@ import { ElMessageBox } from "element-plus";
 import { transformI18n } from "@/plugins/i18n";
 // import { usePublicConstantHooks } from "@/helpers/constant";
 import { usePublicAppVariableHooks } from "@/helpers/appVariables";
-// import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { storeToRefs } from "pinia";
 import { usePublicStoreHook } from "@/store/modules/public";
+import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 
-const { moldTypeOptions } = usePublicAppVariableHooks();
+const { formatBarcodeString, computeAndFormatPercentage } =
+  usePublicSharedFunctionsHooks();
+
+const { moldTypeOptions, MoldGroupStatusOptions } = usePublicAppVariableHooks();
 
 const {
   publicWorkers: workerOptions,
@@ -60,8 +63,17 @@ export function useHook() {
   });
   const columns: TableColumnList = [
     {
+      type: "expand",
+      slot: "expand"
+    },
+    {
       label: "模组名称",
       prop: "name",
+      minWidth: 120
+    },
+    {
+      label: "模具数量",
+      prop: "moldCount",
       minWidth: 120
     },
     {
@@ -74,13 +86,20 @@ export function useHook() {
       label: "操作工人s",
       prop: "workers",
       minWidth: 120,
-      formatter: ({ workers }) => workers.map(each => each.name)
+      formatter: ({ workers }) =>
+        workers.map((each, idx) => `${idx + 1}.${each.name} `)
     },
     {
       label: "所属部门",
       prop: "department",
       minWidth: 120,
       formatter: ({ department }) => department.name
+    },
+    {
+      label: "所在地点",
+      prop: "location",
+      minWidth: 120,
+      formatter: ({ location }) => location.name
     },
     {
       label: "管理者",
@@ -99,11 +118,102 @@ export function useHook() {
       )
     },
     {
+      label: "状态2",
+      prop: "meta.status",
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag
+          type={
+            row?.meta?.status === "Idle"
+              ? "info"
+              : row?.meta?.status === "Standby"
+                ? "primary"
+                : row.meta.status === "Maintenance"
+                  ? "warning"
+                  : row.meta.status === "Running"
+                    ? "success"
+                    : "danger"
+          }
+        >
+          {transformI18n(`constant.moldGroupStatus.${row?.meta?.status}`)}
+        </el-tag>
+      )
+    },
+    {
       label: "创建时间",
       minWidth: 180,
       prop: "createdAt",
       formatter: ({ createdAt }) => dayjs(createdAt).format("YYYY-MM-DD HH:mm")
     },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 210,
+      slot: "operation"
+    }
+  ];
+
+  const childrenTablecolumns: TableColumnList = [
+    {
+      label: "排位",
+      prop: "group.index"
+    },
+    {
+      label: "关联产品SPU",
+      prop: "name",
+      minWidth: 120
+    },
+    {
+      label: "供应商",
+      prop: "supplier",
+      minWidth: 120,
+      formatter: ({ supplier }) => supplier.name
+    },
+    {
+      label: "类型",
+      prop: "mtype",
+      minWidth: 120,
+      formatter: ({ mtype }) => mtype
+    },
+    {
+      label: "条码",
+      prop: "barcode",
+      minWidth: 120,
+      formatter: ({ barcode }) => formatBarcodeString(barcode)
+    },
+    {
+      label: "寿命/最高/初始/累计/剩余",
+      prop: "life",
+      minWidth: 200,
+      formatter: ({
+        maxGroutingTimes,
+        initialGroutingTimes,
+        warningThreadhold,
+        cumulativeGroutingTimes
+      }) =>
+        `${computeAndFormatPercentage(cumulativeGroutingTimes + initialGroutingTimes, maxGroutingTimes, 2)}%/${maxGroutingTimes}/${warningThreadhold}/${initialGroutingTimes}/${cumulativeGroutingTimes}/${maxGroutingTimes - initialGroutingTimes - cumulativeGroutingTimes}`
+    },
+    {
+      label: "状态",
+      prop: "meta",
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <>
+          <el-tag style={tagStyleByBool.value(row.meta.enabled || false)}>
+            {row?.meta.enabled ? "启用" : "停用"}
+          </el-tag>
+          <el-tag style={tagStyleByBool.value(row.meta.inUse || false)}>
+            {row?.meta.inUse ? "使用中" : "待命中"}
+          </el-tag>
+        </>
+      )
+    },
+    // {
+    //   label: "创建时间",
+    //   minWidth: 180,
+    //   prop: "createdAt",
+    //   formatter: ({ createdAt }) => dayjs(createdAt).format("YYYY-MM-DD HH:mm")
+    // },
     {
       label: "操作",
       fixed: "right",
@@ -196,7 +306,8 @@ export function useHook() {
           location: row?.location?._id,
           manager: row?.manager?._id,
           meta: {
-            enabled: row?.meta?.enabled
+            enabled: row?.meta?.enabled,
+            status: row?.meta?.status
           }
         }
       },
@@ -254,6 +365,7 @@ export function useHook() {
     productionLocationOptionsTree,
 
     moldTypeOptions,
+    MoldGroupStatusOptions,
 
     form,
     loading,
@@ -269,6 +381,8 @@ export function useHook() {
     handleCurrentChange,
     handleSelectionChange,
     toggleStatus,
-    myHandleDelete
+    myHandleDelete,
+
+    childrenTablecolumns
   };
 }
