@@ -18,6 +18,7 @@ export const formRules = reactive(<FormRules>{
 /** 自定义表单规则校验 */
 export const detailFormRules = reactive(<FormRules>{
   code: [{ required: true, message: "产品代码为必填项", trigger: "blur" }],
+  alias: [{ required: true, message: "内部别称为必填项", trigger: "blur" }],
   category: [{ required: true, message: "产品类别为必填项", trigger: "blur" }],
   etype: [{ required: true, message: "产品种类为必填项", trigger: "blur" }],
 

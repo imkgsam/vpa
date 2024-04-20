@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     _id: undefined,
     code: "",
+    alias: "",
     category: undefined,
     etype: "",
     meta: {
@@ -17,8 +18,8 @@ const props = withDefaults(defineProps<FormProps>(), {
       canBeStocked: undefined,
       canBeSold: undefined,
       canBePurchased: undefined,
-      canBenProduced: undefined,
-      canBenRented: undefined,
+      canBeProduced: undefined,
+      canBeRented: undefined,
       hasVariants: undefined,
       isVariantOf: undefined,
       attributeTags: []
@@ -54,6 +55,15 @@ defineExpose({ getRef });
           />
         </el-form-item>
       </el-col>
+      <el-col :xs="24">
+        <el-form-item label="内部别称" prop="alias">
+          <el-input
+            v-model="newFormInline.alias"
+            clearable
+            placeholder="请输入产品内部别称"
+          />
+        </el-form-item>
+      </el-col>
     </el-row>
     <el-row :gutter="30">
       <el-col :xs="24" :sm="12" :md="8">
@@ -78,12 +88,12 @@ defineExpose({ getRef });
       </el-col>
       <el-col :xs="24" :sm="12" :md="8">
         <el-form-item label="是否可生产">
-          <el-checkbox v-model="newFormInline.meta.canBenProduced" />
+          <el-checkbox v-model="newFormInline.meta.canBeProduced" />
         </el-form-item>
       </el-col>
       <el-col :xs="24" :sm="12" :md="8">
         <el-form-item label="是否可出租">
-          <el-checkbox v-model="newFormInline.meta.canBenRented" />
+          <el-checkbox v-model="newFormInline.meta.canBeRented" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -137,10 +147,10 @@ defineExpose({ getRef });
       <el-tab-pane v-if="newFormInline.meta.canBeStocked" label="库存"
         >库存</el-tab-pane
       >
-      <el-tab-pane v-if="newFormInline.meta.canBenProduced" label="生产"
+      <el-tab-pane v-if="newFormInline.meta.canBeProduced" label="生产"
         >生产</el-tab-pane
       >
-      <el-tab-pane v-if="newFormInline.meta.canBenProduced" label="变体属性"
+      <el-tab-pane v-if="newFormInline.meta.canBeProduced" label="变体属性"
         >变体属性</el-tab-pane
       >
       <el-tab-pane v-if="newFormInline.meta.canBePurchased" label="采购"
@@ -149,7 +159,7 @@ defineExpose({ getRef });
       <el-tab-pane v-if="newFormInline.meta.canBeSold" label="销售"
         >销售</el-tab-pane
       >
-      <el-tab-pane v-if="newFormInline.meta.canBenRented" label="租赁"
+      <el-tab-pane v-if="newFormInline.meta.canBeRented" label="租赁"
         >租赁</el-tab-pane
       >
     </el-tabs>

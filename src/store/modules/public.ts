@@ -37,6 +37,10 @@ export const usePublicStore = defineStore({
     // 获取所有模具item
     allMoldItems: state =>
       state.publicItems.filter(each => each?.etype === "Mold"),
+    allProducibleItems: state =>
+      state.publicItems.filter(
+        each => each?.etype === "Product" && each.meta.canBeProduced
+      ),
 
     getAttributeValuesByAttirbute: state => (attributeId: string) => {
       let rt = [];

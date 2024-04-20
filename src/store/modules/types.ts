@@ -350,6 +350,7 @@ export type MoldItem = {
 export type Item = {
   _id?: string;
   code: string;
+  alias?: string;
   category: Category;
   etype: string;
   meta: {
@@ -362,9 +363,9 @@ export type Item = {
     //是否能采购
     canBePurchased: boolean;
     //是否能生产
-    canBenProduced: boolean;
+    canBeProduced: boolean;
     //是否能出租
-    canBenRented: boolean;
+    canBeRented: boolean;
     // 是否有变体
     hasVariants: boolean;
     //是哪个款式的变体 parent
@@ -374,9 +375,8 @@ export type Item = {
   attributes?: Array<AttributeOptions>;
   mold?: {
     maxGroutingTimes?: number;
-    initialGroutingTimes?: number;
     warningThreadhold?: number;
-    cumulativeGroutingTimes?: number;
+    product?: Item;
   };
   createdAt?: Date;
   updatedAt?: Date;

@@ -22,7 +22,8 @@ const { tagStyleByBool } = usePublicThemeHooks();
 
 const {
   categoryOptionsTree: categoriesOptions,
-  publicAttributes: attributeOptions
+  publicAttributes: attributeOptions,
+  allProducibleItems
 } = storeToRefs(usePublicStoreHook());
 
 export function useHook() {
@@ -31,6 +32,7 @@ export function useHook() {
   onBeforeMount(() => {
     usePublicStoreHook().getAllPublicCategories(false);
     usePublicStoreHook().getAllPublicAttributes(false);
+    usePublicStoreHook().getAllPublicItems(false);
   });
 
   const form = reactive({
@@ -53,6 +55,11 @@ export function useHook() {
     {
       label: "产品名称",
       prop: "code",
+      minWidth: 120
+    },
+    {
+      label: "内部别称",
+      prop: "alias",
       minWidth: 120
     },
     {
@@ -91,6 +98,12 @@ export function useHook() {
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
     onSearch();
+  }
+
+  async function toggleStatus(id: string, newValue: boolean) {
+    let rt = await ItemAPI.toggleStatus({ id: id }, newValue);
+    console.log(rt);
+    await onSearch();
   }
 
   function handleItemSubmit(row, ref, ops) {
@@ -173,6 +186,7 @@ export function useHook() {
         formInline: {
           _id: row?._id,
           code: row?.code,
+          alias: row?.alias,
           category: row?.category?._id,
           etype: row?.etype,
           meta: {
@@ -180,8 +194,8 @@ export function useHook() {
             canBeStocked: row?.meta?.canBeStocked,
             canBeSold: row?.meta?.canBeSold,
             canBePurchased: row?.meta?.canBePurchased,
-            canBenProduced: row?.meta?.canBenProduced,
-            canBenRented: row?.meta?.canBenRented,
+            canBeProduced: row?.meta?.canBeProduced,
+            canBeRented: row?.meta?.canBeRented,
             hasVariants: row?.meta?.hasVariants,
             isVariantOf: row?.meta?.isVariantOf?._id,
             attributeTags: row?.meta?.attributeTags
@@ -281,6 +295,8 @@ export function useHook() {
     attributeOptions,
     usePublicStoreHook,
     handleItemSubmit,
-    openVariantDialog
+    openVariantDialog,
+    allProducibleItems,
+    toggleStatus
   };
 }

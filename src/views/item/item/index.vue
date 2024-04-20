@@ -36,7 +36,8 @@ const {
   // handleDatabase,
   handleSizeChange,
   handleCurrentChange,
-  handleSelectionChange
+  handleSelectionChange,
+  toggleStatus
 } = useHook();
 </script>
 

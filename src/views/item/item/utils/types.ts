@@ -10,6 +10,7 @@ import type {
 interface FormItemProps {
   _id: string;
   code: string;
+  alias: string;
   category: Category | string;
   etype: string;
   meta: {
@@ -17,8 +18,8 @@ interface FormItemProps {
     canBeStocked: boolean;
     canBeSold: boolean;
     canBePurchased: boolean;
-    canBenProduced: boolean;
-    canBenRented: boolean;
+    canBeProduced: boolean;
+    canBeRented: boolean;
     hasVariants: boolean;
     isVariantOf?: Item | string;
     attributeTags?: Array<AttributeValue>;

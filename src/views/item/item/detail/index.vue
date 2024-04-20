@@ -22,7 +22,8 @@ const {
   attributeOptions,
   usePublicStoreHook,
   handleItemSubmit,
-  openVariantDialog
+  openVariantDialog,
+  allProducibleItems
 } = useHook();
 
 onBeforeMount(async () => {
@@ -44,6 +45,7 @@ const { getParameter, closeTagAndGoTo } = useDetail();
 const newFormInline = ref({
   _id: undefined,
   code: "",
+  alias: "",
   category: undefined,
   etype: "",
   meta: {
@@ -51,8 +53,8 @@ const newFormInline = ref({
     canBeStocked: undefined,
     canBeSold: undefined,
     canBePurchased: undefined,
-    canBenProduced: undefined,
-    canBenRented: undefined,
+    canBeProduced: undefined,
+    canBeRented: undefined,
     hasVariants: undefined,
     isVariantOf: undefined,
     attributeTags: []
@@ -60,9 +62,7 @@ const newFormInline = ref({
   attributes: [],
   mold: {
     maxGroutingTimes: null,
-    initialGroutingTimes: null,
     warningThreadhold: null,
-    cumulativeGroutingTimes: null,
     product: null
   }
 } as Item);
@@ -154,12 +154,21 @@ const onAddItem = () => {
         label-width="100px"
       >
         <el-row :gutter="30">
-          <el-col :xs="24">
+          <el-col :xs="24" :sm="12" :md="8">
             <el-form-item label="产品型号" prop="code">
               <el-input
                 v-model="newFormInline.code"
                 clearable
                 placeholder="请输入产品型号"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8">
+            <el-form-item label="内部型号" prop="alias">
+              <el-input
+                v-model="newFormInline.alias"
+                clearable
+                placeholder="请输入内部型号"
               />
             </el-form-item>
           </el-col>
@@ -185,12 +194,12 @@ const onAddItem = () => {
               size="small"
             />
             <el-checkbox
-              v-model="newFormInline.meta.canBenProduced"
+              v-model="newFormInline.meta.canBeProduced"
               label="是否可生产"
               size="small"
             />
             <el-checkbox
-              v-model="newFormInline.meta.canBenRented"
+              v-model="newFormInline.meta.canBeRented"
               label="是否可出租"
               size="small"
             />
@@ -332,7 +341,7 @@ const onAddItem = () => {
             label="模具属性"
           >
             <el-row :gutter="30">
-              <el-col :xs="24" :sm="12" :md="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6">
                 <el-form-item label="最高注浆次数" prop="mold.maxGroutingTimes">
                   <el-input-number
                     v-model.number="newFormInline.mold.maxGroutingTimes"
@@ -342,7 +351,7 @@ const onAddItem = () => {
                   />
                 </el-form-item>
               </el-col>
-              <el-col :xs="24" :sm="12" :md="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6">
                 <el-form-item label="预警阈值" prop="mold.warningThreadhold">
                   <el-input-number
                     v-model.number="newFormInline.mold.warningThreadhold"
@@ -352,20 +361,7 @@ const onAddItem = () => {
                   />
                 </el-form-item>
               </el-col>
-              <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item
-                  label="初始注浆次数"
-                  prop="mold.initialGroutingTimes"
-                >
-                  <el-input-number
-                    v-model.number="newFormInline.mold.initialGroutingTimes"
-                    clearable
-                    :min="0"
-                    placeholder="请输入初始注浆次数"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :xs="24" :sm="12" :md="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6">
                 <el-form-item label="模具ITEM" prop="mold">
                   <el-select
                     v-model="newFormInline.mold.product"
@@ -374,9 +370,9 @@ const onAddItem = () => {
                     clearable
                   >
                     <el-option
-                      v-for="(item, index) in allMoldItems"
+                      v-for="(item, index) in allProducibleItems"
                       :key="index"
-                      :label="item.alias"
+                      :label="item.alias || item.code"
                       :value="item._id"
                     />
                   </el-select>
@@ -392,7 +388,7 @@ const onAddItem = () => {
             库存
           </el-tab-pane>
           <el-tab-pane
-            v-if="newFormInline.meta.canBenProduced"
+            v-if="newFormInline.meta.canBeProduced"
             class="my-5"
             label="生产"
           >
@@ -412,7 +408,7 @@ const onAddItem = () => {
             >销售</el-tab-pane
           >
           <el-tab-pane
-            v-if="newFormInline.meta.canBenRented"
+            v-if="newFormInline.meta.canBeRented"
             class="my-5"
             label="租赁"
             >租赁</el-tab-pane
