@@ -23,7 +23,8 @@ const {
   usePublicStoreHook,
   handleItemSubmit,
   openVariantDialog,
-  allProducibleItems
+  allProducibleItems,
+  moldTypeOptions
 } = useHook();
 
 onBeforeMount(async () => {
@@ -63,7 +64,8 @@ const newFormInline = ref({
   mold: {
     maxGroutingTimes: null,
     warningThreadhold: null,
-    product: null
+    product: null,
+    mtype: ""
   }
 } as Item);
 
@@ -362,7 +364,7 @@ const onAddItem = () => {
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8" :lg="6">
-                <el-form-item label="模具ITEM" prop="mold">
+                <el-form-item label="模具ITEM" prop="mold.product">
                   <el-select
                     v-model="newFormInline.mold.product"
                     placeholder="请选择产品SPU"
@@ -374,6 +376,23 @@ const onAddItem = () => {
                       :key="index"
                       :label="item.alias || item.code"
                       :value="item._id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12" :md="8" :lg="6">
+                <el-form-item label="模具类型" prop="mold.mtype">
+                  <el-select
+                    v-model="newFormInline.mold.mtype"
+                    placeholder="请选择产品SPU"
+                    class="w-full"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(itm, idx) in moldTypeOptions"
+                      :key="idx"
+                      :label="itm.cn"
+                      :value="itm.en"
                     />
                   </el-select>
                 </el-form-item>

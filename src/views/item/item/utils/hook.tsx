@@ -17,7 +17,7 @@ import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 
 import { useRouter, useRoute } from "vue-router";
 
-const { ItemTypeOptions } = usePublicAppVariableHooks();
+const { ItemTypeOptions, moldTypeOptions } = usePublicAppVariableHooks();
 const { tagStyleByBool } = usePublicThemeHooks();
 
 const {
@@ -297,6 +297,7 @@ export function useHook() {
     handleItemSubmit,
     openVariantDialog,
     allProducibleItems,
-    toggleStatus
+    toggleStatus,
+    moldTypeOptions
   };
 }

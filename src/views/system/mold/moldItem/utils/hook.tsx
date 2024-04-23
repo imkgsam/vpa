@@ -14,11 +14,17 @@ import { transformI18n } from "@/plugins/i18n";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 import { usePublicStoreHook } from "@/store/modules/public";
 import { storeToRefs } from "pinia";
+import { usePublicAppVariableHooks } from "@/helpers/appVariables";
+
+const { moldTypeOptions } = usePublicAppVariableHooks();
 
 const { formatBarcodeString } = usePublicSharedFunctionsHooks();
 
-const { publicSuppliers: supplierOptions, allMoldItems } =
-  storeToRefs(usePublicStoreHook());
+const {
+  publicSuppliers: supplierOptions,
+  allMoldItems,
+  allProducibleItems
+} = storeToRefs(usePublicStoreHook());
 
 const { tagStyleByBool } = usePublicThemeHooks();
 
@@ -202,13 +208,32 @@ export function useHook() {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}角色`,
+      title: `${title}模具`,
       props: {
         formInline: {
-          code: row?.code ?? "",
+          _id: row?._id,
+          supplier: row?.supplier,
+          mold: row?.mold,
+          product: row?.product,
+          attributes: row?.attributes,
+          mtype: row?.mtype,
+          group: {
+            moldGroup: row?.group?.moldGroup,
+            index: row?.group?.index
+          },
+          barcode: row?.barcode,
+          maxGroutingTimes: row?.maxGroutingTimes,
+          initialGroutingTimes: row?.initialGroutingTimes,
+          warningThreadhold: row?.warningThreadhold,
+          cumulativeGroutingTimes: row?.cumulativeGroutingTimes,
           meta: {
-            enabled: row?.meta.enabled || false
-          }
+            enabled: row?.meta?.enabled,
+            inUse: row?.meta?.inUse,
+            isScraped: row?.meta?.isScraped,
+            scrapDate: row?.meta?.scrapDate,
+            batch: row?.meta?.batch
+          },
+          remark: row?.remark
         }
       },
       width: "40%",
@@ -279,8 +304,11 @@ export function useHook() {
     handleSelectionChange,
     toggleStatus,
     myHandleDelete,
+    formatBarcodeString,
 
     supplierOptions,
-    allMoldItems
+    allMoldItems,
+    allProducibleItems,
+    moldTypeOptions
   };
 }

@@ -41,7 +41,6 @@ export const usePublicStore = defineStore({
       state.publicItems.filter(
         each => each?.etype === "Product" && each.meta.canBeProduced
       ),
-
     getAttributeValuesByAttirbute: state => (attributeId: string) => {
       let rt = [];
       if (attributeId) {

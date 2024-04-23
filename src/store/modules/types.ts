@@ -377,6 +377,7 @@ export type Item = {
     maxGroutingTimes?: number;
     warningThreadhold?: number;
     product?: Item;
+    mtype?: string;
   };
   createdAt?: Date;
   updatedAt?: Date;
