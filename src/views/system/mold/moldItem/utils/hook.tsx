@@ -54,7 +54,8 @@ export function useHook() {
     {
       label: "产品SPU",
       prop: "product",
-      minWidth: 100
+      minWidth: 100,
+      formatter: ({ product }) => product.alias
     },
     {
       label: "模具批次",
@@ -192,6 +193,7 @@ export function useHook() {
       pageSize: pagination.pageSize
     };
     const { data } = await MoldAPI.MoldItem.getPListWithFilter(ops);
+    dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;
@@ -256,16 +258,14 @@ export function useHook() {
             console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
+              console.log(curData);
               await MoldAPI.MoldItem.create({
-                code: curData.code,
-                meta: { enabled: curData.meta.enabled }
+                ...curData
               });
               chores();
             } else {
               await MoldAPI.MoldItem.update({
-                code: curData.code,
-                _id: curData._id,
-                meta: { enabled: curData.meta.enabled }
+                ...curData
               });
               chores();
             }
