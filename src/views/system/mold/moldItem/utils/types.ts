@@ -54,8 +54,14 @@ interface FormItemProps {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+interface BatchInfoProps {
+  inBatch: boolean;
+  count: number;
+}
 interface FormProps {
   formInline: FormItemProps;
+  batchInfo?: BatchInfoProps;
 }
 
 export type { FormItemProps, FormProps };

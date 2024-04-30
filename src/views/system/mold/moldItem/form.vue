@@ -40,15 +40,16 @@ const props = withDefaults(defineProps<FormProps>(), {
       batch: ""
     },
     remark: ""
+  }),
+  batchInfo: () => ({
+    inBatch: false,
+    count: 0
   })
 });
 
 const ruleFormRef = ref();
 const newFormInline = ref(props.formInline);
-const batchCreate = reactive({
-  inBatch: false,
-  count: 0
-});
+const batchInfo = ref(props.batchInfo);
 
 function getRef() {
   return ruleFormRef.value;
@@ -89,6 +90,7 @@ defineExpose({ getRef });
         <el-form-item label="供应商" prop="supplier">
           <el-select
             v-model="newFormInline.supplier"
+            filterable
             placeholder="请选择供应商"
             class="w-full"
             clearable
@@ -106,6 +108,8 @@ defineExpose({ getRef });
         <el-form-item label="模具ITEM" prop="mold">
           <el-select
             v-model="newFormInline.mold"
+            filterable
+            :disabled="!!newFormInline._id"
             placeholder="请选择模具"
             class="w-full"
             clearable
@@ -123,6 +127,8 @@ defineExpose({ getRef });
         <el-form-item label="对应产品" prop="mold">
           <el-select
             v-model="newFormInline.product"
+            filterable
+            :disabled="!!newFormInline._id"
             placeholder="请选择对应产品"
             class="w-full"
             clearable
@@ -190,17 +196,20 @@ defineExpose({ getRef });
       </el-col>
       <el-col :xs="24" :sm="12">
         <el-form-item label="批次" prop="meta.batch">
-          <el-input v-model="newFormInline.meta.batch" />
+          <el-input
+            v-model="newFormInline.meta.batch"
+            :disabled="!!newFormInline._id"
+          />
         </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="12">
+      <el-col v-if="!newFormInline._id" :xs="24" :sm="12">
         <el-form-item label="批量添加">
-          <el-checkbox v-model="batchCreate.inBatch" />
+          <el-checkbox v-model="batchInfo.inBatch" />
         </el-form-item>
       </el-col>
-      <el-col v-if="batchCreate.inBatch" :xs="24" :sm="12">
+      <el-col v-if="batchInfo.inBatch" :xs="24" :sm="12">
         <el-form-item label="批量数目">
-          <el-input-number v-model="batchCreate.count" :min="1" />
+          <el-input-number v-model="batchInfo.count" :min="1" />
         </el-form-item>
       </el-col>
     </el-row>

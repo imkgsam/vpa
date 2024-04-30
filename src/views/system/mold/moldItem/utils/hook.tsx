@@ -6,7 +6,7 @@ import { MoldAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
-import type { FormItemProps } from "../utils/types";
+import type { FormItemProps, BatchInfoProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
@@ -131,7 +131,7 @@ export function useHook() {
     {
       label: "状态",
       prop: "meta",
-      width: 100,
+      width: 200,
       cellRenderer: ({ row }) => (
         <>
           <el-tag style={tagStyleByBool.value(row.meta.enabled || false)}>
@@ -152,13 +152,13 @@ export function useHook() {
   ];
 
   function myHandleDelete(row) {
-    ElMessageBox.confirm(`请确认是否删除角色: ${row.name} `, {
+    ElMessageBox.confirm(`请确认是否删除模具`, {
       type: "warning"
     })
       .then(async () => {
         let rt = await MoldAPI.MoldItem.delete({ id: row._id });
         console.log(rt);
-        message(`已成功删除了角色: ${row.name} `, { type: "success" });
+        message(`已成功删除了模具`, { type: "success" });
         onSearch();
       })
       .catch(() => {});
@@ -214,9 +214,9 @@ export function useHook() {
       props: {
         formInline: {
           _id: row?._id,
-          supplier: row?.supplier,
-          mold: row?.mold,
-          product: row?.product,
+          supplier: row?.supplier?._id,
+          mold: row?.mold?._id,
+          product: row?.product?._id,
           attributes: row?.attributes,
           mtype: row?.mtype,
           group: {
@@ -227,15 +227,15 @@ export function useHook() {
           maxGroutingTimes: row?.maxGroutingTimes,
           initialGroutingTimes: row?.initialGroutingTimes,
           warningThreadhold: row?.warningThreadhold,
-          cumulativeGroutingTimes: row?.cumulativeGroutingTimes,
           meta: {
             enabled: row?.meta?.enabled,
-            inUse: row?.meta?.inUse,
-            isScraped: row?.meta?.isScraped,
-            scrapDate: row?.meta?.scrapDate,
             batch: row?.meta?.batch
           },
           remark: row?.remark
+        },
+        batchInfo: {
+          inBatch: false,
+          count: 0
         }
       },
       width: "40%",
@@ -246,8 +246,9 @@ export function useHook() {
       beforeSure: (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
+        const batchInfo = options.props.batchInfo as BatchInfoProps;
         function chores() {
-          message(`您${title}了角色名称为${curData.code}的这条数据`, {
+          message(`您${title}一个模具`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -258,9 +259,9 @@ export function useHook() {
             console.log(curData);
             // 表单规则校验通过
             if (title === "新增") {
-              console.log(curData);
               await MoldAPI.MoldItem.create({
-                ...curData
+                ...curData,
+                ...batchInfo
               });
               chores();
             } else {
