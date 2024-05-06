@@ -17,7 +17,7 @@ import { storeToRefs } from "pinia";
 import { usePublicStoreHook } from "@/store/modules/public";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 
-const { formatBarcodeString, computeAndFormatPercentage } =
+const { formatInccodeString, computeAndFormatPercentage } =
   usePublicSharedFunctionsHooks();
 
 const { moldTypeOptions, MoldGroupStatusOptions } = usePublicAppVariableHooks();
@@ -179,7 +179,7 @@ export function useHook() {
       label: "条码",
       prop: "barcode",
       minWidth: 120,
-      formatter: ({ barcode }) => formatBarcodeString(barcode)
+      formatter: ({ barcode }) => formatInccodeString(barcode)
     },
     {
       label: "寿命/最高/初始/累计/剩余",

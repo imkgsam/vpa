@@ -12,7 +12,7 @@ const {
   allMoldItems,
   moldTypeOptions,
   allProducibleItems,
-  formatBarcodeString
+  formatInccodeString
 } = useHook();
 
 const props = withDefaults(defineProps<FormProps>(), {
@@ -171,7 +171,7 @@ defineExpose({ getRef });
       </el-col>
       <el-col v-if="newFormInline?._id" :xs="24" :sm="12">
         <el-form-item label="模具编码" prop="barcode">
-          <span>{{ formatBarcodeString(newFormInline?.barcode) || "无" }}</span>
+          <span>{{ formatInccodeString(newFormInline?.barcode) || "无" }}</span>
         </el-form-item>
       </el-col>
       <el-col :xs="24">

@@ -8,7 +8,7 @@ import { formatInaugurationDays } from "@/utils/stringUtils";
 import { formatDate } from "@/utils/dateUtils";
 import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 
-const { formatBarcodeString } = usePublicSharedFunctionsHooks();
+const { formatInccodeString } = usePublicSharedFunctionsHooks();
 
 const ruleFormRef = ref<FormInstance>();
 const { t } = useI18n();
@@ -102,7 +102,7 @@ async function cancle(formEl: FormInstance | undefined) {
               <span>{{ t(`value.${props.employee.etype}`) }}</span>
             </el-form-item>
             <el-form-item :label="t('label.EID')">
-              <span>{{ formatBarcodeString(props.employee.EID) || "无" }}</span>
+              <span>{{ formatInccodeString(props.employee.EID) || "无" }}</span>
             </el-form-item>
             <el-form-item :label="t('label.ETL')">
               <span>{{ props.employee.ETL || "无" }}</span>

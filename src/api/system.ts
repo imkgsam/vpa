@@ -10,8 +10,8 @@ import type {
   RouteAccess,
   Entity,
   Location,
-  // BarcodeItem,
-  BarcodeType,
+  InccodeType,
+  InccodeItem,
   MoldItem,
   MoldGroup,
   Item
@@ -656,61 +656,113 @@ export const EntityAPI = {
   }
 };
 
-export const BarcodeAPI = {
-  BarcodeType: {
+export const InccodeAPI = {
+  InccodeType: {
     delete: (data: object) => {
-      return http.request<OneResult<BarcodeType>>(
+      return http.request<OneResult<InccodeType>>(
         "post",
-        baseUrlApi("barcode/type/delete"),
+        baseUrlApi("inccode/type/delete"),
         {
           data
         }
       );
     },
     getPListWithFilter: (data?: object) => {
-      return http.request<ListResultWithPage<BarcodeType>>(
+      return http.request<ListResultWithPage<InccodeType>>(
         "post",
-        baseUrlApi("barcode/type/pfilters"),
+        baseUrlApi("inccode/type/pfilters"),
         { data }
       );
     },
     getAllPublic: () => {
-      return http.request<ListResult<BarcodeType>>(
+      return http.request<ListResult<InccodeType>>(
         "get",
-        baseUrlApi("barcode/type/allpublic")
+        baseUrlApi("inccode/type/allpublic")
       );
     },
     toggleStatus: (data: object, newValue: boolean) => {
       if (newValue) {
-        return http.request<OneResult<BarcodeType>>(
+        return http.request<OneResult<InccodeType>>(
           "post",
-          baseUrlApi("barcode/type/enable"),
+          baseUrlApi("inccode/type/enable"),
           { data }
         );
       } else {
-        return http.request<OneResult<BarcodeType>>(
+        return http.request<OneResult<InccodeType>>(
           "post",
-          baseUrlApi("barcode/type/disable"),
+          baseUrlApi("inccode/type/disable"),
           { data }
         );
       }
     },
     create: (data?: object) => {
-      return http.request<OneResult<BarcodeType>>(
+      return http.request<OneResult<InccodeType>>(
         "post",
-        baseUrlApi("barcode/type/"),
+        baseUrlApi("inccode/type/"),
         { data }
       );
     },
     update: (data?: object) => {
-      return http.request<OneResult<BarcodeType>>(
+      return http.request<OneResult<InccodeType>>(
         "put",
-        baseUrlApi("barcode/type/"),
+        baseUrlApi("inccode/type/"),
         { data }
       );
     }
   },
-  BarcodeItem: {}
+  InccodeItem: {
+    delete: (data: object) => {
+      return http.request<OneResult<InccodeItem>>(
+        "post",
+        baseUrlApi("inccode/item/delete"),
+        {
+          data
+        }
+      );
+    },
+    getPListWithFilter: (data?: object) => {
+      return http.request<ListResultWithPage<InccodeItem>>(
+        "post",
+        baseUrlApi("inccode/item/pfilters"),
+        { data }
+      );
+    },
+    getAllPublic: () => {
+      return http.request<ListResult<InccodeItem>>(
+        "get",
+        baseUrlApi("inccode/item/allpublic")
+      );
+    },
+    toggleStatus: (data: object, newValue: boolean) => {
+      if (newValue) {
+        return http.request<OneResult<InccodeItem>>(
+          "post",
+          baseUrlApi("inccode/item/enable"),
+          { data }
+        );
+      } else {
+        return http.request<OneResult<InccodeItem>>(
+          "post",
+          baseUrlApi("inccode/item/disable"),
+          { data }
+        );
+      }
+    },
+    create: (data?: object) => {
+      return http.request<OneResult<InccodeItem>>(
+        "post",
+        baseUrlApi("inccode/item/"),
+        { data }
+      );
+    },
+    update: (data?: object) => {
+      return http.request<OneResult<InccodeItem>>(
+        "put",
+        baseUrlApi("inccode/item/"),
+        { data }
+      );
+    }
+  }
 };
 
 export const LocationAPI = {

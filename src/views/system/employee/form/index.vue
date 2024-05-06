@@ -12,7 +12,7 @@ import { usePublicSharedFunctionsHooks } from "@/helpers/sharedFunctions";
 
 import { usePublicStoreHook } from "@/store/modules/public";
 
-const { formatBarcodeString } = usePublicSharedFunctionsHooks();
+const { formatInccodeString } = usePublicSharedFunctionsHooks();
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
@@ -536,7 +536,7 @@ defineExpose({ getRef });
         :sm="24"
       >
         <el-form-item label="EID" prop="employee.EID">
-          <span>{{ formatBarcodeString(newFormInline?.employee?.EID) }}</span>
+          <span>{{ formatInccodeString(newFormInline?.employee?.EID) }}</span>
         </el-form-item>
       </re-col>
       <!-- ETL -->

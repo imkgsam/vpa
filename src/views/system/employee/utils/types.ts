@@ -1,4 +1,4 @@
-import type { BarcodeItem } from "@/store/modules/types";
+import type { InccodeItem } from "@/store/modules/types";
 
 interface FormItemProps {
   title: string;
@@ -103,7 +103,7 @@ interface FormItemProps {
     //工作邮箱
     workEmail?: string;
     //员工编号-(唯一识别号, [年]-[h3/1]-[月]-[h3/2]-[日]-[h3/3]-[性别] md5-hash后三位975 陈双鹏2024年01月01日入职男 2490170151 )
-    EID?: string | BarcodeItem;
+    EID?: string | InccodeItem;
     //ETL 员工职称等级(K为管理体系，P为普通员工体系 K1-9 P1-9 如有细分则为 K1.1 K3.2 P7.4 ...)
     ETL?: string;
     //入职日期 = 试用期起始日期 = 进入公司的日期

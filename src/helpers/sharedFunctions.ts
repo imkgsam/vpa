@@ -1,5 +1,5 @@
 import { transformI18n } from "@/plugins/i18n";
-import type { BarcodeItem } from "@/store/modules/types";
+import type { InccodeItem } from "@/store/modules/types";
 
 export function usePublicSharedFunctionsHooks() {
   /**
@@ -34,10 +34,10 @@ export function usePublicSharedFunctionsHooks() {
     return newTreeList;
   }
 
-  function formatBarcodeString(barcode: BarcodeItem) {
-    if (!barcode || !barcode.btype) return null;
-    const { startsWith, length } = barcode.btype;
-    const { num } = barcode;
+  function formatInccodeString(inccode: InccodeItem) {
+    if (!inccode || !inccode.btype) return null;
+    const { startsWith, length } = inccode.btype;
+    const { num } = inccode;
     if (!startsWith || !length || !num) return null;
     let rt = startsWith + "-";
     if (num.toString().length > length)
@@ -90,7 +90,7 @@ export function usePublicSharedFunctionsHooks() {
   return {
     formatHigherGeneralOptions,
     formatHigherMenuOptions,
-    formatBarcodeString,
+    formatInccodeString,
     formatHigherLocationOptions,
     computeAndFormatPercentage
   };

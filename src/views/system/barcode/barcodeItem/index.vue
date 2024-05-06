@@ -14,7 +14,7 @@ import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemBarcodeItem"
+  name: "SystemInccodeItem"
 });
 
 const formRef = ref();

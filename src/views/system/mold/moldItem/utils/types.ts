@@ -2,7 +2,7 @@
 
 import type {
   AttributeOptions,
-  BarcodeItem,
+  InccodeItem,
   Entity,
   Item,
   MoldGroup
@@ -27,7 +27,7 @@ interface FormItemProps {
     index?: number;
   };
   //条码
-  barcode?: BarcodeItem;
+  barcode?: InccodeItem;
   //理论最大注浆次数
   maxGroutingTimes?: number;
   //初始注浆次数

@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
 import { RoleAPI } from "@/api/system";
+import { InccodeAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
@@ -9,7 +10,7 @@ import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h } from "vue";
 import { ElMessageBox } from "element-plus";
-import { transformI18n } from "@/plugins/i18n";
+// import { transformI18n } from "@/plugins/i18n";
 
 const { tagStyleByBool } = usePublicThemeHooks();
 
@@ -32,13 +33,28 @@ export function useRole() {
   });
   const columns: TableColumnList = [
     {
-      label: "角色名称",
-      prop: "title",
+      label: "ID",
+      prop: "_id",
       minWidth: 120
     },
     {
-      label: "角色代码",
-      prop: "code",
+      label: "类别",
+      prop: "btype",
+      minWidth: 120
+    },
+    {
+      label: "ttype",
+      prop: "ttype",
+      minWidth: 120
+    },
+    {
+      label: "num",
+      prop: "num",
+      minWidth: 120
+    },
+    {
+      label: "item",
+      prop: "item",
       minWidth: 120
     },
     {
@@ -110,12 +126,9 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await RoleAPI.getPListWithFilter(ops);
+    const { data } = await InccodeAPI.InccodeItem.getPListWithFilter(ops);
 
-    dataList.value = data.list.map(each => {
-      each.title = transformI18n(`constant.roles.${each.code}`);
-      return each;
-    });
+    dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
     pagination.currentPage = data.currentPage;

@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { BarcodeAPI } from "@/api/system";
+import { InccodeAPI } from "@/api/system";
 // import { ElMessageBox } from "element-plus";
 import { usePublicThemeHooks } from "@/helpers/theme";
 import { addDialog } from "@/components/ReDialog";
@@ -93,7 +93,7 @@ export function useRole() {
       type: "warning"
     })
       .then(async () => {
-        let rt = await BarcodeAPI.BarcodeType.delete({ id: row._id });
+        let rt = await InccodeAPI.InccodeType.delete({ id: row._id });
         console.log(rt);
         message(`已成功删除了条码类型: ${row.code} `, { type: "success" });
         onSearch();
@@ -129,7 +129,7 @@ export function useRole() {
       currentPage: pagination.currentPage,
       pageSize: pagination.pageSize
     };
-    const { data } = await BarcodeAPI.BarcodeType.getPListWithFilter(ops);
+    const { data } = await InccodeAPI.InccodeType.getPListWithFilter(ops);
 
     dataList.value = data.list;
     pagination.total = data.total;
@@ -180,10 +180,10 @@ export function useRole() {
           if (valid) {
             // 表单规则校验通过
             if (title === "新增") {
-              await BarcodeAPI.BarcodeType.create(curData);
+              await InccodeAPI.InccodeType.create(curData);
               chores();
             } else {
-              await BarcodeAPI.BarcodeType.update(curData);
+              await InccodeAPI.InccodeType.update(curData);
               chores();
             }
           }
@@ -193,7 +193,7 @@ export function useRole() {
   }
 
   async function toggleStatus(id: string, newValue: boolean) {
-    let rt = await BarcodeAPI.BarcodeType.toggleStatus({ id: id }, newValue);
+    let rt = await InccodeAPI.InccodeType.toggleStatus({ id: id }, newValue);
     console.log(rt);
     await onSearch();
   }

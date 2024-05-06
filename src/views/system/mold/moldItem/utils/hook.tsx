@@ -18,7 +18,7 @@ import { usePublicAppVariableHooks } from "@/helpers/appVariables";
 
 const { moldTypeOptions } = usePublicAppVariableHooks();
 
-const { formatBarcodeString } = usePublicSharedFunctionsHooks();
+const { formatInccodeString } = usePublicSharedFunctionsHooks();
 
 const {
   publicSuppliers: supplierOptions,
@@ -66,7 +66,7 @@ export function useHook() {
       label: "识别码",
       prop: "barcode",
       width: 100,
-      formatter: ({ barcode }) => formatBarcodeString(barcode)
+      formatter: ({ barcode }) => formatInccodeString(barcode)
     },
     {
       label: "可选属性",
@@ -305,7 +305,7 @@ export function useHook() {
     handleSelectionChange,
     toggleStatus,
     myHandleDelete,
-    formatBarcodeString,
+    formatInccodeString,
 
     supplierOptions,
     allMoldItems,

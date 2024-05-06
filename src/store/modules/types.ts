@@ -268,9 +268,9 @@ export type RouteAccess = {
   updatedAt?: Date;
 };
 
-export type BarcodeItem = {
+export type InccodeItem = {
   _id?: string;
-  btype: BarcodeType;
+  btype: InccodeType;
   ttype: string;
   num: number;
   item: string;
@@ -281,7 +281,7 @@ export type BarcodeItem = {
   updatedAt?: Date;
 };
 
-export type BarcodeType = {
+export type InccodeType = {
   _id?: string;
   code: string;
   startsWith?: string;
@@ -328,7 +328,7 @@ export type MoldItem = {
   mold: Item;
   product: Item;
   moldGroup: MoldGroup;
-  barcode: BarcodeItem;
+  inccode: InccodeItem;
   loadTime: Date;
   //报废日期
   scrapDate: Date;
